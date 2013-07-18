@@ -82,8 +82,8 @@ var WorldJSKnowledge = {
         id: 'coso',
         name: 'Coming soon...',
         description: '<br /><span class="label label-important">tl;dr</span> In the next update you will have the ability to expand the population beyond 7 billion and manage their knowledge to choose the fate of the world.<hr />'
-            + 'Without any knowledge to be gained, the world would be ending soon. To be grown fast and stably maintained, it needs more evolutions.<br /><br />'
-            + 'So do <b>World JS: Evolution Simulator</b>. '
+            + 'Without any knowledge to be gained, the world will meet its apocalypse. Thus evolutions are needed in order for the world to progress and maintain its stability.<br /><br />'
+            + 'This is the idea behind <b>World JS: Evolution Simulator</b>. '
             + 'Hope you could understand its idea so far and contribute for its growth.<br /><br />'
             + 'There are 10 ways to contribute to this open source project:<br />'
             + '<ul>'
