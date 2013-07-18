@@ -597,8 +597,8 @@
             totalChildren * Rules.Food.child
         );
 
-        if (food < Rules.minFood) {
-            food = Rules.minFood;
+        if (food < Rules.Food.min) {
+            food = Rules.Food.min;
         }
 
         // Famine: increase death chance, decrease childbirth chance
