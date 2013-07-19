@@ -1695,11 +1695,11 @@ body {
 }
 #footer {
   text-align: center;
-  color: #ffffff;
+  color: #999999;
   padding-top: 10px;
 }
 #footer a,
 #footer a:hover {
-  color: #999999;
+  color: #ffffff;
   text-decoration: none;
 }
