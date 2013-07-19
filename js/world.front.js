@@ -142,7 +142,7 @@
 
     // Start the world with 100 random people
     // Update information (Statistic, Rules, Knowledge) every year
-    world.init('world').addRandomPeople(100).setEachYearCallback(function() {
+    world.init('world').addRandomPeople(100, 1, 20).setEachYearCallback(function() {
         var i, len;
 
         var Statistic = this.Statistic,
