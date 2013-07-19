@@ -85,10 +85,10 @@ var WorldJSKnowledge = {
             + 'Without any knowledge to be gained, the world will meet its apocalypse. Thus evolutions are needed in order for the world to progress and maintain its stability.<br /><br />'
             + 'This is the idea behind <b>World JS: Evolution Simulator</b>. '
             + 'Hope you could understand its idea so far and contribute for its growth.<br /><br />'
-            + 'There are 10 ways to contribute to this open source project:<br />'
+            + 'There are 10 types of people who can contribute to this open source project:<br />'
             + '<ul>'
-                + '<li>For people who understand binary: <a target="_blank" href="https://github.com/anvoz/world-js">Fork me on Github</a>.</li>'
-                + '<li>For people who don\'t: Make your own knowledge list. See example in <a href="#" onclick="$(\'#knowledge a[rel=history]\').click(); return false;">knowledge history</a>.</li>'
+                + '<li>For those who understand binary: <a target="_blank" href="https://github.com/anvoz/world-js">Fork me on Github</a>.</li>'
+                + '<li>For those who don\'t: Make your own knowledge list. See example in <a href="#" onclick="$(\'#knowledge a[rel=history]\').click(); return false;">knowledge history</a>.</li>'
             + '</ul>'
             + 'For any feedback or ideas, email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>',
         IQ: { priority: 1, gained: 0, required: 2147483647 },
