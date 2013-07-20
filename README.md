@@ -5,9 +5,13 @@ In World JS, people move around, find their partner and have children. As they g
 
 http://anvoz.github.io/world-js/
 
-## Developer Guidelines:
+## Links:
+* [Wiki](https://github.com/anvoz/world-js/wiki)
+* [Discussion in r/codetogether](http://www.reddit.com/r/codetogether/comments/1in075/game_project_world_js_evolution_simulator_looking/)
 
-### Getting Started:
+## Developer Guidelines
+
+### Getting Started
 Require js/world.core.js and images/seeds.png
 
 ```
@@ -27,12 +31,12 @@ world.start();
 world.add(world.Female, { age: 25 });
 ```
 
-### TODO:
+### TODO
 
-#### Current version:
+#### Current version
 * Improve game performance
 * Support more browsers including mobile browsers
 
-#### Next version:
+#### Next version
 * Game mechanic to reach 7 billion people
 * Completed knowledge list
