@@ -5,7 +5,7 @@ In World JS, people move around, find their partner and have children. As they g
 
 http://anvoz.github.io/world-js/
 
-## Links:
+## Links
 * [Wiki](https://github.com/anvoz/world-js/wiki)
 * [Discussion in r/codetogether](http://www.reddit.com/r/codetogether/comments/1in075/game_project_world_js_evolution_simulator_looking/)
 
