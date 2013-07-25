@@ -1,6 +1,6 @@
 /*!
  * world.front.js (require WorldJS and jQuery)
- * Create and bind the world to the layout
+ * Create and bind the world to the user interface
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
@@ -13,50 +13,46 @@
 
     var $ = window.$,
         WorldJS = window.WorldJS,
+
         // Create a new world
         world = new WorldJS(),
+
         Cache = {
             Statistic: {
-                props: [ 'year', 'population', 'food',
-                         'men', 'women', 'family', 'boy', 'girl',
-                         'IQ', 'maxIQ', 'yearMaxIQ',
-                         'maxAge', 'yearMaxAge',
-                         'avgIQ', 'avgAge', 'avgChildren'
-                    ],
-                elements: {}
+                year: 0, population: 0, food: 0,
+                men: 0, women: 0, family: 0, boy: 0, girl: 0,
+                IQ: 0, maxIQ: 0, yearMaxIQ: 0,
+                maxAge: 0, yearMaxAge: 0,
+                avgIQ: 0, avgAge: 0, avgChildren: 0
             },
             Rules: {
-                props: ['adultFoodChange', 'childFoodChange', 'foodSpoilage'],
-                elements: {}
+                adultFoodChange: 0, childFoodChange: 0, foodSpoilage: 0
             },
             Knowledge: {
-                props: ['knowledgeTrending', 'knowledgeHistory'],
-                elements: {}
+                knowledgeTrending: 0, knowledgeHistory: 0
+            },
+            Misc: {
+                labelFamine: false
             }
         };
 
     // Cache all property containers first
     for (var key in Cache) {
         if (Cache.hasOwnProperty(key)) {
-            var cache = Cache[key],
-                props = cache.props;
-
-            for (var i = 0, len = props.length; i < len; i++) {
-                var propName = props[i];
-                cache.elements[propName] = {
-                    container: $('#world-' + propName),
-                    value: 0
-                };
+            var cache = Cache[key];
+            for (var propName in cache) {
+                if (cache.hasOwnProperty(propName)) {
+                    var defaultValue = cache[propName];
+                    cache[propName] = {
+                        container: $('#world-' + propName),
+                        value: defaultValue
+                    };
+                }
             }
         }
     }
 
-    Cache.Elements = {};
-    Cache.Elements.labelFamine = {
-        container: $('#world-labelFamine'),
-        value: false
-    };
-
+    // Add more functions after cache all containers
     Cache.set = function(element, value) {
         // Only set if the value change
         if (value != element.value) {
@@ -71,11 +67,11 @@
             var type = $(this).attr('rel');
             $(this).addClass('label').siblings('a').removeClass('label');
             if (type === 'trending') {
-                Cache.Knowledge.elements.knowledgeTrending.container.removeClass('hide');
-                Cache.Knowledge.elements.knowledgeHistory.container.addClass('hide');
+                Cache.Knowledge.knowledgeTrending.container.removeClass('hide');
+                Cache.Knowledge.knowledgeHistory.container.addClass('hide');
             } else {
-                Cache.Knowledge.elements.knowledgeTrending.container.addClass('hide');
-                Cache.Knowledge.elements.knowledgeHistory.container.removeClass('hide');
+                Cache.Knowledge.knowledgeTrending.container.addClass('hide');
+                Cache.Knowledge.knowledgeHistory.container.removeClass('hide');
             }
             return false;
         });
@@ -84,6 +80,7 @@
     // Define knowledge of the world
     world.Knowledge.list = WorldJS.KnowledgeData;
 
+    // Callback when a knowledge added to trending
     var trendingAdded = function(knowledge) {
         // Add knowledge HTML
         var id = 'world-knowledge-' + knowledge.id,
@@ -99,35 +96,35 @@
                     '<div class="progress progress-info"><div class="bar"></div></div>',
                     '<div class="IQ"><span class="world-IQ">0</span> / ', knowledge.IQ.required, ' IQ</div>',
                 '</div>'
-            ],
-            elementsCache = Cache.Knowledge.elements;
-        elementsCache.knowledgeTrending.container.append(html.join(''));
+            ].join(''),
+            knowledgeCache = Cache.Knowledge;
+        knowledgeCache.knowledgeTrending.container.append(html);
 
         // Cache knowledge container
         var container = $('#' + id);
-        elementsCache[knowledge.id] = {
-            container: container,
-            IQContainer: container.find('.world-IQ'),
-            barContainer: container.find('.bar')
+        knowledgeCache[knowledge.id] = {
+            container: container,                       // Main container
+            IQContainer: container.find('.world-IQ'),   // Required IQ container
+            barContainer: container.find('.bar')        // Progress bar container
         };
     };
 
-    // Start with a knowledge
+    // Start with some knowledge
     world.Knowledge.trending = ['huga', 'fire'];
     trendingAdded(world.Knowledge.list.huga);
     trendingAdded(world.Knowledge.list.fire);
 
-    // Add callback
+    // Bind callback
     world.Knowledge.trendingAdded = trendingAdded;
     world.Knowledge.trendingRemoved = function(knowledge) {
         // Remove knowledge HTML
-        var knowledgeCache = Cache.Knowledge.elements[knowledge.id];
+        var knowledgeCache = Cache.Knowledge[knowledge.id];
         knowledgeCache.IQContainer.html(knowledge.IQ.required);
         knowledgeCache.barContainer.width('100%');
         knowledgeCache.container.remove();
 
         // Remove knowledge container cache
-        delete Cache.Knowledge.elements[knowledge.id];
+        delete Cache.Knowledge[knowledge.id];
 
         // Add completed knowledge to knowledge history
         var html = [
@@ -135,41 +132,56 @@
                     '<div class="name">', world.Statistic.year, ': ', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
                 '</div>'
-            ];
-        Cache.Knowledge.elements.knowledgeHistory.container.prepend(html.join(''));
+            ].join('');
+        Cache.Knowledge.knowledgeHistory.container.prepend(html);
     };
 
     // Start the world with 100 random people
     // Update information (Statistic, Rules, Knowledge) every year
     world.init('world').addRandomPeople(100, 1, 20).setEachYearCallback(function() {
-        var i, len;
-
         var Statistic = this.Statistic,
             statisticCache = Cache.Statistic;
-        for (i = 0, props = statisticCache.props, len = props.length - 3; i < len; i++) {
-            var propName = props[i];
-            Cache.set(statisticCache.elements[propName], Statistic[propName]);
+        for (var propName in statisticCache) {
+            if (statisticCache.hasOwnProperty(propName)) {
+                switch (propName) {
+                    case 'avgIQ':
+                        var avgIQ = (Statistic.population == 0) ?
+                            0 : Math.round(Statistic.IQ / Statistic.population);
+                        Cache.set(statisticCache.avgIQ, avgIQ);
+                        break;
+                    case 'avgAge':
+                        var avgAge = (Statistic.die == 0) ?
+                            0 : Math.round(Statistic.sumAge / Statistic.die);
+                        Cache.set(statisticCache.avgAge, avgAge);
+                        break;
+                    case 'avgChildren':
+                        var avgChildren = (Statistic.dieMarriedFemale == 0) ?
+                            0 : Math.round(Statistic.sumChildren / Statistic.dieMarriedFemale);
+                        Cache.set(statisticCache.avgChildren, avgChildren);
+                        break;
+                    default:
+                        Cache.set(statisticCache[propName], Statistic[propName]);
+                        break;
+                }
+            }
         }
-        Cache.set(statisticCache.elements.avgIQ, Math.round(Statistic.IQ / Statistic.population));
-        Cache.set(statisticCache.elements.avgAge, Math.round(Statistic.sumAge / Statistic.die));
-        Cache.set(statisticCache.elements.avgChildren, Math.round(Statistic.sumChildren / Statistic.dieMarriedFemale));
 
         var Rules = this.Rules,
             rulesCache = Cache.Rules;
-        Cache.set(rulesCache.elements.adultFoodChange, Rules.Food.adult);
-        Cache.set(rulesCache.elements.childFoodChange, Rules.Food.child);
-        Cache.set(rulesCache.elements.foodSpoilage, Rules.FoodSpoilage.foodDecr * 100);
+        Cache.set(rulesCache.adultFoodChange, Rules.Food.adult);
+        Cache.set(rulesCache.childFoodChange, Rules.Food.child);
+        Cache.set(rulesCache.foodSpoilage, Rules.FoodSpoilage.foodDecr * 100);
 
         var Knowledge = this.Knowledge;
-        for (i = 0, len = Knowledge.trending.length; i < len; i++) {
+        for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
             var knowledge = Knowledge.list[Knowledge.trending[i]],
-                knowledgeCache = Cache.Knowledge.elements[knowledge.id];
+                knowledgeCache = Cache.Knowledge[knowledge.id];
 
             knowledgeCache.IQContainer.html(knowledge.IQ.gained);
             knowledgeCache.barContainer.width(Math.round(knowledge.IQ.gained / knowledge.IQ.required * 100) + '%');
         }
 
-        var labelFamine = Cache.Elements.labelFamine,
+        var labelFamine = Cache.Misc.labelFamine,
             isFamine = (Statistic.food <= Rules.Famine.unit);
         if (isFamine != labelFamine.value) {
             labelFamine.value = isFamine;
