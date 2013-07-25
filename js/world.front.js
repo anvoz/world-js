@@ -1,5 +1,5 @@
 /*!
- * world.front.js (require jQuery)
+ * world.front.js (require WorldJS and jQuery)
  * Create and bind the world to the layout
  *
  * World JS: Evolution Simulator
