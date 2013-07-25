@@ -71,32 +71,7 @@
         // tickMod: 0   50  100 150 ...
         // year:    0   1   2   3   ...
 
-        // Divide the world into smaller tiles
-        // Each tile contains a list of seeds that are currently inside the tile
-        world.Tile = {
-            list: [],   // List of tiles
-            size: 20,   // 20 x 20 pixels per tile
-
-            // Only draw 10 seeds each tile
-            maxDisplayedSeeds: 10,
-
-            // Need to calculate base on size of the world
-            totalTiles: false,
-            tilesPerRow: false,
-            tilesPerCol: false,
-
-            // Tile methods
-            getIndex: function(seed) {
-                return Math.floor(seed.x / this.size) + (Math.floor(seed.y / this.size) * this.tilesPerRow);
-            },
-            set: function(seed) {
-                this.list[seed.tileIndex][seed.id] = seed;
-            },
-            rem: function(seed) {
-                delete this.list[seed.tileIndex][seed.id];
-            }
-        };
-
+        world.Tile = new WorldJS.Tile();
         world.Knowledge = new WorldJS.Knowledge();
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
@@ -137,18 +112,7 @@
         sprite.src = world.sprite.src;
         world.sprite.image = sprite;
 
-        // Initialize Tile object base on size of the world
-        var Tile = world.Tile,
-            tileSize = Tile.size,
-            totalTiles = Math.ceil(width / tileSize) * Math.ceil(height / tileSize);
-        Tile.totalTiles = totalTiles;
-        Tile.tilesPerRow = Math.ceil(width / tileSize);
-        Tile.tilesPerCol = Math.ceil(height / tileSize);
-        // Initialize tiles with an array of empty objects
-        var listTiles = Tile.list;
-        for (var i = 0; i < totalTiles; i++) {
-            listTiles.push({});
-        }
+        world.Tile.init(world, width, height);
 
         return world;
     };
