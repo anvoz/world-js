@@ -99,13 +99,7 @@
 
         world.Knowledge = new WorldJS.Knowledge();
 
-        // Used for a separate Statistic module
-        // Disabled because calling functions thousands time from
-        // an external module every frame will slow down the process significantly
-        // TODO: revisit this issue
-        // world.Callback = {};
-
-        // Using internal statistic record for better performance
+        // World statistic
         // Replace generic terms with more specific words
         // Example: 'totalSeeds' replace with 'population' so the world contains 'people' instead of 'seeds'
         world.Statistic = {
@@ -149,11 +143,14 @@
         world.Rules = {
             baseIQ: 0,
 
+            // Base chance
             Chance: {
                 death: 0,
                 marriage: 0,
                 childbirth: 0
             },
+            // Chance that incr/decr base on some specific value
+            // See the Rules.Famine below for example
             ChanceIncr: {
                 death: 0,
                 marriage: 0,
@@ -186,14 +183,20 @@
         world.eachYearCallback = function() {};
     };
 
+    /**
+     * Set callback that trigger once every year
+     * callback: function
+     */
     WorldJS.prototype.setEachYearCallback = function(callback) {
         var world = this;
         world.eachYearCallback = callback;
         return world;
     };
 
-    // Insert the world into a HTML wrapper
-    // wrapperId: id of an HTML wrapper element
+    /**
+     * Insert the world into a HTML wrapper
+     * wrapperId: id of an HTML wrapper element
+     */
     WorldJS.prototype.init = function(wrapperId) {
         var world = this;
 
@@ -228,8 +231,11 @@
         return world;
     };
 
-    // Seed: seed-based class
-    // data: properties of seed
+    /**
+     * Add a seed to the world
+     * Seed: seed-based class
+     * data: properties of seed
+     */
     WorldJS.prototype.add = function(Seed, data) {
         var world = this,
             seed = new Seed(data);
@@ -253,10 +259,6 @@
         seed.tileIndex = world.Tile.getIndex(seed); // Calculate tile index
         world.Tile.set(seed);                       // and cache the seed
 
-        /* if (is(world.Callback.add, 'function')) {
-            world.Callback.add.call(world, seed, data);
-        } */
-
         // Statistic: population+, male/female+, IQ+
         var Statistic = world.Statistic;
 
@@ -278,6 +280,10 @@
         return world;
     };
 
+    /**
+     * Remove a seed from the world
+     * seed: seed-based instance
+     */
     WorldJS.prototype.remove = function(seed) {
         var world = this;
 
@@ -295,12 +301,6 @@
 
         delete world.seeds[seed.id];
         world.Tile.rem(seed);
-
-        // TODO: 101 ways to leave the world
-
-        /* if (is(world.Callback.remove, 'function')) {
-            world.Callback.remove.call(world, seed);
-        } */
 
         // Statistic: population-, male/female-, die+, IQ-
         // if is married female: dieMarriedFemale+, totalChildren+
@@ -333,8 +333,11 @@
         return world;
     }
 
-    // count: number of people to add
-    // minAge, maxAge: optional
+    /**
+     * Add random people to the world
+     * count: number of people to add
+     * minAge, maxAge (optional)
+     */
     WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge) {
         var world = this,
             minAge = WorldJS.Helper.is(minAge, 'undefined') ? 15 : minAge,
@@ -357,7 +360,9 @@
         return world;
     };
 
-    // Start the world
+    /**
+     * World process loop
+     */
     WorldJS.prototype.run = function() {
         var world = this,
             Statistic = world.Statistic;
@@ -378,12 +383,13 @@
         // to reduce the seeds need to be drawn in each tile
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
-            sumBoy = 0, sumGirl = 0;
+            sumBoy = 0, sumGirl = 0,
+            has = WorldJS.Helper.has;
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
                 displayedSeeds = 0;
             for (var seedId in seeds) {
-                if (WorldJS.Helper.has(seeds, seedId)) {
+                if (has(seeds, seedId)) {
                     var seed = seeds[seedId],
                         oldTileIndex = seed.tileIndex;
 
@@ -412,10 +418,6 @@
 
                     // Once a year
                     if (world.tickMod === 0) {
-                        /* if (is(world.Callback.eachSeed, 'function')) {
-                            world.Callback.eachSeed.call(world, seed);
-                        } */
-
                         // Statistic: total of young male/female need to be calculated
                         // base on their age every year
                         if (seed.age <= seed.maxChildAge) {
@@ -432,10 +434,6 @@
 
         // Once a year
         if (world.tickMod === 0) {
-            /* if (is(world.Callback.run, 'function')) {
-                world.Callback.run.call(world);
-            } */
-
             // Statistic: year+; count men, women, boy, girl
             Statistic.year++;
 
@@ -472,11 +470,18 @@
         return world;
     };
 
+    /**
+     * Start the world
+     */
     WorldJS.prototype.start = function() {
         this.running = true;
         this.run();
     }
 
+    /**
+     * Stop the world
+     * callback (optional): callback trigger after the world stopped
+     */
     WorldJS.prototype.stop = function(callback) {
         this.running = false;
         if (!WorldJS.Helper.is(callback, 'undefined')) {
@@ -484,6 +489,9 @@
         }
     }
 
+    /**
+     * The world changes every year (produce food, gain knowledge...)
+     */
     WorldJS.prototype.change = function() {
         var world = this,
             Rules = world.Rules,
