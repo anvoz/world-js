@@ -1,5 +1,5 @@
 /*!
- * world.god.js (require WorldJS and jQuery)
+ * world.god.js (require jQuery)
  * Functions that modify the world instance directly
  *
  * World JS: Evolution Simulator

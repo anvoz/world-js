@@ -1,5 +1,5 @@
 /*!
- * world.knowledge.data.js (require WorldJS)
+ * world.knowledge.data.js
  * Knowledge data of the world
  *
  * World JS: Evolution Simulator

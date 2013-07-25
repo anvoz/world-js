@@ -25,19 +25,6 @@
             );
         })();
 
-    // Helper Functions
-    function is(obj, type) {
-        return typeof obj === type;
-    }
-
-    function has(obj, prop) {
-        return obj.hasOwnProperty(prop);
-    }
-
-    function random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
     // WorldJS constructor
     // Define default properties of a world
     var WorldJS = window.WorldJS = function() {
@@ -226,7 +213,7 @@
                 // All IQ will be randomly distributed to trending knowledge + 1 fake knowledge
                 // Distributing to a fake knowledge is represented as wasted IQ every year
                 for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
-                    distributedIQList[i] = random(0, 100);
+                    distributedIQList[i] = WorldJS.Helper.random(0, 100);
                     if (i < len) {
                         var knowledge = Knowledge.list[Knowledge.trending[i]];
                         if (knowledge.IQ.priority != 1) {
@@ -339,10 +326,10 @@
 
         // Randomly set coordinate of the seed
         if (seed.x === false) {
-            seed.x = random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding));
+            seed.x = WorldJS.Helper.random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding));
         }
         if (seed.y === false) {
-            seed.y = random(0, world.height - 1 - seed.appearance.height - world.padding);
+            seed.y = WorldJS.Helper.random(0, world.height - 1 - seed.appearance.height - world.padding);
         }
 
         seed.tileIndex = world.Tile.getIndex(seed); // Calculate tile index
@@ -420,7 +407,7 @@
         Statistic.sumAge += age;
 
         // Not check married because married will be set to false if her husband die
-        if (!is(seed.totalChildren, 'undefined')) {
+        if (!WorldJS.Helper.is(seed.totalChildren, 'undefined')) {
             Statistic.dieMarriedFemale++;
             Statistic.sumChildren += seed.totalChildren;
         }
@@ -432,14 +419,14 @@
     // minAge, maxAge: optional
     WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge) {
         var world = this,
-            minAge = is(minAge, 'undefined') ? 15 : minAge,
-            maxAge = is(maxAge, 'undefined') ? 20 : maxAge,
+            minAge = WorldJS.Helper.is(minAge, 'undefined') ? 15 : minAge,
+            maxAge = WorldJS.Helper.is(maxAge, 'undefined') ? 20 : maxAge,
             tickPerYear = world.tickPerYear;
 
         // Add people to the world
         for (var i = 0; i < count; i++) {
             // Random age
-            var age = random(minAge, maxAge),
+            var age = WorldJS.Helper.random(minAge, maxAge),
                 data = { tickCount: age * tickPerYear };
 
             if (i < count / 2) {
@@ -478,7 +465,7 @@
             var seeds = listTile[i],
                 displayedSeeds = 0;
             for (var seedId in seeds) {
-                if (has(seeds, seedId)) {
+                if (WorldJS.Helper.has(seeds, seedId)) {
                     var seed = seeds[seedId],
                         oldTileIndex = seed.tileIndex;
 
@@ -574,7 +561,7 @@
 
     WorldJS.prototype.stop = function(callback) {
         this.running = false;
-        if (!is(callback, 'undefined')) {
+        if (!WorldJS.Helper.is(callback, 'undefined')) {
             this.stopCallback = callback;
         }
     }
@@ -615,380 +602,5 @@
         Rules.Chance.childbirth = childbirthChange + Rules.ChanceIncr.childbirth;
 
         world.Knowledge.gain(world);
-    };
-
-    // Seed constructor
-    // Primary object of the world
-    var Seed = WorldJS.prototype.Seed = function(data) {
-        var seed = this;
-
-        // Only be set when the seed was successfully added to a world
-        seed.world = false;
-        seed.id = false;
-        seed.tileIndex = false;
-
-        // Seed coordinate (top, left)
-        seed.x = is(data.x, 'undefined') ? false : data.x;
-        seed.y = is(data.y, 'undefined') ? false : data.y;
-
-        // Define how to draw the seed
-        seed.appearance = data.appearance || false;
-        // Relationship of the seed
-        seed.relationSeed = data.relationSeed || false;
-
-        // Be default, seed moves around every frame
-        // tickCount++ each frame
-        // Initialize with a random number to make asynchronous action with other seeds
-        // Also used for calculating age of seed
-        seed.tickCount = (data.tickCount || 0) + random(0, 50);
-        // Seed doesn't trigger action every frame
-        seed.actionInterval = data.actionInterval || 20; // 20 frames per action
-
-        // Destination coordinate for seed to move to
-        seed.moveTo = data.moveTo || false;
-    };
-
-    Seed.prototype.getAge = function() {
-        var seed = this;
-        seed.age = Math.ceil(seed.tickCount / seed.world.tickPerYear);
-        return seed.age;
-    };
-
-    Seed.prototype.draw = function() {
-        var seed = this,
-            context = seed.world.canvas.context;
-
-        if (seed.appearance === false) {
-            context.fillRect(seed.x, seed.y, 10, 10);
-        } else {
-            var appearance;
-            // Handle child-state of the seed
-            if (!is(seed.appearance.child, 'undefined') && seed.age <= seed.maxChildAge) {
-                appearance = seed.appearance.child;
-            } else {
-                appearance = seed.appearance;
-            }
-
-            // Jump instead of slide when seed moves
-            var jumpInterval = 20,
-                jumpIndex = seed.tickCount % jumpInterval,
-                halfInterval = Math.ceil(jumpInterval / 2),
-                jumpY = (jumpIndex < halfInterval) ?
-                    jumpIndex + 1 :
-                    halfInterval - (jumpIndex % halfInterval) - 1;
-            // Example:   jumpInterval = 10
-            // jumpIndex: 0 1 2 3 4 5 6 7 8 9
-            // jumpY:     1 2 3 4 5 4 3 2 1 0
-
-            context.drawImage(
-                seed.world.sprite.image,
-                appearance.x, appearance.y, appearance.width, appearance.height,
-                seed.x, seed.y - jumpY, appearance.width, appearance.height
-            );
-        }
-    };
-
-    Seed.prototype.move = function(beforeMoveCallback) {
-        var seed = this;
-
-        // By default, seed keeps moving around the world
-        if (!is(beforeMoveCallback, 'function')) {
-            if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
-                // Make another moveTo coordinate
-                var world = seed.world;
-                seed.moveTo = {
-                    x: random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
-                    y: random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
-                };
-            }
-        } else {
-            beforeMoveCallback.call(seed);
-        }
-
-        // Move in 8-direction to reach moveTo coordinate, one step per frame (tick)
-        if (seed.x < seed.moveTo.x) {
-            seed.x++;
-        } else if (seed.x > seed.moveTo.x) {
-            seed.x--;
-        }
-
-        if (seed.y < seed.moveTo.y) {
-            seed.y++;
-        } else if (seed.y > seed.moveTo.y) {
-            seed.y--;
-        }
-    };
-
-    // Seek neighbour tiles and return the first seed that matches the condition
-    // condition: function(candidate) { if (...) return true; }
-    Seed.prototype.seek = function(condition) {
-        var seed = this,
-            Tile = seed.world.Tile,
-            direction = [
-                [0, 0],                                 // current tile
-                [-1, 0], [1, 0], [0, -1], [0, 1],       // w, e, n, s tile
-                [-1, -1], [-1, 1], [1, -1], [1, 1]      // nw, sw, ne, se tile
-            ];
-
-        if (!is(condition, 'function')) {
-            // No filter, return first seed of the current tile
-            condition = function(candidate) {
-                return (candidate.id != seed.id);
-            };
-        }
-
-        var tilesPerRow = Tile.tilesPerRow,
-            tilesPerCol = Tile.tilesPerCol;
-        for (var i = 0, len = direction.length; i < len; i++) {
-            var thisTileIndex;
-            if (i === 0) {
-                thisTileIndex = seed.tileIndex;
-            } else {
-                // Get the neighbour tile
-                var row = (seed.tileIndex % tilesPerRow) + direction[i][0],
-                    col = Math.floor(seed.tileIndex / tilesPerRow) + direction[i][1];
-                if (row >= 0 && row < tilesPerRow && col >= 0 && col < tilesPerCol) {
-                    thisTileIndex = row + col * tilesPerRow;
-                } else {
-                    // Invalid tile
-                    continue;
-                }
-            }
-
-            var seeds = Tile.list[thisTileIndex];
-            for (var seedId in seeds) {
-                // seed.id is number, seedId is string...
-                if (has(seeds, seedId) && seed.id != seedId) {
-                    var candidateSeed = seeds[seedId];
-                    if (condition.call(seed, candidateSeed)) {
-                        // Matched candidate
-                        return candidateSeed;
-                    }
-                }
-            }
-        }
-        return false;
-    };
-
-    // Move around every frame (tick)
-    Seed.prototype.tick = function() {
-        var seed = this;
-        seed.tickCount++;
-        seed.move();
-    };
-
-    Seed.prototype.getChance = function(seed, type) {
-        var world = seed.world,
-            base = seed.chances[type],
-            age = seed.age;
-
-        var i = 0,
-            fromAge = 0,
-            fromChance = 0,
-            delta = 0;
-        while (!is(base[i], 'undefined') && age > base[i].range[0]) {
-            var thisBase = base[i];
-            fromAge = thisBase.range[0];
-            fromChance = thisBase.from;
-            delta = (thisBase.to - thisBase.from) / (thisBase.range[1] - thisBase.range[0]);
-            i++;
-        }
-
-        var chance = fromChance + (age - fromAge) * delta;
-        if (world.Rules.Chance[type] != 0) {
-            chance += chance * world.Rules.Chance[type];
-        }
-        return chance;
-    };
-
-    // Male extends Seed
-    var Male = WorldJS.prototype.Male = function(data) {
-        var male = this;
-
-        data.appearance = {
-            x: 0,
-            y: 0,
-            width: 13,
-            height: 20,
-            child: { // must define maxChildAge
-                x: 26,
-                y: 0,
-                width: 11,
-                height: 10
-            }
-        };
-
-        Seed.call(male, data);
-
-        male.IQ = (data.IQ || 0) + random(0, 5);
-
-        male.age = 0;
-        male.maxChildAge = 15;
-        male.married = false;
-
-        male.chances = {
-            death: [
-                { range: [1, 5], from: 0.001, to: 0.005 },
-                { range: [5, 15], from: 0.005, to: 0.01 },
-                { range: [15, 25], from: 0.01, to: 0.05 }
-            ],
-            marriage: [
-                { range: [15, 30], from: 0.1, to: 0.5 },
-                { range: [30, 50], from: 0.5, to: 0.1 },
-                { range: [50, 80], from: 0.1, to: 0.01 }
-            ]
-        };
-    };
-    Male.prototype = Object.create(Seed.prototype);
-    Male.prototype.contructor = Male;
-
-    Male.prototype.tick = function() {
-        var male = this;
-
-        male.tickCount++;
-
-        var actionInterval = male.actionInterval;
-        if (male.tickCount % actionInterval === actionInterval - 1) {
-            // Trigger every <actionInterval> ticks
-            var world = male.world,
-                age = male.age;
-
-            var deathChance = male.getChance(male, 'death');
-            if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(male);
-            }
-
-            if (!male.married) {
-                // Seeking for female
-                var marriageChance = male.getChance(male, 'marriage');
-                if (marriageChance > 0) {
-                    var failureChance = Math.random();
-                    if (failureChance < marriageChance) {
-                        var female = male.seek(function(candidate) {
-                            return (candidate instanceof world.Female &&
-                                !candidate.married &&
-                                candidate.age >= 15 && // TODO: not use fixed value
-                                // failure chance increase (every 10 age difference) if male is younger than female
-                                (candidate.age <= male.age || (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
-                            );
-                        });
-                        if (female !== false) {
-                            // Make a family
-                            male.married = true;
-                            female.married = true;
-
-                            if (is(female.totalChildren, 'undefined')) {
-                                // Start record all children of this female
-                                female.totalChildren = 0;
-                            }
-
-                            // 2-way references
-                            male.relationSeed = female;
-                            female.relationSeed = male;
-
-                            // Statistic: family+
-                            world.Statistic.family++;
-                        }
-                    }
-                }
-            }
-        } else {
-            // Men will follow his wife
-            var beforeMoveCallback = (!male.married) ?
-                undefined :
-                function() {
-                    var male = this;
-                    var female = male.relationSeed;
-
-                    male.moveTo.x = Math.max(0, female.x - 10);
-                    male.moveTo.y = female.y;
-                };
-            male.move(beforeMoveCallback);
-        }
-    };
-
-    // Female extends Seed
-    var Female = WorldJS.prototype.Female = function(data) {
-        var female = this;
-
-        data.appearance = {
-            x: 13,
-            y: 0,
-            width: 13,
-            height: 20,
-            child: { // must define maxChildAge
-                x: 26,
-                y: 10,
-                width: 11,
-                height: 10
-            }
-        };
-
-        Seed.call(female, data);
-
-        female.IQ = (data.IQ || 0) + random(0, 5);
-
-        female.age = 0;
-        female.maxChildAge = 15;
-        female.married = false;
-        female.totalChildren = undefined; // Need to be set 0 on her first marriage
-        // Last age when she bears a child
-        female.ageLastBear = 0;
-
-        female.chances = {
-            death: [
-                { range: [1, 5], from: 0.001, to: 0.005 },
-                { range: [5, 20], from: 0.005, to: 0.01 },
-                { range: [20, 30], from: 0.01, to: 0.05 }
-            ],
-            childbirth: [
-                { range: [15, 25], from: 0.1, to: 0.25 },
-                { range: [25, 50], from: 0.25, to: 0.1 },
-                { range: [50, 70], from: 0.1, to: 0.001 }
-            ]
-        };
-    };
-    Female.prototype = Object.create(Seed.prototype);
-    Female.prototype.contructor = Female;
-
-    Female.prototype.tick = function() {
-        var female = this;
-
-        female.tickCount++;
-
-        var actionInterval = female.actionInterval;
-        if (female.tickCount % actionInterval === actionInterval - 1) {
-            // Trigger every <actionInterval> ticks
-            var world = female.world,
-                age = female.age;
-
-            var deathChance = female.getChance(female, 'death');
-            if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(female);
-            }
-
-            // Bear a child (once a year)
-            if (female.married && female.ageLastBear < age) {
-                var childBirthChance = female.getChance(female, 'childbirth');
-                if (childBirthChance > 0 && Math.random() < childBirthChance) {
-                    female.ageLastBear = age;
-                    female.totalChildren++;
-
-                    var data = {
-                            x: female.x,
-                            y: Math.min(world.height - 1 - world.padding, female.y + Math.floor(female.appearance.height / 2)),
-                            IQ: Math.round((female.relationSeed.IQ + female.IQ) / 2) // inherit IQ from parent
-                        };
-
-                    if (Math.random() < 0.5) {
-                        world.add(world.Male, data);
-                    } else {
-                        world.add(world.Female, data);
-                    }
-                }
-            }
-        } else {
-            female.move();
-        }
     };
 })(window);

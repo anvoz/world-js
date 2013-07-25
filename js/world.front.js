@@ -1,5 +1,5 @@
 /*!
- * world.front.js (require WorldJS and jQuery)
+ * world.front.js (require jQuery)
  * Create and bind the world to the user interface
  *
  * World JS: Evolution Simulator
