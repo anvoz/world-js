@@ -1,24 +1,21 @@
 /*!
+ * world.front.js (require jQuery)
+ * Create and bind the world to the layout
+ *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
- *
- * World JS Front View 1.0
- * Require: World JS Core Library 1.0, World JS Knowledge List 1.0 and jQuery
- *
  * Copyright (c) 2013 An Vo - anvo4888@gmail.com
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
 
-(function(window, $, undefined) {
+(function(window, undefined) {
     'use strict';
 
-    var WorldJS = window.WorldJS,
-        WorldJSKnowledge = window.WorldJSKnowledge,
+    var $ = window.$,
+        WorldJS = window.WorldJS,
         // Create a new world
-        world = new WorldJS();
-
-    // Cache all property containers
-    var Cache = {
+        world = new WorldJS(),
+        Cache = {
             Statistic: {
                 props: [ 'year', 'population', 'food',
                          'men', 'women', 'family', 'boy', 'girl',
@@ -37,6 +34,8 @@
                 elements: {}
             }
         };
+
+    // Cache all property containers first
     for (var key in Cache) {
         if (Cache.hasOwnProperty(key)) {
             var cache = Cache[key],
@@ -83,7 +82,7 @@
     });
 
     // Define knowledge of the world
-    world.Knowledge.list = WorldJSKnowledge;
+    world.Knowledge.list = WorldJS.KnowledgeData;
 
     var trendingAdded = function(knowledge) {
         // Add knowledge HTML
@@ -91,9 +90,9 @@
             html = [
                 '<div id="world-knowledge-', knowledge.id, '" class="knowledge clearfix">',
                     '<div class="pull-right btn-group knowledgePriority">',
-                        '<a class="btn btn-mini" href="#" title="forbid" onclick="return WorldJSGod.setKnowledgePriority(this, \'', knowledge.id, '\', 0.1);">&or;</a>',
-                        '<a class="btn btn-mini active" href="#" title="free" onclick="return WorldJSGod.setKnowledgePriority(this, \'', knowledge.id, '\', 1);">&bull;</a>',
-                        '<a class="btn btn-mini" href="#" title="encourage" onclick="return WorldJSGod.setKnowledgePriority(this, \'', knowledge.id, '\', 2);">&and;</a>',
+                        '<a class="btn btn-mini" href="#" title="forbid" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 0.1);">&or;</a>',
+                        '<a class="btn btn-mini active" href="#" title="free" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 1);">&bull;</a>',
+                        '<a class="btn btn-mini" href="#" title="encourage" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 2);">&and;</a>',
                     '</div>',
                     '<div class="name">+ ', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
@@ -182,63 +181,5 @@
         }
     }).start();
 
-    var WorldJSGod = window.WorldJSGod = {
-        run: function() {
-            var $btn = $('#world-run-btn');
-            if (world.running) {
-                world.stop();
-                $btn.html('Unfreeze');
-            } else {
-                world.start();
-                $btn.html('Freeze');
-            }
-            return false;
-        },
-        setKnowledgePriority: function(element, id, priority) {
-            world.Knowledge.list[id].IQ.priority = priority;
-
-            var cls;
-            if (priority > 1) {
-                cls = 'progress';
-            } else if (priority < 1) {
-                cls = 'progress progress-danger';
-            } else {
-                cls = 'progress progress-info';
-            }
-            $(element).addClass('active').siblings().removeClass('active')
-                .parent().parent().find('.progress').attr('class', cls);
-            return false;
-        },
-        addRandomPeople: function(count) {
-            var isDead = world.Statistic.population == 0;
-            world.addRandomPeople(count);
-            if (isDead || !world.running) {
-                world.start();
-                $('#world-run-btn').html('Freeze');
-            }
-            return false;
-        },
-        kill: function(percent) {
-            if (!world.running) {
-                world.start();
-            }
-            world.stop(function() {
-                var seeds = world.seeds,
-                    random = Math.random,
-                    rate = percent / 100;
-                for (var id in seeds) {
-                    if (seeds.hasOwnProperty(id) && random() < rate) {
-                        world.remove(seeds[id]);
-                    }
-                }
-                world.start();
-                $('#world-run-btn').html('Freeze');
-            });
-            return false;
-        },
-        giveFood: function(food) {
-            world.Statistic.food += food;
-            return false;
-        }
-    };
-})(window, $, WorldJS);
+    WorldJS.God.setWorldInstance(world);
+})(window);

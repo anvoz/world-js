@@ -1,9 +1,6 @@
 /*!
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
- *
- * World JS Core Library 1.0
- *
  * Copyright (c) 2013 An Vo - anvo4888@gmail.com
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
