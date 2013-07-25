@@ -1,6 +1,6 @@
 /*!
  * world.male.js
- * Male extends Seed
+ * Male class extends Seed
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

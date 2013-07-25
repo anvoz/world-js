@@ -1,6 +1,6 @@
 /*!
  * world.seed.js
- * Primary object of the world
+ * Seed class
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

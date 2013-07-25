@@ -1,6 +1,6 @@
 /*!
  * world.female.js
- * Female extends Seed
+ * Female class extends Seed
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
