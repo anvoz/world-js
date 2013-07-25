@@ -104,8 +104,7 @@
                             male.relationSeed = female;
                             female.relationSeed = male;
 
-                            // Statistic: family+
-                            world.Statistic.family++;
+                            world.Statistic.married(world);
                         }
                     }
                 }

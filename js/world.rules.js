@@ -14,6 +14,9 @@
     var WorldJS = window.WorldJS,
         Rules;
 
+    /**
+     * Rules constructor
+     */
     Rules = WorldJS.Rules = function() {
         var rules = this;
 

@@ -98,48 +98,7 @@
         };
 
         world.Knowledge = new WorldJS.Knowledge();
-
-        // World statistic
-        // Replace generic terms with more specific words
-        // Example: 'totalSeeds' replace with 'population' so the world contains 'people' instead of 'seeds'
-        world.Statistic = {
-            year: 0,
-            food: 10000,
-
-            // Record when people was born or died
-            population: 0,
-            male: 0,
-            female: 0,
-            IQ: 0,
-
-            // ++ when they married
-            // -- if husband or wife died
-            family: 0,
-
-            // Re-calculate every year
-            // Data base on age of people
-            men: 0,     // adult male
-            women: 0,   // adult female
-            boy: 0,     // young male
-            girl: 0,    // young female
-
-            // Record when someone was born
-            // Max IQ of a person and the year when he/she was born
-            maxIQ: 0,
-            yearMaxIQ: 0,
-            // Max age of a person and the year when he/she died
-            maxAge: 0,
-            yearMaxAge: 0,
-
-            // Record when someone died
-            // Used for calculating average age
-            die: 0,     // Number of dead people
-            sumAge: 0,  // and total age of them
-            // Used for calculating average children of each family
-            dieMarriedFemale: 0,    // Number of dead married female
-            sumChildren: 0          // and total children of them
-        };
-
+        world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
 
         // Call once every <tickPerYear> ticks
@@ -222,23 +181,7 @@
         seed.tileIndex = world.Tile.getIndex(seed); // Calculate tile index
         world.Tile.set(seed);                       // and cache the seed
 
-        // Statistic: population+, male/female+, IQ+
-        var Statistic = world.Statistic;
-
-        Statistic.population++;
-        if (seed instanceof world.Male) {
-            Statistic.male++;
-        } else {
-            Statistic.female++;
-        }
-
-        var IQ = seed.IQ;
-        Statistic.IQ += IQ;
-        // Max IQ of a person and the year when he/she was born
-        if (IQ > Statistic.maxIQ) {
-            Statistic.maxIQ = IQ;
-            Statistic.yearMaxIQ = Statistic.year;
-        }
+        world.Statistic.seedAdded(world, seed);
 
         return world;
     };
@@ -250,6 +193,8 @@
     WorldJS.prototype.remove = function(seed) {
         var world = this;
 
+        world.Statistic.seedRemoved(world, seed);
+
         if (seed.married) {
             seed.married = false;
             seed.relationSeed.married = false;
@@ -257,41 +202,10 @@
             // Remove the references
             seed.relationSeed.relationSeed = false;
             seed.relationSeed = false;
-
-            // Statistic: family-
-            world.Statistic.family--;
         }
 
         delete world.seeds[seed.id];
         world.Tile.rem(seed);
-
-        // Statistic: population-, male/female-, die+, IQ-
-        // if is married female: dieMarriedFemale+, totalChildren+
-        var Statistic = world.Statistic;
-
-        Statistic.population--;
-        if (seed instanceof world.Male) {
-            Statistic.male--;
-        } else {
-            Statistic.female--;
-        }
-        Statistic.die++;
-
-        Statistic.IQ -= seed.IQ;
-
-        // Max age of a person and the year when he/she died
-        var age = seed.age;
-        if (age > Statistic.maxAge) {
-            Statistic.maxAge = age;
-            Statistic.yearMaxAge = Statistic.year;
-        }
-        Statistic.sumAge += age;
-
-        // Not check married because married will be set to false if her husband die
-        if (!WorldJS.Helper.is(seed.totalChildren, 'undefined')) {
-            Statistic.dieMarriedFemale++;
-            Statistic.sumChildren += seed.totalChildren;
-        }
 
         return world;
     }
@@ -397,13 +311,10 @@
 
         // Once a year
         if (world.tickMod === 0) {
-            // Statistic: year+; count men, women, boy, girl
-            Statistic.year++;
-
-            Statistic.men = Statistic.male - sumBoy;
-            Statistic.women = Statistic.female - sumGirl;
-            Statistic.boy = sumBoy;
-            Statistic.girl = sumGirl;
+            Statistic.yearPassed(world, {
+                sumBoy: sumBoy,
+                sumGirl: sumGirl
+            });
 
             world.Rules.change(world);
             world.Knowledge.gain(world);
