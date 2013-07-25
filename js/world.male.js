@@ -12,13 +12,14 @@
     'use strict';
 
     var WorldJS = window.WorldJS,
-        Seed = WorldJS.prototype.Seed;
+        Seed = WorldJS.prototype.Seed,
+        Male;
 
     /**
      * Male constructor
      * data (optional)
      */
-    var Male = WorldJS.prototype.Male = function(data) {
+    Male = WorldJS.prototype.Male = function(data) {
         var male = this;
 
         data.appearance = {

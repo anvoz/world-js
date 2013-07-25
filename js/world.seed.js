@@ -11,13 +11,14 @@
 (function(window, undefined) {
     'use strict';
 
-    var WorldJS = window.WorldJS;
+    var WorldJS = window.WorldJS,
+        Seed;
 
     /**
      * Seed constructor
      * data (optional): x, y, appearance, relationSeed, tickCount, actionInterval, moveTo
      */
-    var Seed = WorldJS.prototype.Seed = function(data) {
+    Seed = WorldJS.prototype.Seed = function(data) {
         // The value of this refers to a newly created seed
         var seed = this;
 
