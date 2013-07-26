@@ -14,8 +14,20 @@ In World JS, people move around, find their partner and have children. As they g
 ### Getting Started
 Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki) before you do anything else.
 
-_Require `js/world.core.js` and `images/seeds.png`_
+### Modules
+* WorldJS Core
+ * Tile: Manage the position of a seed in the world.
+ * Knowledge: Manage knowledge of a world.
+ * Rules: Manage rules of a world like death rate, food spoilage...
+ * Statistic: Manage statistic of a world like population, total IQ...
+ * Seed (base class), Male, Female (extend Seed): Main object that live in the world.
+ * Helper: Helper functions like `is()`, `has()` and `random()`.
+* Front: Create and bind the world to the user interface.
+* God: Functions that modify the world instance directly. Used for interaction between user and a world instance.
 
+### Sample code
+
+_Require `WorldJS Core`_
 ```
 // Create a new world
 var world = new WorldJS();
@@ -35,12 +47,6 @@ world.add(world.Female, { age: 25 });
 
 ### TODO
 
-* Separate `world.core.js` into smaller parts.
-* Review the IQ increase of the world. It is not intended that a new highest IQ child is born in just a few years.
-* People will not move in the same direction too far to make the movement of the world feels more random.
-* Support WebGL and SVG.
-* Disaster animation.
-* More infomation will be added to the live demo page of this game to help people understand it.
-* Population limit mechanic: Need a lot of works to do to expand the population smoothly so this mechanic must be a temporary solution to keep the game from crashed.
+* [Issues](https://github.com/anvoz/world-js/issues?state=open)
 * Finish a full list of world knowledge.
 * Add Facebook, Google+ and Twitter.
