@@ -20,7 +20,8 @@
     Knowledge = WorldJS.Knowledge = function() {
         var knowledge = this;
 
-        knowledge.list = { // List of all knowledge
+        // List of all knowledge
+        knowledge.list = {
             /* samp: {
                 id: 'samp',                         // Knowledge id
                 name: 'Sample knowledge',           // Display name

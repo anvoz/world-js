@@ -1,4 +1,7 @@
 /*!
+ * world.core.js
+ * WorldJS Core
+ *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
  * Copyright (c) 2013 An Vo - anvo4888@gmail.com
@@ -129,8 +132,10 @@
         // Save a reference of the world where the seed belongs
         seed.world = world;
 
-        seed.id = world.nextSeedId++;   // Set an unique id
-        world.seeds[seed.id] = seed;    // and cache the seed
+        // Set an unique id
+        seed.id = world.nextSeedId++;
+        // and cache the seed
+        world.seeds[seed.id] = seed;
 
         seed.IQ += world.Rules.baseIQ;
 
@@ -142,8 +147,10 @@
             seed.y = WorldJS.Helper.random(0, world.height - 1 - seed.appearance.height - world.padding);
         }
 
-        seed.tileIndex = world.Tile.getIndex(seed); // Calculate tile index
-        world.Tile.set(seed);                       // and cache the seed
+        // Calculate tile index
+        seed.tileIndex = world.Tile.getIndex(seed);
+        // and cache the seed
+        world.Tile.set(seed);
 
         world.Statistic.seedAdded(world, seed);
 
@@ -240,11 +247,13 @@
                     if (reDraw) {
                         // Not draw all seeds in a tile
                         if (displayedSeeds < maxDisplayedSeeds) {
-                            seed.draw();        // Draw current state of the seed
+                            // Draw current state of the seed
+                            seed.draw();
                             displayedSeeds++;
                         }
                     }
-                    seed.tick();                // Seed moves around or triggers some actions
+                    // Seed moves around or triggers some actions
+                    seed.tick();
 
                     // Update tiles if seed moves
                     var newTileIndex = world.Tile.getIndex(seed);

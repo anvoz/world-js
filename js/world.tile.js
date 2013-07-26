@@ -20,8 +20,10 @@
     Tile = WorldJS.Tile = function() {
         var tile = this;
 
-        tile.list = [];   // List of tiles
-        tile.size = 20;   // 20 x 20 pixels per tile
+        // List of tiles
+        tile.list = [];
+        // 20 x 20 pixels per tile
+        tile.size = 20;
 
         // Only draw 10 seeds each tile
         tile.maxDisplayedSeeds = 10;
