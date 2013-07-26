@@ -32,7 +32,7 @@
                         <div class="span4 offset1">
                             <div class="stat-cells">
                                 <div class="clearfix">
-                                    <b>Year</b><h1 class="pull-right" id="world-year"></h1>
+                                    <b>Year</b><h1 class="pull-right" id="world-year">0</h1>
                                 </div>
                             </div>
                         </div>
@@ -42,23 +42,23 @@
                                     <div><b>God</b></div>
                                     <div class="pull-right">
                                         <div class="btn-group">
-                                            <button class="btn btn-mini btn-info" onclick="WorldJSGod.run();" id="world-run-btn">Freeze</button>
+                                            <button class="btn btn-mini btn-info" onclick="WorldJS.God.freeze();" id="world-freeze-btn">Freeze</button>
                                         </div>
                                         <div class="btn-group">
                                             <button class="btn btn-mini dropdown-toggle">Miracles <small>&nabla;</small></button>
                                             <ul class="dropdown-menu pull-right no-border">
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.addRandomPeople(50);">Add 50 random people</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.giveFood(10000);">Give 10,000 food</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.addRandomPeople(50);">Add 50 random people</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.giveFood(10000);">Give 10,000 food</a></li>
                                             </ul>
                                         </div>
                                         <div class="btn-group">
                                             <button class="btn btn-mini dropdown-toggle">Disasters <small>&nabla;</small></button>
                                             <ul class="dropdown-menu pull-right no-border">
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.kill(10);">Tsunamis (kill 10%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.kill(25);">Cyclones (kill 25%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.kill(50);">Earthquakes (kill 50%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.kill(75);">Floods (kill 75%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJSGod.kill(90);">Epidemics (kill 90%)</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(10);">Tsunamis (kill 10%)</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(25);">Cyclones (kill 25%)</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(50);">Earthquakes (kill 50%)</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(75);">Floods (kill 75%)</a></li>
+                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(90);">Epidemics (kill 90%)</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -103,13 +103,14 @@
                         <div class="span4 offset1">
                             <div class="stat-cells">
                                 <div class="clearfix">
-                                    <b>Population</b><h1 class="pull-right" id="world-population"></h1>
+                                    <b>Population</b>
+                                    <h1 class="pull-right" id="world-population">0</h1>
                                 </div>
                                 <div class="small-text">
                                     <ul>
-                                        <li>Average age: <b id="world-avgAge"></b></li>
-                                        <li>Max age: <b id="world-maxAge"></b> (died in <b id="world-yearMaxAge"></b>)</li>
-                                        <li>Average children per family: <b id="world-avgChildren"></b></li>
+                                        <li>Average age: <b id="world-avgAge">0</b></li>
+                                        <li>Max age: <b id="world-maxAge">0</b> (died in <b id="world-yearMaxAge">0</b>)</li>
+                                        <li>Average children per family: <b id="world-avgChildren">0</b></li>
                                     </ul>
                                 </div>
                             </div>
@@ -135,12 +136,12 @@
                     <div class="stat-cells no-border">
                         <div class="clearfix">
                             <b><small><small>Total</small></small> IQ</b>
-                            <h1 class="pull-right" id="world-IQ"></h1>
+                            <h1 class="pull-right" id="world-IQ">0</h1>
                         </div>
                         <div class="small-text">
                             <ul>
-                                <li>Average: <b id="world-avgIQ"></b></li>
-                                <li>Max: <b id="world-maxIQ"></b> (born in <b id="world-yearMaxIQ"></b>)</li>
+                                <li>Average: <b id="world-avgIQ">0</b></li>
+                                <li>Max: <b id="world-maxIQ">0</b> (born in <b id="world-yearMaxIQ">0</b>)</li>
                             </ul>
                         </div>
                     </div>
@@ -172,7 +173,16 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
         <script src="js/world.core.js"></script>
+        <script src="js/world.helper.js"></script>
+        <script src="js/world.tile.js"></script>
         <script src="js/world.knowledge.js"></script>
+        <script src="js/world.statistic.js"></script>
+        <script src="js/world.rules.js"></script>
+        <script src="js/world.seed.js"></script>
+        <script src="js/world.male.js"></script>
+        <script src="js/world.female.js"></script>
+        <script src="js/world.knowledge.data.js"></script>
+        <script src="js/world.god.js"></script>
         <script src="js/world.front.js"></script>
 
         <!-- Google Analytics -->
