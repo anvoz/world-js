@@ -150,7 +150,8 @@
         }
 
         var tilesPerRow = Tile.tilesPerRow,
-            tilesPerCol = Tile.tilesPerCol;
+            tilesPerCol = Tile.tilesPerCol,
+            is = WorldJS.Helper.is;
         for (var i = 0, len = direction.length; i < len; i++) {
             var thisTileIndex;
             if (i === 0) {
@@ -168,10 +169,9 @@
             }
 
             var seeds = Tile.list[thisTileIndex];
-            for (var seedId in seeds) {
-                // seed.id is number, seedId is string...
-                if (WorldJS.Helper.has(seeds, seedId) && seed.id != seedId) {
-                    var candidateSeed = seeds[seedId];
+            for (var j = 0, len2 = seeds.length; j < len2; j++) {
+                if (!is(seeds[j], 'undefined') && seed.id != seeds[j].id) {
+                    var candidateSeed = seeds[j];
                     if (condition.call(seed, candidateSeed)) {
                         // Matched candidate
                         return candidateSeed;
