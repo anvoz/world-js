@@ -61,8 +61,6 @@
         // World contains seeds
         // Each seed has an unique id
         world.nextSeedId = 1;
-        // List of seeds, indexed by seedId
-        world.seeds = {};
         // Don't draw every frame (tick) if total seeds > this value
         world.maxSafeSeedsForDisplay = 10000;
 
@@ -134,8 +132,6 @@
 
         // Set an unique id
         seed.id = world.nextSeedId++;
-        // and cache the seed
-        world.seeds[seed.id] = seed;
 
         seed.IQ += world.Rules.baseIQ;
 
@@ -175,7 +171,6 @@
             seed.relationSeed = false;
         }
 
-        delete world.seeds[seed.id];
         world.Tile.rem(seed);
 
         return world;
