@@ -232,13 +232,13 @@
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
             sumBoy = 0, sumGirl = 0,
-            has = WorldJS.Helper.has;
+            is = WorldJS.Helper.is;
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
                 displayedSeeds = 0;
-            for (var seedId in seeds) {
-                if (has(seeds, seedId)) {
-                    var seed = seeds[seedId],
+            for (var j = 0, len2 = seeds.length; j < len2; j++) {
+                if (!is(seeds[j], 'undefined')) {
+                    var seed = seeds[j],
                         oldTileIndex = seed.tileIndex;
 
                     // Once a year
