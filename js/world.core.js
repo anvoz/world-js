@@ -64,7 +64,7 @@
         // List of seeds, indexed by seedId
         world.seeds = {};
         // Don't draw every frame (tick) if total seeds > this value
-        world.maxSafeSeedsForDisplay = 1000;
+        world.maxSafeSeedsForDisplay = 10000;
 
         // Used for calculating age of a seed
         world.tickPerYear = 50;
