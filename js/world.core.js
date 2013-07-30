@@ -241,8 +241,20 @@
                     var seed = seeds[seedId],
                         oldTileIndex = seed.tileIndex;
 
-                    // Re-calculate age every frame (tick)
-                    seed.age = seed.getAge();
+                    // Once a year
+                    if (world.tickMod === 0) {
+                        seed.age = seed.getAge();
+
+                        // Statistic: total of young male/female need to be calculated
+                        // base on their age every year
+                        if (seed.age <= seed.maxChildAge) {
+                            if (seed instanceof world.Male) {
+                                sumBoy++;
+                            } else {
+                                sumGirl++;
+                            }
+                        }
+                    }
 
                     if (reDraw) {
                         // Not draw all seeds in a tile
@@ -264,19 +276,6 @@
                         // Add seed reference to new tile
                         seed.tileIndex = newTileIndex;
                         world.Tile.set(seed);
-                    }
-
-                    // Once a year
-                    if (world.tickMod === 0) {
-                        // Statistic: total of young male/female need to be calculated
-                        // base on their age every year
-                        if (seed.age <= seed.maxChildAge) {
-                            if (seed instanceof world.Male) {
-                                sumBoy++;
-                            } else {
-                                sumGirl++;
-                            }
-                        }
                     }
                 }
             }
