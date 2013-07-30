@@ -93,13 +93,18 @@
             }
 
             world.stop(function() {
-                var seeds = world.seeds,
+                var listTile = world.Tile.list,
                     random = Math.random,
-                    rate = percent / 100;
+                    rate = percent / 100,
+                    is = WorldJS.Helper.is;
 
-                for (var id in seeds) {
-                    if (seeds.hasOwnProperty(id) && random() < rate) {
-                        world.remove(seeds[id]);
+                for (var i = 0, len = listTile.length; i < len; i++) {
+                    var seeds = listTile[i];
+                    for (var j = 0, len2 = seeds.length; j < len2; j++) {
+                        var seed = seeds[j];
+                        if (!is(seed, 'undefined') && random() < rate) {
+                            world.remove(seed);
+                        }
                     }
                 }
 
