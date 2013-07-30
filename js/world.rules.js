@@ -39,7 +39,7 @@
         rules.Food = {
             adult: -2,      // Consume 2 food per year
             child: -1,
-            min: -2000      // Food of the world cannot < this value
+            min: -5000      // Food of the world cannot < this value
         };
 
         // Death chance increase 50%
@@ -51,10 +51,10 @@
             unit: -1000
         };
 
-        // Food decrease 90% every 10 years
+        // Food decrease 90% every 100 years
         rules.FoodSpoilage = {
             foodDecr: 0.9,
-            interval: 10
+            interval: 100
         };
     };
 
