@@ -21,7 +21,7 @@
                 'Living from edible plants and animals from the wild',
                 '<ul><li>Adult +1 food / year</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 500 },
+            IQ: { priority: 1, gained: 0, required: 2000 },
             following: ['crop', 'cabr'],
             affectedYear: false,
             onAffected: function(world) {
@@ -35,7 +35,7 @@
                 'Start agriculture by planting a few crops',
                 '<ul><li>Adult +1 food / year</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 2000 },
+            IQ: { priority: 1, gained: 0, required: 4000 },
             following: ['agri'],
             affectedYear: false,
             onAffected: function(world) {
@@ -49,7 +49,7 @@
                 'Domesticating animals to reduce the need of hunting wild animals for food',
                 '<ul><li>Adult +1 food / year</li><li>Death rate -10%</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 3000 },
+            IQ: { priority: 1, gained: 0, required: 6000 },
             following: [],
             affectedYear: false,
             onAffected: function(world) {
@@ -64,7 +64,7 @@
                 'Developing techniques to produce a large amount of food',
                 '<ul><li>Adult +2 food / year</li><li>Food spoilage -20%</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 5000 },
+            IQ: { priority: 1, gained: 0, required: 10000 },
             following: [],
             affectedYear: false,
             onAffected: function(world) {
@@ -79,7 +79,7 @@
                 'Using fire for warmth and cooking',
                 '<ul><li>Death rate -10%</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 1000 },
+            IQ: { priority: 1, gained: 0, required: 4000 },
             following: ['writ'],
             affectedYear: false,
             onAffected: function(world) {
@@ -93,7 +93,7 @@
                 'Inventing symbols that stood for things',
                 '<ul><li>Base IQ +1</li><li>Child -1 food per year</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 20000 },
+            IQ: { priority: 1, gained: 0, required: 50000 },
             following: ['coso'],
             affectedYear: false,
             onAffected: function(world) {

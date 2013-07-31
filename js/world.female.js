@@ -37,7 +37,7 @@
 
         Seed.call(female, data);
 
-        female.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 5);
+        female.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 3);
 
         female.age = 0;
         female.maxChildAge = 15;
@@ -50,7 +50,7 @@
             death: [
                 { range: [1, 5], from: 0.001, to: 0.005 },
                 { range: [5, 20], from: 0.005, to: 0.01 },
-                { range: [20, 30], from: 0.01, to: 0.05 }
+                { range: [20, 30], from: 0.01, to: 0.025 }
             ],
             childbirth: [
                 { range: [15, 25], from: 0.1, to: 0.25 },

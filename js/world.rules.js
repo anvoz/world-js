@@ -39,7 +39,7 @@
         rules.Food = {
             adult: -2,      // Consume 2 food per year
             child: -1,
-            min: -5000      // Food of the world cannot < this value
+            min: -10000     // Food of the world cannot < this value
         };
 
         // Death chance increase 50%

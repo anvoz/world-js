@@ -21,7 +21,7 @@
         var statistic = this;
 
         statistic.year = 0;
-        statistic.food = 5000;
+        statistic.food = 10000;
 
         // Record when people was born or died
         statistic.population = 0;
