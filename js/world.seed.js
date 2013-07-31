@@ -36,11 +36,14 @@
         // Relationship of the seed
         seed.relationSeed = data.relationSeed || false;
 
-        // Be default, seed moves around every frame
-        // tickCount++ each frame
-        // Initialize with a random number to make asynchronous action with other seeds
-        // Also used for calculating age of seed
+        /*
+         * Be default, seed moves around every frame
+         * tickCount++ each frame
+         * Initialize with a random number to make asynchronous action with other seeds
+         * Also used for calculating age of seed
+         */
         seed.tickCount = (data.tickCount || 0) + WorldJS.Helper.random(0, 50);
+
         // Seed doesn't trigger action every frame
         seed.actionInterval = data.actionInterval || 20; // 20 frames per action
 
@@ -75,16 +78,18 @@
                 appearance = seed.appearance;
             }
 
-            // Jump instead of slide when seed moves
+            /*
+             * Jump instead of slide when seed moves
+             * Example:   jumpInterval = 10
+             * jumpIndex: 0 1 2 3 4 5 6 7 8 9
+             * jumpY:     1 2 3 4 5 4 3 2 1 0
+             */
             var jumpInterval = 20,
                 jumpIndex = seed.tickCount % jumpInterval,
                 halfInterval = Math.ceil(jumpInterval / 2),
                 jumpY = (jumpIndex < halfInterval) ?
                     jumpIndex + 1 :
                     halfInterval - (jumpIndex % halfInterval) - 1;
-            // Example:   jumpInterval = 10
-            // jumpIndex: 0 1 2 3 4 5 6 7 8 9
-            // jumpY:     1 2 3 4 5 4 3 2 1 0
 
             context.drawImage(
                 seed.world.sprite.image,

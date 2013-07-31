@@ -22,19 +22,21 @@
 
         // List of all knowledge
         knowledge.list = {
-            /* samp: {
-                id: 'samp',                         // Knowledge id
-                name: 'Sample knowledge',           // Display name
-                description: '',
-                IQ: {
-                    priority: 1,                    // Priority factor: 0.5 (half), 1 (normal), 2 (double)
-                    gained: 0,                      // Gained IQ so far
-                    required: 1000                  // Need 1000 IQ to start to affect the world
-                },
-                following: ['samp2', 'samp3'],      // List of following knowledge that will be started after this one completes
-                affectedYear: false,                // The year when this knowledge starts to affect the world
-                onAffected: function(world) { }     // Callback
-            } */
+            /*
+             * samp: {
+             *    id: 'samp',                         // Knowledge id
+             *    name: 'Sample knowledge',           // Display name
+             *    description: '',
+             *    IQ: {
+             *        priority: 1,                    // Priority factor: 0.5 (half), 1 (normal), 2 (double)
+             *        gained: 0,                      // Gained IQ so far
+             *        required: 1000                  // Need 1000 IQ to start to affect the world
+             *    },
+             *    following: ['samp2', 'samp3'],      // List of following knowledge that will be started after this one completes
+             *    affectedYear: false,                // The year when this knowledge starts to affect the world
+             *    onAffected: function(world) { }     // Callback
+             * }
+             */
         };
 
         // Trending knowledge id list
@@ -56,9 +58,11 @@
             distributedIQList = [],
             totalDistributedUnit = 0;
 
-        // Create distributed IQ list
-        // All IQ will be randomly distributed to trending knowledge + 1 fake knowledge
-        // Distributing to a fake knowledge is represented as wasted IQ every year
+        /*
+         * Create distributed IQ list
+         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge
+         * Distributing to a fake knowledge is represented as wasted IQ every year
+         */
         for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
             distributedIQList[i] = WorldJS.Helper.random(0, 100);
             if (i < len) {

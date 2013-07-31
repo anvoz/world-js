@@ -20,7 +20,7 @@
     Tile = WorldJS.Tile = function() {
         var self = this;
 
-        /**
+        /*
          * Old storage structure:
          * An array contains tiles, each tile is a hashmap
          * list = [ { seedId1: seedData1, seedId2: seedData2, ... }, {}, ... ]
