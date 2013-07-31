@@ -45,7 +45,7 @@
         seed.tickCount = (data.tickCount || 0) + WorldJS.Helper.random(0, 50);
 
         // Seed doesn't trigger action every frame
-        seed.actionInterval = data.actionInterval || 20; // 20 frames per action
+        seed.actionInterval = data.actionInterval || 30; // 30 frames per action
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;

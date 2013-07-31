@@ -22,8 +22,10 @@
                 window.mozRequestAnimationFrame    ||
                 window.oRequestAnimationFrame      ||
                 window.msRequestAnimationFrame     ||
-                function(callback) {
-                    window.setTimeout(callback, 1000 / 50);
+                function(callback, element) {
+                    window.setTimeout(function() {
+                        callback(+new Date)
+                    }, 1000 / 60);
                 }
             );
         })();
@@ -61,16 +63,24 @@
         // World contains seeds
         // Each seed has an unique id
         world.nextSeedId = 1;
+
         // Don't draw every frame (tick) if total seeds > this value
         world.maxSafeSeedsForDisplay = 10000;
 
         // Used for calculating age of a seed
-        world.tickPerYear = 50;
-        // Used for indicating a year, +1 every frame (tick)
+        world.tickPerYear = 60;
+
+        /*
+         * Used for indicating a year, +1 every frame (tick)
+         * Example: tickPerYear = 50
+         * tickMod: 0   50  100 150 ...
+         * year:    0   1   2   3   ...
+         */
         world.tickMod = -1;
-        // Example: tickPerYear = 50
-        // tickMod: 0   50  100 150 ...
-        // year:    0   1   2   3   ...
+
+        // Used for calculating frames per second
+        world.lastTickTime = 0;
+        world.fps = 0;
 
         world.Tile = new WorldJS.Tile();
         world.Knowledge = new WorldJS.Knowledge();
@@ -206,7 +216,7 @@
     /**
      * World process loop
      */
-    WorldJS.prototype.run = function() {
+    WorldJS.prototype.run = function(time) {
         var world = this,
             Statistic = world.Statistic;
 
@@ -299,8 +309,10 @@
             }
         }
 
-        // loop animation
+        // Loop animation
         if (world.running) {
+            world.fps = 1000 / (time - world.lastTickTime);
+            world.lastTickTime = time;
             requestAnimationFrame(world.run.bind(world));
         } else {
             // Trigger once
