@@ -218,7 +218,9 @@
      */
     WorldJS.prototype.run = function(time) {
         var world = this,
-            Statistic = world.Statistic;
+            Statistic = world.Statistic,
+            context = world.canvas.context,
+            spriteImage = world.sprite.image;
 
         // Used for indicating a year
         // tickMod == 0 -> a year
@@ -229,7 +231,7 @@
 
         // Clear canvas
         if (reDraw) {
-            world.canvas.context.clearRect(0, 0, world.width, world.height);
+            context.clearRect(0, 0, world.width, world.height);
         }
 
         // Use world.Tile.list instead of world.seeds
@@ -265,7 +267,7 @@
                         // Not draw all seeds in a tile
                         if (displayedSeeds < maxDisplayedSeeds) {
                             // Draw current state of the seed
-                            seed.draw();
+                            seed.draw(context, spriteImage);
                             displayedSeeds++;
                         }
                     }
@@ -313,6 +315,7 @@
         if (world.running) {
             world.fps = 1000 / (time - world.lastTickTime);
             world.lastTickTime = time;
+
             requestAnimationFrame(world.run.bind(world));
         } else {
             // Trigger once

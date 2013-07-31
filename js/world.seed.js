@@ -63,20 +63,16 @@
     /**
      * Display the seed in the world
      */
-    Seed.prototype.draw = function() {
-        var seed = this,
-            context = seed.world.canvas.context;
+    Seed.prototype.draw = function(context, spriteImage) {
+        var seed = this;
 
         if (seed.appearance === false) {
             context.fillRect(seed.x, seed.y, 10, 10);
         } else {
-            var appearance;
             // Handle child-state of the seed
-            if (!WorldJS.Helper.is(seed.appearance.child, 'undefined') && seed.age <= seed.maxChildAge) {
-                appearance = seed.appearance.child;
-            } else {
-                appearance = seed.appearance;
-            }
+            var appearance = (seed.age <= seed.maxChildAge) ?
+                    seed.appearance.child :
+                    seed.appearance;
 
             /*
              * Jump instead of slide when seed moves
@@ -85,14 +81,14 @@
              * jumpY:     1 2 3 4 5 4 3 2 1 0
              */
             var jumpInterval = 20,
+                halfInterval = 10,
                 jumpIndex = seed.tickCount % jumpInterval,
-                halfInterval = Math.ceil(jumpInterval / 2),
                 jumpY = (jumpIndex < halfInterval) ?
                     jumpIndex + 1 :
                     halfInterval - (jumpIndex % halfInterval) - 1;
 
             context.drawImage(
-                seed.world.sprite.image,
+                spriteImage,
                 appearance.x, appearance.y, appearance.width, appearance.height,
                 seed.x, seed.y - jumpY, appearance.width, appearance.height
             );
