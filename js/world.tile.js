@@ -50,8 +50,8 @@
         // 20 x 20 pixels per tile
         self.size = 20;
 
-        // Only draw 10 seeds each tile
-        self.maxDisplayedSeeds = 10;
+        // Only draw 7 seeds each tile
+        self.maxDisplayedSeeds = 7;
 
         // Need to calculate base on size of the world
         self.totalTiles = false;
