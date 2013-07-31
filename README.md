@@ -4,6 +4,7 @@ World JS: Evolution Simulator
 In World JS, people move around, find their partner and have children. As they grow smarter with every generation, greater knowledge will be gained. You watch the world, have some god powers to lead it and choose the fate of the world yourself.
 
 **Live Demo:** http://anvoz.github.io/world-js/
+![Version 1.1 screenshot](https://f.cloud.github.com/assets/4688035/887848/f6802384-fa02-11e2-81cc-a839cca329d5.png "Version 1.1 screenshot")
 
 ## Links
 * [Wiki](https://github.com/anvoz/world-js/wiki)
@@ -44,6 +45,11 @@ world.start();
 // Add a woman to the world
 world.add(world.Female, { age: 25 });
 ```
+
+### Change Log
+#### Version 1.1
+* Separated the source code into smaller sub modules.
+* Improved the Tile management mechanic. The population could expand from 1000 to 5000 smoothly.
 
 ### TODO
 
