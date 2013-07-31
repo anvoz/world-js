@@ -77,7 +77,7 @@
                 world.remove(male);
             }
 
-            if (!male.married) {
+            if (!male.married && male.age >= male.chances.marriage[0].range[0]) {
                 // Seeking for female
                 var marriageChance = male.getChance(male, 'marriage');
                 if (marriageChance > 0) {
@@ -86,7 +86,7 @@
                         var female = male.seek(function(candidate) {
                             return (candidate instanceof world.Female &&
                                 !candidate.married &&
-                                candidate.age >= 15 && // TODO: not use fixed value
+                                candidate.age >= candidate.chances.childbirth[0].range[0] &&
                                 // failure chance increase (every 10 age difference) if male is younger than female
                                 (candidate.age <= male.age || (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
                             );

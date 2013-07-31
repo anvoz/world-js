@@ -82,7 +82,7 @@
             }
 
             // Bear a child (once a year)
-            if (female.married && female.ageLastBear < age) {
+            if (female.married && female.age >= female.chances.childbirth[0].range[0] && female.ageLastBear < age) {
                 var childBirthChance = female.getChance(female, 'childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     female.ageLastBear = age;
