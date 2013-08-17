@@ -1,0 +1,71 @@
+/*!
+ * world.story.js
+ * Define main story of the game
+ *
+ * World JS: Evolution Simulator
+ * https://github.com/anvoz/world-js
+ * Copyright (c) 2013 An Vo - anvo4888@gmail.com
+ * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ */
+
+(function(window, undefined) {
+    'use strict';
+
+    var WorldJS = window.WorldJS,
+        Interface = WorldJS.Interface,
+
+        // Create a new world
+        world = new WorldJS(),
+        Knowledge = world.Knowledge;
+
+    WorldJS.God.setWorldInstance(world);
+
+    // Define knowledge of the world
+    Knowledge.list = WorldJS.KnowledgeData;
+
+    // Start with some knowledge
+    Knowledge.trending = ['huga', 'fire'];
+    Interface.trendingAdded(Knowledge.list.huga);
+    Interface.trendingAdded(Knowledge.list.fire);
+
+    // Bind callback
+    Knowledge.trendingAdded = Interface.trendingAdded;
+    Knowledge.trendingRemoved = Interface.trendingRemoved;
+    world.setYearPassedCallback(Interface.yearPassed);
+
+    world.init('world');
+
+    var firstMenMaxAge = 30;
+    world.add(world.Male, {
+        x: 10,
+        y: 10,
+        moveTo: { x: 320, y: 180 },
+        age: 13,
+        chances: {
+            death: [
+                { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
+                { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
+            ],
+            marriage: [
+                { range: [1, firstMenMaxAge], from: 1, to: 1 }
+            ]
+        }
+    });
+    world.add(world.Female, {
+        x: 630,
+        y: 350,
+        moveTo: { x: 320, y: 180 },
+        age: 13,
+        chances: {
+            death: [
+                { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
+                { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
+            ],
+            childbirth: [
+                { range: [1, firstMenMaxAge], from: 1, to: 1 }
+            ]
+        }
+    });
+
+    world.start();
+})(window);

@@ -39,11 +39,11 @@
 
         male.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 3);
 
-        male.age = 0;
+        male.age = data.age || 0;
         male.maxChildAge = 15;
         male.married = false;
 
-        male.chances = {
+        male.chances = data.chances || {
             death: [
                 { range: [1, 5], from: 0.001, to: 0.005 },
                 { range: [5, 15], from: 0.005, to: 0.01 },

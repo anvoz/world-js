@@ -39,14 +39,14 @@
 
         female.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 3);
 
-        female.age = 0;
+        female.age = data.age || 0;
         female.maxChildAge = 15;
         female.married = false;
         female.totalChildren = undefined; // Need to be set 0 on her first marriage
         // Last age when she bears a child
         female.ageLastBear = 0;
 
-        female.chances = {
+        female.chances = data.chances || {
             death: [
                 { range: [1, 5], from: 0.001, to: 0.005 },
                 { range: [5, 20], from: 0.005, to: 0.01 },

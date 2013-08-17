@@ -88,16 +88,16 @@
         world.Rules = new WorldJS.Rules();
 
         // Call once every <tickPerYear> ticks
-        world.eachYearCallback = function() {};
+        world.yearPassedCallback = function() {};
     };
 
     /**
      * Set callback that trigger once every year
      * callback: function
      */
-    WorldJS.prototype.setEachYearCallback = function(callback) {
+    WorldJS.prototype.setYearPassedCallback = function(callback) {
         var world = this;
-        world.eachYearCallback = callback;
+        world.yearPassedCallback = callback;
         return world;
     };
 
@@ -142,6 +142,11 @@
 
         // Set an unique id
         seed.id = world.nextSeedId++;
+
+        seed.age = data.age || 0;
+        if (seed.age > 0) {
+            seed.tickCount = seed.age * world.tickPerYear;
+        }
 
         seed.IQ += world.Rules.baseIQ;
 
@@ -190,18 +195,46 @@
      * Add random people to the world
      * count: number of people to add
      * minAge, maxAge (optional)
+     * fromBorder: determine people randomly appear or come from border
+     *      0: random, 1: top, 2: bottom, 3: left, 4: right, 5: random border
      */
-    WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge) {
+    WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge, fromBorder) {
         var world = this,
-            minAge = WorldJS.Helper.is(minAge, 'undefined') ? 15 : minAge,
-            maxAge = WorldJS.Helper.is(maxAge, 'undefined') ? 20 : maxAge,
+            is = WorldJS.Helper.is,
+            random = WorldJS.Helper.random,
             tickPerYear = world.tickPerYear;
+
+        minAge = is(minAge, 'undefined') ? 15 : minAge,
+        maxAge = is(maxAge, 'undefined') ? 20 : maxAge,
+        fromBorder = is(fromBorder, 'undefined') ? 0 : fromBorder;
 
         // Add people to the world
         for (var i = 0; i < count; i++) {
             // Random age
-            var age = WorldJS.Helper.random(minAge, maxAge),
-                data = { tickCount: age * tickPerYear };
+            var age = random(minAge, maxAge),
+                data = {
+                    age: age,
+                    tickCount: age * tickPerYear
+                };
+
+            if (fromBorder > 0) {
+                var border = (fromBorder == 5) ?
+                    random(1, 4) : fromBorder;
+                switch (border) {
+                    case 1: // top
+                        data.y = 0;
+                        break;
+                    case 2: // bottom
+                        data.y = world.height - 1;
+                        break;
+                    case 3: // left
+                        data.x = 0;
+                        break;
+                    case 4: // right
+                        data.x = world.width - 1;
+                        break;
+                }
+            }
 
             if (i < count / 2) {
                 world.add(world.Male, data);
@@ -301,7 +334,7 @@
             // Execute asynchronous callback
             setTimeout(function() {
                 // Do HTML DOM manipulation in the callback
-                world.eachYearCallback.call(world);
+                world.yearPassedCallback.call(world);
             }, 1);
 
             if (Statistic.population === 0) {
