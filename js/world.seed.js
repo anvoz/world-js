@@ -26,6 +26,7 @@
         seed.world = false;
         seed.id = false;
         seed.tileIndex = false;
+        seed.tickIndex = false;
 
         // Seed coordinate (top, left)
         seed.x = WorldJS.Helper.is(data.x, 'undefined') ? false : data.x;
@@ -37,15 +38,12 @@
         seed.relationSeed = data.relationSeed || false;
 
         /*
-         * Be default, seed moves around every frame
-         * tickCount++ each frame
-         * Initialize with a random number to make asynchronous action with other seeds
-         * Also used for calculating age of seed
+         * Be default, seed only moves around every frame
+         * Its main actions such as seeking partner or giving birth
+         * only trigger every specific interval
          */
-        seed.tickCount = (data.tickCount || 0) + WorldJS.Helper.random(0, 50);
-
-        // Seed doesn't trigger action every frame
-        seed.actionInterval = data.actionInterval || 30; // 30 frames per action
+        seed.tickCount = data.tickCount || 0;
+        seed.actionInterval = data.actionInterval || 30;
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;
@@ -168,7 +166,6 @@
                     continue;
                 }
             }
-
             var seeds = Tile.list[thisTileIndex];
             for (var j = 0, len2 = seeds.length; j < len2; j++) {
                 if (!is(seeds[j], 'undefined') && seed.id != seeds[j].id) {

@@ -76,7 +76,23 @@
          * tickMod: 0   50  100 150 ...
          * year:    0   1   2   3   ...
          */
-        world.tickMod = -1;
+        world.tickMod = 0;
+
+        /*
+         * Seeds don't trigger their main actions every frame
+         * Example: In 60 frames, a male only seeks for female twice (in 30th frame and 60th frame)
+         * To make it's more efficient, main actions of all seeds will be distributed in all frames
+         * Example: male_1 will seek for female in 30th frame, 60th frame...
+         *          male_2 will seek for female in 31th frame, 61th frame...
+         * distributedTicks has its length equals <tickPerYear - 1> which means:
+         * In every <tickPerYear> frames
+         * <tickPerYear - 1> frames are used to trigger main actions of seeds
+         * Last frame is used for other calculations such as statistic, user interface update...
+         */
+        world.distributedTicks = [];
+        for (var i = 0; i < world.tickPerYear - 1; i++) {
+            world.distributedTicks.push(0);
+        }
 
         // Used for calculating frames per second
         world.lastTickTime = 0;
@@ -147,7 +163,7 @@
         if (seed.age > 0) {
             seed.tickCount = seed.age * world.tickPerYear;
         }
-        seed.tickMod = -1;
+        seed.tickMod = world.tickMod;
 
         seed.IQ += world.Rules.baseIQ;
 
@@ -163,6 +179,23 @@
         seed.tileIndex = world.Tile.getIndex(seed);
         // and cache the seed
         world.Tile.set(seed);
+
+        // Put the seed in a frame which has lowest number of seeds occupied
+        var distributedTicks = world.distributedTicks,
+            minIndex = 0,
+            minValue = distributedTicks[minIndex];
+        for (var i = 0, len = distributedTicks.length; i < len; i++) {
+            if (distributedTicks[i] < minValue) {
+                minIndex = i;
+                minValue = distributedTicks[i];
+            }
+        }
+        distributedTicks[minIndex]++;
+        seed.tickIndex = minIndex;
+
+        // By modulusing <actionInterval> which equals half of tickPerYear by default
+        // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
+        seed.tickCount += (world.tickMod + seed.tickCount + minIndex) % seed.actionInterval;
 
         world.Statistic.seedAdded(world, seed);
 
@@ -188,6 +221,8 @@
         }
 
         world.Tile.rem(seed);
+
+        world.distributedTicks[seed.tickIndex]--;
 
         return world;
     }
@@ -259,9 +294,10 @@
         // Used for indicating a year
         // tickMod == 0 -> a year
         world.tickMod = (++world.tickMod) % world.tickPerYear;
+        var yearPassed = world.tickMod === 0;
 
         // Draw the world every year instead of every frame if total seeds is too large
-        var reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || world.tickMod === 0);
+        var reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
 
         // Clear canvas
         if (reDraw) {
@@ -287,8 +323,7 @@
                     }
                     seed.tickMod = world.tickMod;
 
-                    // Once a year
-                    if (world.tickMod === 0) {
+                    if (yearPassed) {
                         seed.age = seed.getAge();
 
                         // Statistic: total of young male/female need to be calculated
@@ -327,8 +362,7 @@
             }
         }
 
-        // Once a year
-        if (world.tickMod === 0) {
+        if (yearPassed) {
             Statistic.yearPassed(world, {
                 sumBoy: sumBoy,
                 sumGirl: sumGirl
