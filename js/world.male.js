@@ -105,6 +105,9 @@
                             male.relationSeed = female;
                             female.relationSeed = male;
 
+                            // Prevent having children right after married
+                            female.ageLastBear = female.age + 1;
+
                             world.Statistic.married(world);
                         }
                     }
