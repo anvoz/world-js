@@ -101,8 +101,8 @@
                     }
                 }
             }
-        } else {
-            female.move();
         }
+
+        female.move();
     };
 })(window);

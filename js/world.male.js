@@ -110,18 +110,18 @@
                     }
                 }
             }
-        } else {
-            // Men will follow his wife
-            var beforeMoveCallback = (!male.married) ?
-                undefined :
-                function() {
-                    var male = this;
-                    var female = male.relationSeed;
-
-                    male.moveTo.x = Math.max(0, female.x - 10);
-                    male.moveTo.y = female.y;
-                };
-            male.move(beforeMoveCallback);
         }
+
+        // Men will follow his wife
+        var beforeMoveCallback = (!male.married) ?
+            undefined :
+            function() {
+                var male = this;
+                var female = male.relationSeed;
+
+                male.moveTo.x = Math.max(0, female.x - 10);
+                male.moveTo.y = female.y;
+            };
+        male.move(beforeMoveCallback);
     };
 })(window);
