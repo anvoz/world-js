@@ -23,7 +23,8 @@ Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki)
  * Statistic: Manage statistic of a world like population, total IQ...
  * Seed (base class), Male, Female (extend Seed): Main object that live in the world.
  * Helper: Helper functions like `is()`, `has()` and `random()`.
-* Front: Create and bind the world to the user interface.
+* Interface: Bind a world to user interface.
+* Story: Define main story of the game.
 * God: Functions that modify the world instance directly. Used for interaction between user and a world instance.
 
 ### Sample code
