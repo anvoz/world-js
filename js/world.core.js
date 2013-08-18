@@ -147,6 +147,7 @@
         if (seed.age > 0) {
             seed.tickCount = seed.age * world.tickPerYear;
         }
+        seed.tickMod = -1;
 
         seed.IQ += world.Rules.baseIQ;
 
@@ -280,6 +281,11 @@
                 if (!is(seeds[j], 'undefined')) {
                     var seed = seeds[j],
                         oldTileIndex = seed.tileIndex;
+
+                    if (seed.tickMod == world.tickMod) {
+                        continue;
+                    }
+                    seed.tickMod = world.tickMod;
 
                     // Once a year
                     if (world.tickMod === 0) {
