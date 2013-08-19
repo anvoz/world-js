@@ -68,7 +68,7 @@
             deathChance = 0,
             childbirthChange = 0;
 
-        var totalChildren = Statistic.boy + Statistic.girl,
+        var totalChildren = Statistic.boys + Statistic.girls,
             totalAdult = Statistic.population - totalChildren;
         food += (
             totalAdult * Rules.Food.adult + 

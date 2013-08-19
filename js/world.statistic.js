@@ -25,20 +25,14 @@
 
         // Record when people was born or died
         statistic.population = 0;
-        statistic.male = 0;
-        statistic.female = 0;
         statistic.IQ = 0;
 
-        // ++ when they married
-        // -- if husband or wife died
-        statistic.family = 0;
-
         // Re-calculate every year
-        // Data base on age of people
-        statistic.men = 0;     // adult male
-        statistic.women = 0;   // adult female
-        statistic.boy = 0;     // young male
-        statistic.girl = 0;    // young female
+        statistic.men = 0;          // adult male
+        statistic.women = 0;        // adult female
+        statistic.boys = 0;         // young male
+        statistic.girls = 0;        // young female
+        statistic.families = 0;
 
         // Record when someone was born
         // Max IQ of a person and the year when he/she was born
@@ -60,78 +54,58 @@
     /**
      * Calculate when a seed is added to the world
      */
-    Statistic.prototype.seedAdded = function(world, seed) {
-        var Statistic = world.Statistic;
-
-        Statistic.population++;
-        if (seed instanceof world.Male) {
-            Statistic.male++;
-        } else {
-            Statistic.female++;
-        }
+    Statistic.prototype.seedAdded = function(seed) {
+        var statistic = this;
 
         var IQ = seed.IQ;
-        Statistic.IQ += IQ;
+        statistic.IQ += IQ;
         // Max IQ of a person and the year when he/she was born
-        if (IQ > Statistic.maxIQ) {
-            Statistic.maxIQ = IQ;
-            Statistic.yearMaxIQ = Statistic.year;
+        if (IQ > statistic.maxIQ) {
+            statistic.maxIQ = IQ;
+            statistic.yearMaxIQ = statistic.year;
         }
     };
 
     /**
      * Calculate when a seed is removed from the world
      */
-    Statistic.prototype.seedRemoved = function(world, seed) {
-        var Statistic = world.Statistic;
+    Statistic.prototype.seedRemoved = function(seed) {
+        var statistic = this;
 
-        Statistic.population--;
-        if (seed instanceof world.Male) {
-            Statistic.male--;
-        } else {
-            Statistic.female--;
-        }
-        Statistic.die++;
+        statistic.die++;
 
-        Statistic.IQ -= seed.IQ;
-
-        if (seed.married) {
-            Statistic.family--;
-        }
+        statistic.IQ -= seed.IQ;
 
         // Max age of a person and the year when he/she died
         var age = seed.age;
-        if (age > Statistic.maxAge) {
-            Statistic.maxAge = age;
-            Statistic.yearMaxAge = Statistic.year;
+        if (age > statistic.maxAge) {
+            statistic.maxAge = age;
+            statistic.yearMaxAge = statistic.year;
         }
-        Statistic.sumAge += age;
+        statistic.sumAge += age;
 
         // Not check married because married will be set to false if her husband die
         if (!WorldJS.Helper.is(seed.totalChildren, 'undefined')) {
-            Statistic.dieMarriedFemale++;
-            Statistic.sumChildren += seed.totalChildren;
+            statistic.dieMarriedFemale++;
+            statistic.sumChildren += seed.totalChildren;
         }
     };
 
     /**
      * Calculate when a year is passed
      */
-    Statistic.prototype.yearPassed = function(world, data) {
-        var Statistic = world.Statistic;
+    Statistic.prototype.yearPassed = function(data) {
+        var statistic = this;
 
-        Statistic.year++;
+        statistic.year++;
 
-        Statistic.men = Statistic.male - data.sumBoy;
-        Statistic.women = Statistic.female - data.sumGirl;
-        Statistic.boy = data.sumBoy;
-        Statistic.girl = data.sumGirl;
-    };
+        statistic.population = data.population;
 
-    /**
-     * A new couple is married
-     */
-    Statistic.prototype.married = function(world) {
-        world.Statistic.family++;
+        statistic.men = data.men;
+        statistic.women = data.women;
+        statistic.boys = data.boys;
+        statistic.girls = data.girls;
+
+        statistic.families = data.families;
     };
 })(window);

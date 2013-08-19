@@ -197,7 +197,7 @@
         // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
         seed.tickCount += (world.tickMod + seed.tickCount + minIndex) % seed.actionInterval;
 
-        world.Statistic.seedAdded(world, seed);
+        world.Statistic.seedAdded(seed);
 
         return world;
     };
@@ -209,7 +209,7 @@
     WorldJS.prototype.remove = function(seed) {
         var world = this;
 
-        world.Statistic.seedRemoved(world, seed);
+        world.Statistic.seedRemoved(seed);
 
         if (seed.married) {
             seed.married = false;
@@ -308,7 +308,13 @@
         // to reduce the seeds need to be drawn in each tile
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
-            sumBoy = 0, sumGirl = 0,
+
+            // Statistic
+            sPopulation = 0,
+            sMen = 0, sWomen = 0,
+            sBoys = 0, sGirls = 0,
+            sFamilies = 0,
+
             is = WorldJS.Helper.is;
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
@@ -326,13 +332,22 @@
                     if (yearPassed) {
                         seed.age = seed.getAge();
 
-                        // Statistic: total of young male/female need to be calculated
-                        // base on their age every year
-                        if (seed.age <= seed.maxChildAge) {
-                            if (seed instanceof world.Male) {
-                                sumBoy++;
+                        // Statistic
+                        sPopulation++;
+                        if (seed instanceof world.Male) {
+                            if (seed.age <= seed.maxChildAge) {
+                                sBoys++;
                             } else {
-                                sumGirl++;
+                                sMen++;
+                                if (seed.married) {
+                                    sFamilies++;
+                                }
+                            }
+                        } else {
+                            if (seed.age <= seed.maxChildAge) {
+                                sGirls++;
+                            } else {
+                                sWomen++;
                             }
                         }
                     }
@@ -363,9 +378,13 @@
         }
 
         if (yearPassed) {
-            Statistic.yearPassed(world, {
-                sumBoy: sumBoy,
-                sumGirl: sumGirl
+            Statistic.yearPassed({
+                population: sPopulation,
+                men: sMen,
+                women: sWomen,
+                boys: sBoys,
+                girls: sGirls,
+                families: sFamilies
             });
 
             world.Rules.change(world);
@@ -377,7 +396,7 @@
                 world.yearPassedCallback.call(world);
             }, 1);
 
-            if (Statistic.population === 0) {
+            if (sPopulation === 0) {
                 // Stop the world
                 world.running = false;
                 return;

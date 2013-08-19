@@ -17,7 +17,7 @@
         Cache = {
             Statistic: {
                 year: 0, population: 0, food: 0,
-                men: 0, women: 0, family: 0, boy: 0, girl: 0,
+                men: 0, women: 0, families: 0, boys: 0, girls: 0,
                 IQ: 0, maxIQ: 0, yearMaxIQ: 0,
                 maxAge: 0, yearMaxAge: 0,
                 avgIQ: 0, avgAge: 0, avgChildren: 0
