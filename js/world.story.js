@@ -31,10 +31,16 @@
     // Bind callback
     Knowledge.trendingAdded = Interface.trendingAdded;
     Knowledge.trendingRemoved = Interface.trendingRemoved;
-    world.setYearPassedCallback(Interface.yearPassed);
+    world.yearPassedCallback = Interface.yearPassed;
 
     world.init('world');
 
+    /*
+     * Create the first man and woman of the world.
+     * They will move from the corner to the center of the world.
+     * They are guaranteed to mate and produce offspring
+     * then die at the intended age.
+     */
     var firstMenMaxAge = 30;
     world.add(world.Male, {
         x: 10,

@@ -102,7 +102,7 @@
                     var seeds = listTile[i];
                     for (var j = 0, len2 = seeds.length; j < len2; j++) {
                         var seed = seeds[j];
-                        if (!is(seed, 'undefined') && random() < rate) {
+                        if (seed && random() < rate) {
                             world.remove(seed);
                         }
                     }

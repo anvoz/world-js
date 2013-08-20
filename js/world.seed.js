@@ -95,13 +95,13 @@
 
     /**
      * Update new coordinate of the seed in the world
-     * beforeMoveCallback (optional): callback function
+     * beforeMoveCallback: callback function or false
      */
     Seed.prototype.move = function(beforeMoveCallback) {
         var seed = this;
 
         // By default, seed keeps moving around the world
-        if (!WorldJS.Helper.is(beforeMoveCallback, 'function')) {
+        if (!beforeMoveCallback) {
             if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
                 // Make another moveTo coordinate
                 var world = seed.world;
@@ -130,7 +130,7 @@
 
     /**
      * Seek neighbour tiles and return the first seed that matches the condition
-     * condition (optional): function(candidate) { if (...) return true; }
+     * condition: function(candidate) { if (...) return true; } or false
      */
     Seed.prototype.seek = function(condition) {
         var seed = this,
@@ -141,7 +141,7 @@
                 [-1, -1], [-1, 1], [1, -1], [1, 1]      // nw, sw, ne, se tile
             ];
 
-        if (!WorldJS.Helper.is(condition, 'function')) {
+        if (!condition) {
             // No filter, return first seed of the current tile
             condition = function(candidate) {
                 return (candidate.id != seed.id);
@@ -168,7 +168,7 @@
             }
             var seeds = Tile.list[thisTileIndex];
             for (var j = 0, len2 = seeds.length; j < len2; j++) {
-                if (!is(seeds[j], 'undefined') && seed.id != seeds[j].id) {
+                if (seeds[j] && seed.id != seeds[j].id) {
                     var candidateSeed = seeds[j];
                     if (condition.call(seed, candidateSeed)) {
                         // Matched candidate
@@ -201,7 +201,7 @@
             fromAge = 0,
             fromChance = 0,
             delta = 0;
-        while (!WorldJS.Helper.is(base[i], 'undefined') && age > base[i].range[0]) {
+        while (base[i] && age > base[i].range[0]) {
             var thisBase = base[i];
             fromAge = thisBase.range[0];
             fromChance = thisBase.from;

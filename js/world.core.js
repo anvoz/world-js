@@ -49,12 +49,10 @@
         // Prevent objects from drawing outside the world
         world.padding = 10; // 10 pixels from border
 
-        // TODO: support WebGL and SVG
         world.canvas = {
             wrapper: false, // DOM element that wraps the canvas
             context: false  // HTML5 drawing context
         };
-        // TODO: support multi sprites
         world.sprite = {
             src: 'images/seeds.png',
             image: false    // DOM image object of sprite
@@ -105,16 +103,6 @@
 
         // Call once every <tickPerYear> ticks
         world.yearPassedCallback = function() {};
-    };
-
-    /**
-     * Set callback that trigger once every year
-     * callback: function
-     */
-    WorldJS.prototype.setYearPassedCallback = function(callback) {
-        var world = this;
-        world.yearPassedCallback = callback;
-        return world;
     };
 
     /**
@@ -320,10 +308,16 @@
             var seeds = listTile[i],
                 displayedSeeds = 0;
             for (var j = 0, len2 = seeds.length; j < len2; j++) {
-                if (!is(seeds[j], 'undefined')) {
+                if (seeds[j]) {
                     var seed = seeds[j],
                         oldTileIndex = seed.tileIndex;
 
+                    /*
+                     * When a seed moves to next tile, reference of the seed may be inserted into
+                     * an empty spot of tile array instead of just appending to the array.
+                     * That reference will still be available on the current loop
+                     * which could cause a seed ticks twice.
+                     */
                     if (seed.tickMod == world.tickMod) {
                         continue;
                     }

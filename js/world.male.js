@@ -115,7 +115,7 @@
 
         // Men will follow his wife
         var beforeMoveCallback = (!male.married) ?
-            undefined :
+            false :
             function() {
                 var male = this;
                 var female = male.relationSeed;

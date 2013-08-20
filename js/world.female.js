@@ -103,6 +103,6 @@
             }
         }
 
-        female.move();
+        female.move(false);
     };
 })(window);
