@@ -16,20 +16,22 @@
 
     /**
      * Rules constructor
+     * Define default rules of the world
      */
     Rules = WorldJS.Rules = function() {
         var rules = this;
 
         rules.baseIQ = 0;
 
-        // Base chance
+        // Base chances
         rules.Chance = {
             death: 0,
             marriage: 0,
             childbirth: 0
         };
-        // Chance that incr/decr base on some specific value
-        // See the Rules.Famine below for example
+
+        // Chances that increase or decrease temporarily
+        // based on some specific value
         rules.ChanceIncr = {
             death: 0,
             marriage: 0,
@@ -38,16 +40,14 @@
 
         rules.Food = {
             adult: -2,      // Consume 2 food per year
-            child: -1,
-            min: -10000     // Food of the world cannot < this value
+            child: -1,      // Consume 1 food per year
+            min: -10000     // Minimum food value
         };
 
-        // Death chance increase 50%
-        // and childbirth decrease 50%
-        // every -1000 food
+        // When famine affected,
+        // death chance increase 50% every -1000 food
         rules.Famine = {
             deathChanceIncr: 0.5,
-            childbirthChanceIncr: -0.5,
             unit: -1000
         };
 
@@ -65,11 +65,9 @@
         var Rules = world.Rules,
             Statistic = world.Statistic,
             food = Statistic.food,
-            deathChance = 0,
-            childbirthChange = 0;
+            totalAdult = Statistic.men + Statistic.women,
+            totalChildren = Statistic.boys + Statistic.girls;
 
-        var totalChildren = Statistic.boys + Statistic.girls,
-            totalAdult = Statistic.population - totalChildren;
         food += (
             totalAdult * Rules.Food.adult + 
             totalChildren * Rules.Food.child
@@ -79,11 +77,12 @@
             food = Rules.Food.min;
         }
 
-        // Famine: increase death chance, decrease childbirth chance
+        var deathChance = 0;
+
+        // Famine: increase death chance
         if (food <= Rules.Famine.unit) {
             var delta = Math.floor(food / Rules.Famine.unit);
             deathChance += delta * Rules.Famine.deathChanceIncr;
-            childbirthChange += delta * Rules.Famine.childbirthChanceIncr;
         }
 
         // Food spoilage: decrease food
@@ -91,8 +90,8 @@
             food -= Math.round(food * Rules.FoodSpoilage.foodDecr);
         }
 
+        // Apply new changes
         Statistic.food = food;
         Rules.Chance.death = deathChance + Rules.ChanceIncr.death;
-        Rules.Chance.childbirth = childbirthChange + Rules.ChanceIncr.childbirth;
     };
 })(window);
