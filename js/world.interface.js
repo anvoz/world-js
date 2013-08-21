@@ -33,7 +33,8 @@
             }
         };
 
-    // Store container of all properties of a world
+    // Init: Store container of all properties of a world
+    // Extra methods must be added to Cache object after this init
     for (var key in Cache) {
         if (Cache.hasOwnProperty(key)) {
             var cache = Cache[key];
@@ -49,7 +50,6 @@
         }
     }
 
-    // Add more functions to the Cache object after stored all containers
     /**
      * Set new value to a cached container element
      * Only set if the value change
@@ -65,7 +65,7 @@
      * Callback when a knowledge added to trending
      */
     Interface.trendingAdded = function(knowledge) {
-        // Add knowledge HTML
+        // Add new knowledge to knowledge trending container
         var id = 'world-knowledge-' + knowledge.id,
             html = [
                 '<div id="world-knowledge-', knowledge.id, '" class="knowledge clearfix">',
@@ -96,7 +96,7 @@
      * Callback when a knowledge removed from trending
      */
     Interface.trendingRemoved = function(knowledge) {
-        // Remove knowledge HTML
+        // Remove completed knowledge from knowledge trending container
         var knowledgeCache = Cache.Knowledge[knowledge.id];
         knowledgeCache.IQContainer.html(knowledge.IQ.required);
         knowledgeCache.barContainer.width('100%');
@@ -105,7 +105,7 @@
         // Remove knowledge container cache
         delete Cache.Knowledge[knowledge.id];
 
-        // Add completed knowledge to knowledge history
+        // Add completed knowledge to knowledge history container
         var html = [
                 '<div class="knowledge">',
                     '<div class="name">', Cache.Statistic.year, ': ', knowledge.name, '</div>',
@@ -121,6 +121,7 @@
     Interface.yearPassed = function() {
         var world = this,
             year = world.Statistic.year;
+        // More people appeared every 25 years
         if (year < 100 && year % 25 == 0) {
             world.addRandomPeople(25, 10, 20, ((year == 25) ? 1 : ((year == 50) ? 2 : 5)));
         }
