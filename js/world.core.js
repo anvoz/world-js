@@ -63,15 +63,15 @@
         world.nextSeedId = 1;
 
         // Don't draw every frame (tick) if total seeds > this value
-        world.maxSafeSeedsForDisplay = 10000;
+        world.maxSafeSeedsForDisplay = 30000;
 
         // Used for calculating age of a seed
         world.tickPerYear = 60;
 
         /*
          * Used for indicating a year, +1 every frame (tick)
-         * Example: tickPerYear = 50
-         * tickMod: 0   50  100 150 ...
+         * Example: tickPerYear = 60
+         * tickMod: 0   60  120 180 ...
          * year:    0   1   2   3   ...
          */
         world.tickMod = 0;
@@ -82,7 +82,8 @@
          * To make it's more efficient, main actions of all seeds will be distributed in all frames
          * Example: male_1 will seek for female in 30th frame, 60th frame...
          *          male_2 will seek for female in 31th frame, 61th frame...
-         * distributedTicks has its length equals <tickPerYear - 1> which means:
+         *
+         * distributedTicks property has its length equals <tickPerYear - 1> which means:
          * In every <tickPerYear> frames
          * <tickPerYear - 1> frames are used to trigger main actions of seeds
          * Last frame is used for other calculations such as statistic, user interface update...
@@ -151,6 +152,7 @@
         if (seed.age > 0) {
             seed.tickCount = seed.age * world.tickPerYear;
         }
+
         seed.tickMod = world.tickMod;
 
         seed.IQ += world.Rules.baseIQ;
@@ -292,13 +294,12 @@
             context.clearRect(0, 0, world.width, world.height);
         }
 
-        // Use world.Tile.list instead of world.seeds
-        // to reduce the seeds need to be drawn in each tile
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
 
             // Statistic
             sPopulation = 0,
+            sIQ = 0,
             sMen = 0, sWomen = 0,
             sBoys = 0, sGirls = 0,
             sFamilies = 0,
@@ -313,9 +314,9 @@
                         oldTileIndex = seed.tileIndex;
 
                     /*
-                     * When a seed moves to next tile, reference of the seed may be inserted into
+                     * When a seed moves to a different tile, its reference may be inserted into
                      * an empty spot of tile array instead of just appending to the array.
-                     * That reference will still be available on the current loop
+                     * That reference will possibly be available on next pass of the current loop
                      * which could cause a seed ticks twice.
                      */
                     if (seed.tickMod == world.tickMod) {
@@ -324,10 +325,11 @@
                     seed.tickMod = world.tickMod;
 
                     if (yearPassed) {
-                        seed.age = seed.getAge();
+                        seed.age++;
 
                         // Statistic
                         sPopulation++;
+                        sIQ += seed.IQ;
                         if (seed instanceof world.Male) {
                             if (seed.age <= seed.maxChildAge) {
                                 sBoys++;
@@ -374,6 +376,7 @@
         if (yearPassed) {
             Statistic.yearPassed({
                 population: sPopulation,
+                IQ: sIQ,
                 men: sMen,
                 women: sWomen,
                 boys: sBoys,

@@ -27,6 +27,7 @@
         seed.id = false;
         seed.tileIndex = false;
         seed.tickIndex = false;
+        seed.tickMod = false;
 
         // Seed coordinate (top, left)
         seed.x = WorldJS.Helper.is(data.x, 'undefined') ? false : data.x;
@@ -38,7 +39,7 @@
         seed.relationSeed = data.relationSeed || false;
 
         /*
-         * Be default, seed only moves around every frame
+         * Be default, seed moves around every frame
          * Its main actions such as seeking partner or giving birth
          * only trigger every specific interval
          */
@@ -47,15 +48,6 @@
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;
-    };
-
-    /**
-     * Calculate age of seed
-     */
-    Seed.prototype.getAge = function() {
-        var seed = this;
-        seed.age = Math.ceil(seed.tickCount / seed.world.tickPerYear);
-        return seed.age;
     };
 
     /**
@@ -191,13 +183,16 @@
 
     /**
      * Get chance base on age of the seed
+     * Example: { range: [1, 5], from: 0.01, to: 0.05 }
+     * Age:     1   2   3   4   5
+     * Chance:  1%  2%  3%  4%  5%
      */
     Seed.prototype.getChance = function(seed, type) {
         var world = seed.world,
             base = seed.chances[type],
-            age = seed.age;
+            age = seed.age,
 
-        var i = 0,
+            i = 0,
             fromAge = 0,
             fromChance = 0,
             delta = 0;
@@ -211,6 +206,7 @@
 
         var chance = fromChance + (age - fromAge) * delta;
         if (world.Rules.Chance[type] != 0) {
+            // Modify chance based on rule of the world
             chance += chance * world.Rules.Chance[type];
         }
         return chance;

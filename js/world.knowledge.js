@@ -29,11 +29,11 @@
              *    description: '',
              *    IQ: {
              *        priority: 1,                    // Priority factor: 0.5 (half), 1 (normal), 2 (double)
-             *        gained: 0,                      // Gained IQ so far
+             *        gained: 0,                      // Gained IQ
              *        required: 1000                  // Need 1000 IQ to start to affect the world
              *    },
-             *    following: ['samp2', 'samp3'],      // List of following knowledge that will be started after this one completes
-             *    affectedYear: false,                // The year when this knowledge starts to affect the world
+             *    following: ['samp2', 'samp3'],      // List of following knowledge that will be started after this one completed
+             *    affectedYear: false,                // The year when this knowledge started to affect the world
              *    onAffected: function(world) { }     // Callback
              * }
              */
@@ -41,6 +41,7 @@
 
         // Trending knowledge id list
         knowledge.trending = [];
+
         knowledge.trendingAdded = function() {};
         knowledge.trendingRemoved = function() {};
 
@@ -60,7 +61,7 @@
 
         /*
          * Create distributed IQ list
-         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge
+         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge each year
          * Distributing to a fake knowledge is represented as wasted IQ every year
          */
         for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
@@ -83,9 +84,11 @@
                 distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
                 gainedIQ = Math.floor(knowledge.IQ.gained + distributedIQ);
 
-            if (gainedIQ >= knowledge.IQ.required) { // Completed
+            if (gainedIQ >= knowledge.IQ.required) {
+                // Completed knowledge
                 knowledge.IQ.gained = knowledge.IQ.required;
 
+                // Merge 2 arrays
                 tmpFollowing.push.apply(tmpFollowing, knowledge.following);
 
                 // Start to affect the world
@@ -106,6 +109,7 @@
                 Knowledge.completed.push(tmpCompleted[i]);
             }
 
+            // Add new knowledge to trending
             for (var i = 0; i < tmpFollowing.length; i++) {
                 Knowledge.trendingAdded(Knowledge.list[tmpFollowing[i]]);
                 tmpTrending.push(tmpFollowing[i]);

@@ -23,11 +23,9 @@
         statistic.year = 0;
         statistic.food = 10000;
 
-        // Record when people was born or died
+        // Re-calculate every year
         statistic.population = 0;
         statistic.IQ = 0;
-
-        // Re-calculate every year
         statistic.men = 0;          // adult male
         statistic.women = 0;        // adult female
         statistic.boys = 0;         // young male
@@ -44,10 +42,10 @@
 
         // Record when someone died
         // Used for calculating average age
-        statistic.die = 0;     // Number of dead people
-        statistic.sumAge = 0;  // and total age of them
+        statistic.die = 0;                  // Number of dead people
+        statistic.sumAge = 0;               // and total age of them
         // Used for calculating average children of each family
-        statistic.dieMarriedFemale = 0;    // Number of dead married female
+        statistic.dieMarriedFemale = 0;     // Number of dead married female
         statistic.sumChildren = 0;          // and total children of them
     };
 
@@ -57,11 +55,9 @@
     Statistic.prototype.seedAdded = function(seed) {
         var statistic = this;
 
-        var IQ = seed.IQ;
-        statistic.IQ += IQ;
         // Max IQ of a person and the year when he/she was born
-        if (IQ > statistic.maxIQ) {
-            statistic.maxIQ = IQ;
+        if (seed.IQ > statistic.maxIQ) {
+            statistic.maxIQ = seed.IQ;
             statistic.yearMaxIQ = statistic.year;
         }
     };
@@ -73,8 +69,6 @@
         var statistic = this;
 
         statistic.die++;
-
-        statistic.IQ -= seed.IQ;
 
         // Max age of a person and the year when he/she died
         var age = seed.age;
@@ -100,6 +94,8 @@
         statistic.year++;
 
         statistic.population = data.population;
+
+        statistic.IQ = data.IQ;
 
         statistic.men = data.men;
         statistic.women = data.women;
