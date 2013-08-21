@@ -17,7 +17,7 @@
 
     /**
      * Female constructor
-     * data (optional)
+     * data (optional): seed data, IQ, age, chances
      */
     Female = WorldJS.prototype.Female = function(data) {
         var female = this;
@@ -41,6 +41,7 @@
 
         female.age = data.age || 0;
         female.maxChildAge = 15;
+
         female.married = false;
         female.totalChildren = undefined; // Need to be set 0 on her first marriage
         // Last age when she bears a child
@@ -82,7 +83,7 @@
             }
 
             // Bear a child (once a year)
-            if (female.married && female.age >= female.chances.childbirth[0].range[0] && female.ageLastBear < age) {
+            if (female.married && age >= female.chances.childbirth[0].range[0] && age > female.ageLastBear) {
                 var childBirthChance = female.getChance(female, 'childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     female.ageLastBear = age;

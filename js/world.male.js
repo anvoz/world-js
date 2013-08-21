@@ -17,7 +17,7 @@
 
     /**
      * Male constructor
-     * data (optional)
+     * data (optional): seed data, IQ, age, chances
      */
     Male = WorldJS.prototype.Male = function(data) {
         var male = this;
@@ -92,18 +92,16 @@
                             );
                         });
                         if (female !== false) {
-                            // Make a family
                             male.married = true;
                             female.married = true;
+
+                            male.relationSeed = female;
+                            female.relationSeed = male;
 
                             if (WorldJS.Helper.is(female.totalChildren, 'undefined')) {
                                 // Start record all children of this female
                                 female.totalChildren = 0;
                             }
-
-                            // 2-way references
-                            male.relationSeed = female;
-                            female.relationSeed = male;
 
                             // Prevent having children right after married
                             female.ageLastBear = female.age + 1;
@@ -113,10 +111,10 @@
             }
         }
 
-        // Men will follow his wife
         var beforeMoveCallback = (!male.married) ?
             false :
             function() {
+                // Men will follow his wife
                 var male = this;
                 var female = male.relationSeed;
 
