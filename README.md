@@ -16,16 +16,16 @@ In World JS, people move around, find their partner and have children. As they g
 Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki) before you do anything else.
 
 ### Modules
-* WorldJS Core
- * Tile: Manage the position of a seed in the world.
- * Knowledge: Manage knowledge of a world.
- * Rules: Manage rules of a world like death rate, food spoilage...
- * Statistic: Manage statistic of a world like population, total IQ...
- * Seed (base class), Male, Female (extend Seed): Main object that live in the world.
- * Helper: Helper functions like `is()`, `has()` and `random()`.
-* Interface: Bind a world to user interface.
-* Story: Define main story of the game.
-* God: Functions that modify the world instance directly. Used for interaction between user and a world instance.
+* WorldJS Core: Define a world and manage its main loop.
+ * Seed (base class); Male and Female (extend Seed): Define living objects that will be added in a world to interact with each other.
+ * Tile: Manage position of seeds of a world. Each tile holds references to all seeds that currently belong to it.
+ * Knowledge: Manage knowledge of a world. Distribute IQ of all seeds over trending knowledge and apply their effects to the world.
+ * Rules: Manage rules of a world. Apply new rules to the world every year.
+ * Statistic: Manage statistic of a world via function callback.
+ * Helper (will be removed soon): Helper functions like `is()`, `has()` and `random()`. 
+* Interface: Bind a world and its properties to UI. Define UI interactions.
+* Story: Initialize a world and define its main plot.
+* God (most functions will be removed in final release): Functions that modify a world instance directly. Use as developer tools to debug the game.
 
 ### Sample code
 
