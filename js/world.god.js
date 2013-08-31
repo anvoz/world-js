@@ -97,8 +97,7 @@
             world.stop(function() {
                 var listTile = world.Tile.list,
                     random = Math.random,
-                    rate = percent / 100,
-                    is = WorldJS.Helper.is;
+                    rate = percent / 100;
 
                 for (var i = 0, len = listTile.length; i < len; i++) {
                     var seeds = listTile[i];

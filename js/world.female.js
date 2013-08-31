@@ -37,7 +37,7 @@
 
         Seed.call(female, data);
 
-        female.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 3);
+        female.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         female.age = data.age || 0;
         female.maxChildAge = 15;

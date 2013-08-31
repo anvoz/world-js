@@ -79,7 +79,7 @@
         statistic.sumAge += age;
 
         // Not check married because married will be set to false if her husband die
-        if (!WorldJS.Helper.is(seed.totalChildren, 'undefined')) {
+        if (typeof seed.totalChildren !== 'undefined') {
             statistic.dieMarriedFemale++;
             statistic.sumChildren += seed.totalChildren;
         }

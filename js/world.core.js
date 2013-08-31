@@ -158,11 +158,14 @@
         seed.IQ += world.Rules.baseIQ;
 
         // Randomly set coordinate of the seed
+        var random = function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
         if (seed.x === false) {
-            seed.x = WorldJS.Helper.random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding));
+            seed.x = random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding));
         }
         if (seed.y === false) {
-            seed.y = WorldJS.Helper.random(0, world.height - 1 - seed.appearance.height - world.padding);
+            seed.y = random(0, world.height - 1 - seed.appearance.height - world.padding);
         }
 
         // Calculate tile index
@@ -226,13 +229,14 @@
      */
     WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge, fromBorder) {
         var world = this,
-            is = WorldJS.Helper.is,
-            random = WorldJS.Helper.random,
-            tickPerYear = world.tickPerYear;
+            tickPerYear = world.tickPerYear,
+            random = function(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            };
 
-        minAge = is(minAge, 'undefined') ? 15 : minAge,
-        maxAge = is(maxAge, 'undefined') ? 20 : maxAge,
-        fromBorder = is(fromBorder, 'undefined') ? 0 : fromBorder;
+        minAge = (typeof minAge === 'undefined') ? 15 : minAge,
+        maxAge = (typeof maxAge === 'undefined') ? 20 : maxAge,
+        fromBorder = (typeof fromBorder === 'undefined') ? 0 : fromBorder;
 
         // Add people to the world
         for (var i = 0; i < count; i++) {
@@ -302,9 +306,8 @@
             sIQ = 0,
             sMen = 0, sWomen = 0,
             sBoys = 0, sGirls = 0,
-            sFamilies = 0,
+            sFamilies = 0;
 
-            is = WorldJS.Helper.is;
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
                 displayedSeeds = 0;
@@ -429,7 +432,7 @@
      */
     WorldJS.prototype.stop = function(callback) {
         this.running = false;
-        if (!WorldJS.Helper.is(callback, 'undefined')) {
+        if (typeof callback === 'function') {
             this.stopCallback = callback;
         }
     }

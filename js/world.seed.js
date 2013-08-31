@@ -30,8 +30,8 @@
         seed.tickMod = false;
 
         // Seed coordinate (top, left)
-        seed.x = WorldJS.Helper.is(data.x, 'undefined') ? false : data.x;
-        seed.y = WorldJS.Helper.is(data.y, 'undefined') ? false : data.y;
+        seed.x = (typeof data.x === 'undefined') ? false : data.x;
+        seed.y = (typeof data.y === 'undefined') ? false : data.y;
 
         // Define how to draw the seed
         seed.appearance = data.appearance || false;
@@ -96,10 +96,13 @@
         if (!beforeMoveCallback) {
             if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
                 // Make another moveTo coordinate
-                var world = seed.world;
+                var world = seed.world,
+                    random = function(min, max) {
+                        return Math.floor(Math.random() * (max - min + 1) + min);
+                    };
                 seed.moveTo = {
-                    x: WorldJS.Helper.random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
-                    y: WorldJS.Helper.random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
+                    x: random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
+                    y: random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
                 };
             }
         } else {
@@ -141,8 +144,7 @@
         }
 
         var tilesPerRow = Tile.tilesPerRow,
-            tilesPerCol = Tile.tilesPerCol,
-            is = WorldJS.Helper.is;
+            tilesPerCol = Tile.tilesPerCol;
         for (var i = 0, len = direction.length; i < len; i++) {
             var thisTileIndex;
             if (i === 0) {

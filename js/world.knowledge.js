@@ -66,7 +66,7 @@
          * Distributing to a fake knowledge is represented as wasted IQ every year
          */
         for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
-            distributedIQList[i] = WorldJS.Helper.random(0, 100);
+            distributedIQList[i] = Math.floor(Math.random() * 101); // Random [0, 100]
             if (i < len) {
                 var knowledge = Knowledge.list[Knowledge.trending[i]];
                 if (knowledge.IQ.priority != 1) {

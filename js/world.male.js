@@ -37,7 +37,7 @@
 
         Seed.call(male, data);
 
-        male.IQ = (data.IQ || 0) + WorldJS.Helper.random(0, 3);
+        male.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         male.age = data.age || 0;
         male.maxChildAge = 15;
@@ -98,7 +98,7 @@
                             male.relationSeed = female;
                             female.relationSeed = male;
 
-                            if (WorldJS.Helper.is(female.totalChildren, 'undefined')) {
+                            if (typeof female.totalChildren === 'undefined') {
                                 // Start record all children of this female
                                 female.totalChildren = 0;
                             }
