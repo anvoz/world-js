@@ -1,6 +1,7 @@
 /*!
  * world.tile.js
- * Tile class
+ * Manage position of seeds.
+ * Each tile holds references to all seeds that currently stay in it.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

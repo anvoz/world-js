@@ -1,6 +1,7 @@
 /*!
  * world.rules.js
- * Rules class
+ * Manage rules of a world.
+ * Apply new rules to the world every year.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

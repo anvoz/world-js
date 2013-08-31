@@ -1,6 +1,6 @@
 /*!
  * world.seed.js
- * Seed class
+ * Define an object that will be added to a world to live and interact with other objects.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

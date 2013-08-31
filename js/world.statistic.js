@@ -1,6 +1,6 @@
 /*!
  * world.statistic.js
- * Statistic class
+ * Track statistic of a world via function callback.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

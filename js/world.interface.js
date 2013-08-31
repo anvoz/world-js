@@ -1,6 +1,7 @@
 /*!
  * world.interface.js (require jQuery)
- * Bind a world to user interface
+ * Bind a world and its properties to UI.
+ * Define UI interactions.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

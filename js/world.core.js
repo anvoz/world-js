@@ -1,6 +1,6 @@
 /*!
  * world.core.js
- * WorldJS Core
+ * Define a world and manage its main loop.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

@@ -1,6 +1,8 @@
 /*!
  * world.god.js (require jQuery)
- * Functions that modify the world instance directly
+ * Functions that modify a world instance directly.
+ * Use as developer tools to debug the game.
+ * Most functions will be removed in final release.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

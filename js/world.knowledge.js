@@ -1,6 +1,7 @@
 /*!
  * world.knowledge.js
- * Knowledge class
+ * Manage knowledge of a world.
+ * Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js

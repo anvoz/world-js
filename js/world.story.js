@@ -1,6 +1,6 @@
 /*!
  * world.story.js
- * Define main story of the game
+ * Initialize a world and define its main plot.
  *
  * World JS: Evolution Simulator
  * https://github.com/anvoz/world-js
