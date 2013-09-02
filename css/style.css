@@ -27,11 +27,11 @@ body {
 }
 
 .border {
-  border: 1px solid #999;
+  border: 1px solid #ccc;
 }
-.border-side-dotted {
-  border-left: 1px dotted #999;
-  border-right: 1px dotted #999;
+.border-side {
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 .small-ul {
   font-size: 12px;
@@ -59,17 +59,15 @@ body {
 @media (max-width:1199px) {
   #world-statistic-container {
     position: absolute;
-    top: 55px;
-    left: 5px;
+    top: 50px;
+    left: 0;
     z-index: 900;
     background-color: #fff;
     border: 1px solid #ccc;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     background-clip: padding-box;
-    padding-bottom: 10px;
+    min-width: 210px;
+    height: 410px;
+    overflow-y: auto;
   }
   .js-statistic-toggle.hide {
     display: block !important;
@@ -79,7 +77,7 @@ body {
 .knowledge {
   margin: 5px 0;
   padding: 5px 10px 0 0;
-  border-bottom: 1px dotted #999;
+  border-bottom: 1px solid #ccc;
 }
 .knowledge > div {
   margin-bottom: 10px;
@@ -163,7 +161,7 @@ body {
 }
 .badges-vgroup > div {
   padding: 5px 0;
-  border-top: 1px dotted #999;
+  border-top: 1px solid #ccc;
 }
 .badges-vgroup .badge {
   vertical-align: top;
