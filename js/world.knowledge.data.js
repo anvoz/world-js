@@ -18,7 +18,7 @@
             id: 'huga',
             name: 'Hunting and Gathering',
             description: [
-                'Living from edible plants and animals from the wild',
+                'Living from edible plants and animals from the wild.',
                 '<ul><li>Adult +1 food / year</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 2000 },
@@ -32,7 +32,7 @@
             id: 'crop',
             name: 'Plant crops',
             description: [
-                'Start agriculture by planting a few crops',
+                'Start agriculture by planting a few crops.',
                 '<ul><li>Adult +1 food / year</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 4000 },
@@ -46,7 +46,7 @@
             id: 'cabr',
             name: 'Cattle-breeding',
             description: [
-                'Domesticating animals to reduce the need of hunting wild animals for food',
+                'Domesticating animals to reduce the need of hunting wild animals for food.',
                 '<ul><li>Adult +1 food / year</li><li>Death rate -10%</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 6000 },
@@ -61,7 +61,7 @@
             id: 'agri',
             name: 'Agriculture',
             description: [
-                'Developing techniques to produce a large amount of food',
+                'Developing techniques to produce a large amount of food.',
                 '<ul><li>Adult +2 food / year</li><li>Food spoilage -20%</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 10000 },
@@ -76,7 +76,7 @@
             id: 'fire',
             name: 'Control of fire',
             description: [
-                'Using fire for warmth and cooking',
+                'Using fire for warmth and cooking.',
                 '<ul><li>Death rate -10%</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 4000 },
@@ -90,7 +90,7 @@
             id: 'writ',
             name: 'Writing',
             description: [
-                'Inventing symbols that stood for things',
+                'Inventing symbols that stood for things.',
                 '<ul><li>Base IQ +1</li><li>Child -1 food per year</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 50000 },
@@ -105,7 +105,7 @@
             id: 'coso',
             name: 'Coming soon...',
             description: [
-                '<br /><span class="label label-important">tl;dr</span> In the next update you will have the ability to expand the population beyond 7 billion and manage their knowledge to choose the fate of the world.<hr />',
+                '<span class="label label-danger">tl;dr</span> In the next update you will have the ability to expand the population beyond 7 billion and manage their knowledge to choose the fate of the world.<hr />',
                 'Without any knowledge to be gained, the world will meet its apocalypse. Thus evolutions are needed in order for the world to progress and maintain its stability.<br /><br />',
                 'This is the idea behind <b>World JS: Evolution Simulator</b>. ',
                 'Hope you could understand its idea so far and contribute for its growth.<br /><br />',

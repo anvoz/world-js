@@ -46,6 +46,12 @@
                         container: $('#world-' + propName),
                         value: defaultValue
                     };
+                    if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
+                        cache[propName + '-ex'] = {
+                            container: $('#world-' + propName + '-ex'),
+                            value: defaultValue
+                        };
+                    }
                 }
             }
         }
@@ -69,16 +75,18 @@
         // Add new knowledge to knowledge trending container
         var id = 'world-knowledge-' + knowledge.id,
             html = [
-                '<div id="world-knowledge-', knowledge.id, '" class="knowledge clearfix">',
-                    '<div class="pull-right btn-group knowledgePriority">',
-                        '<a class="btn btn-mini" href="#" title="forbid" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 0.1);">&or;</a>',
-                        '<a class="btn btn-mini active" href="#" title="free" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 1);">&bull;</a>',
-                        '<a class="btn btn-mini" href="#" title="encourage" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 2);">&and;</a>',
-                    '</div>',
-                    '<div class="name">+ ', knowledge.name, '</div>',
+                '<div id="world-knowledge-', knowledge.id, '" class="knowledge">',
+                    '<div class="name">', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
-                    '<div class="progress progress-info"><div class="bar"></div></div>',
-                    '<div class="IQ"><span class="world-IQ">0</span> / ', knowledge.IQ.required, ' IQ</div>',
+                    '<div class="progress"><div class="progress-bar progress-bar-info"></div></div>',
+                    '<div class="clearfix">',
+                        '<div class="btn-group priority">',
+                            '<a class="btn btn-sm btn-default" href="#" title="Priority: low" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 0.1);">&bull;</a>',
+                            '<a class="btn btn-sm btn-default active" href="#" title="Priority: normal" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 1);">&gt;</a>',
+                            '<a class="btn btn-sm btn-default" href="#" title="Priority: high" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 2);">&gt;&gt;</a>',
+                        '</div>',
+                        '<div class="IQ"><span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ</div>',
+                    '</div>',
                 '</div>'
             ].join(''),
             knowledgeCache = Cache.Knowledge;
@@ -87,9 +95,9 @@
         // Cache knowledge container
         var container = $('#' + id);
         knowledgeCache[knowledge.id] = {
-            container: container,                       // Main container
-            IQContainer: container.find('.world-IQ'),   // Required IQ container
-            barContainer: container.find('.bar')        // Progress bar container
+            container: container,                           // Main container
+            IQContainer: container.find('.progress-IQ'),    // Required IQ container
+            barContainer: container.find('.progress-bar')   // Progress bar container
         };
     };
 
@@ -149,6 +157,9 @@
                         break;
                     default:
                         Cache.set(statisticCache[propName], Statistic[propName]);
+                        if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
+                            Cache.set(statisticCache[propName + '-ex'], Statistic[propName]);
+                        }
                         break;
                 }
             }
@@ -182,11 +193,10 @@
     };
 
     // Switch between knowledge trending and history tab
-    $('#knowledge .header a').each(function() {
+    $('#knowledge .world-knowledge').each(function() {
         $(this).click(function() {
-            var type = $(this).attr('rel');
-            $(this).addClass('label').siblings('a').removeClass('label');
-            if (type === 'trending') {
+            $(this).parent().addClass('active').siblings('li').removeClass('active');
+            if ($(this).attr('data-target') == '#world-knowledgeTrending') {
                 Cache.Knowledge.knowledgeTrending.container.removeClass('hide');
                 Cache.Knowledge.knowledgeHistory.container.addClass('hide');
             } else {
@@ -194,6 +204,30 @@
                 Cache.Knowledge.knowledgeHistory.container.removeClass('hide');
             }
             return false;
+        });
+    });
+
+    // Basic UI: toggle navbar in small screen
+    $('.js-navbar-toggle').each(function() {
+        $(this).click(function() {
+            var $target = $($(this).attr('data-target'));
+            if ($target.hasClass('in')) {
+                $target.removeClass('in');
+            } else {
+                $target.addClass('in');
+            }
+        });
+    });
+
+    // Basic UI: toggle statistic container
+    $('.js-statistic-toggle').each(function() {
+        $(this).click(function() {
+            var $target = $('#world-statistic-container');
+            if ($target.is(':visible')) {
+                $target.addClass('visible-lg');
+            } else {
+                $target.removeClass('visible-lg');
+            }
         });
     });
 })(window);

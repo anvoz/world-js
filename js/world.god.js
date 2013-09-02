@@ -56,14 +56,14 @@
 
             var cls;
             if (priority > 1) {
-                cls = 'progress';
+                cls = 'progress-bar';
             } else if (priority < 1) {
-                cls = 'progress progress-danger';
+                cls = 'progress-bar progress-bar-danger';
             } else {
-                cls = 'progress progress-info';
+                cls = 'progress-bar progress-bar-info';
             }
             $(element).addClass('active').siblings().removeClass('active')
-                .parent().parent().find('.progress').attr('class', cls);
+                .parents('.knowledge').find('.progress').find('.progress-bar').attr('class', cls);
 
             return false;
         },
