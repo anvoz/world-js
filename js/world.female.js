@@ -80,6 +80,7 @@
             var deathChance = female.getChance(female, 'death');
             if (deathChance > 0 && Math.random() < deathChance) {
                 world.remove(female);
+                return;
             }
 
             // Bear a child (once a year)

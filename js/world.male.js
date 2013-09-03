@@ -75,6 +75,7 @@
             var deathChance = male.getChance(male, 'death');
             if (deathChance > 0 && Math.random() < deathChance) {
                 world.remove(male);
+                return;
             }
 
             if (!male.married && male.age >= male.chances.marriage[0].range[0]) {
