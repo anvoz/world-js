@@ -33,11 +33,6 @@ body {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
 }
-.small-ul {
-  font-size: 12px;
-  padding-left: 20px;
-  margin-bottom: 0;
-}
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -65,13 +60,23 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     background-clip: padding-box;
-    min-width: 210px;
+    min-width: 195px;
     height: 410px;
     overflow-y: auto;
   }
   .js-statistic-toggle.hide {
     display: block !important;
   }
+}
+.statistic-container {
+  font-size: 12px;
+  line-height: 1.7;
+}
+.statistic-container .statistic-group + .statistic-group {
+  padding-top: 10px;
+}
+.statistic-group > div {
+  height: 22px;
 }
 
 .knowledge {
@@ -87,6 +92,7 @@ body {
 }
 .knowledge .description {
   font-size: 12px;
+  line-height: 1.7;
 }
 .knowledge .description ul {
   margin-bottom: 0;
@@ -105,7 +111,7 @@ body {
   display: inline-block;
   *margin-right: .3em;
   line-height: 14px;
-  vertical-align: text-bottom;
+  vertical-align: middle;
   background-image: url("../images/seeds.png");
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -135,6 +141,7 @@ body {
   width: 20px;
   height: 20px;
   display: inline-block;
+  vertical-align: middle;
 }
 .family .wicon-men {
   position: absolute;

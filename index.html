@@ -39,52 +39,44 @@
                 <div class="col-lg-2 top-padding visible-lg" id="world-statistic-container">
                     <button class="btn btn-sm btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
                     <div><p><strong>Statistic</strong></p></div>
-                    <div>
-                        <div class="badge">Population</div>
-                        <ul class="small-ul">
-                            <li><i class="wicon-men"></i> Men: <b id="world-men-ex">0</b></li>
-                            <li><i class="wicon-women"></i> Women: <b id="world-women-ex">0</b></li>
-                            <li>
-                                <div class="family">
-                                    <i class="wicon-women"></i><i class="wicon-men"></i>
-                                </div>
+                    <div class="statistic-container">
+                        <div class="statistic-group">
+                            <div>&bull; <i class="wicon-men"></i> Men: <b id="world-men-ex">0</b></div>
+                            <div>&bull; <i class="wicon-women"></i> Women: <b id="world-women-ex">0</b></div>
+                            <div>&bull; <i class="wicon-boy"></i> Boys: <b id="world-boys-ex">0</b></div>
+                            <div>&bull; <i class="wicon-girl"></i> Girls: <b id="world-girls-ex">0</b></div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>
+                                &bull; <div class="family"><i class="wicon-women"></i><i class="wicon-men"></i></div>
                                 Families: <b id="world-families-ex">0</b>
-                            </li>
-                            <li><i class="wicon-boy"></i> Boys: <b id="world-boys-ex">0</b></li>
-                            <li><i class="wicon-girl"></i> Girls: <b id="world-girls-ex">0</b></li>
-                            <li>Average children<br>per family: <b id="world-avgChildren">0</b></li>
-                        </ul>
-                    </div>
-                    <div class="top-padding">
-                        <div class="badge">Age</div>
-                        <ul class="small-ul">
-                            <li>Average: <b id="world-avgAge">0</b></li>
-                            <li>Max: <b id="world-maxAge">0</b> (died in <b id="world-yearMaxAge">0</b>)</li>
-                        </ul>
-                    </div>
-                    <div class="top-padding">
-                        <div class="badge">Food</div>
-                        <ul class="small-ul">
-                            <li>
-                                <i class="wicon-men"></i> / <i class="wicon-women"></i> Adult:<br>
-                                <b id="world-adultFoodChange">0</b> food per year
-                            </li>
-                            <li>
-                                <i class="wicon-boy"></i> / <i class="wicon-girl"></i> Child:<br>
-                                <b id="world-childFoodChange">0</b> food per year
-                            </li>
-                            <li>
-                                Food spoilage:<br>
-                                -<b id="world-foodSpoilage">0</b>% food per 100 years
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="top-padding">
-                        <div class="badge">IQ</div>
-                        <ul class="small-ul">
-                            <li>Average: <b id="world-avgIQ">0</b></li>
-                            <li>Max: <b id="world-maxIQ">0</b> (born in <b id="world-yearMaxIQ">0</b>)</li>
-                        </ul>
+                            </div>
+                            <div>&bull; Average children</div>
+                            <div>per family: <b id="world-avgChildren">0</b></div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; <i class="wicon-men"></i> / <i class="wicon-women"></i> Adult:</div>
+                            <div><b id="world-adultFoodChange">0</b> food per year</div>
+                            <div>&bull; <i class="wicon-boy"></i> / <i class="wicon-girl"></i> Child:</div>
+                            <div><b id="world-childFoodChange">0</b> food per year</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Average age: <b id="world-avgAge">0</b></div>
+                            <div>&bull; Max age: <b id="world-maxAge">0</b> (year <b id="world-yearMaxAge">0</b>)</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Average IQ: <b id="world-avgIQ">0</b></div>
+                            <div>&bull; Max IQ: <b id="world-maxIQ">0</b> (year <b id="world-yearMaxIQ">0</b>)</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Food spoilage:</div>
+                            <div>-<b id="world-foodSpoilage">0</b>% food per 100 years</div>
+                        </div>
                     </div>
                 </div><!--/#world-statistic-container -->
                 <div class="col-lg-7 col-md-9 top-padding">
