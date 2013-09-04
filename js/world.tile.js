@@ -112,8 +112,11 @@
     Tile.prototype.rem = function(seed) {
         var self = this;
 
-        // Set to false instead of delete
-        // to avoid holey array which is much lower than packed array
+        /*
+         * Set false instead of delete the array element
+         * to avoid holey array which is much slower to access than packed array
+         * http://jsperf.com/packed-vs-holey-arrays/10
+         */
         self.list[seed.tileIndex][seed.tileArrayIndex] = false;
         self.availableArrayIndexes[seed.tileIndex].push(seed.tileArrayIndex);
     };
