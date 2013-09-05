@@ -21,7 +21,7 @@
         var statistic = this;
 
         statistic.year = 0;
-        statistic.food = 10000;
+        statistic.food = 0;
 
         // Re-calculate every year
         statistic.population = 0;

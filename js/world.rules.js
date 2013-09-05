@@ -40,7 +40,7 @@
         };
 
         rules.Food = {
-            adult: -2,      // Consume 2 food per year
+            adult: 1,       // Produce 1 food per year
             child: -1,      // Consume 1 food per year
             min: -10000     // Minimum food value
         };
@@ -55,7 +55,7 @@
         // Food decrease 90% every 100 years
         rules.FoodSpoilage = {
             foodDecr: 0.9,
-            interval: 100
+            interval: 1
         };
     };
 
@@ -88,7 +88,7 @@
 
         // Food spoilage: decrease food
         if (Statistic.year % Rules.FoodSpoilage.interval === 0 && food > 0) {
-            food -= Math.round(food * Rules.FoodSpoilage.foodDecr);
+            food -= Math.floor(food * Rules.FoodSpoilage.foodDecr);
         }
 
         // Apply new changes
