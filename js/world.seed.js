@@ -39,12 +39,27 @@
         seed.relationSeed = data.relationSeed || false;
 
         /*
-         * Be default, seed moves around every frame
+         * Be default, seed moves around every frame (tickCount++ each frame).
          * Its main actions such as seeking partner or giving birth
-         * only trigger every specific interval
+         * only trigger every <actionInterval> interval.
          */
         seed.tickCount = data.tickCount || 0;
         seed.actionInterval = data.actionInterval || 30;
+
+        /*
+         * stepCount++ only in every tick the seed moves.
+         * Seed will move then stop based on the following rule:
+         * Keep moving until the <moveUntilStep>th step, then stopped.
+         * After stopped, wait until <ageToMoveAgain> age to move around again.
+         *
+         * jumpInterval: make an animation like jumping when seed moves.
+         * A seed only stops after it finished a full jump (landing).
+         */
+        seed.stepCount = seed.tickCount;
+        seed.jumpInterval = 20;
+        seed.moveUntilStep = data.moveUntilStep ||
+            seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
+        seed.ageToMoveAgain = 0;
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;
@@ -70,9 +85,9 @@
              * jumpIndex: 0 1 2 3 4 5 6 7 8 9
              * jumpY:     1 2 3 4 5 4 3 2 1 0
              */
-            var jumpInterval = 20,
+            var jumpInterval = seed.jumpInterval,
                 halfInterval = 10,
-                jumpIndex = seed.tickCount % jumpInterval,
+                jumpIndex = seed.stepCount % jumpInterval,
                 jumpY = (jumpIndex < halfInterval) ?
                     jumpIndex + 1 :
                     halfInterval - (jumpIndex % halfInterval) - 1;
@@ -90,16 +105,30 @@
      * beforeMoveCallback: callback function or false
      */
     Seed.prototype.move = function(beforeMoveCallback) {
-        var seed = this;
+        var seed = this,
+            random = function(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            };
 
         // By default, seed keeps moving around the world
         if (!beforeMoveCallback) {
+            // Read the comment on seed's constructor for more info
+            if (seed.stepCount == seed.moveUntilStep) {
+                if (seed.ageToMoveAgain == 0 ||
+                    seed.ageToMoveAgain > seed.age) {
+                    if (seed.ageToMoveAgain == 0) {
+                        seed.ageToMoveAgain = seed.age + random(2, 10);
+                    }
+                    return;
+                } else {
+                    seed.ageToMoveAgain = 0;
+                    seed.moveUntilStep = seed.stepCount + random(10, 50) * seed.jumpInterval;
+                }
+            }
+
             if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
                 // Make another moveTo coordinate
-                var world = seed.world,
-                    random = function(min, max) {
-                        return Math.floor(Math.random() * (max - min + 1) + min);
-                    };
+                var world = seed.world;
                 seed.moveTo = {
                     x: random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
                     y: random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
@@ -108,6 +137,8 @@
         } else {
             beforeMoveCallback.call(seed);
         }
+
+        seed.stepCount++;
 
         // Move in 8-direction to reach moveTo coordinate, one step per frame (tick)
         if (seed.x < seed.moveTo.x) {

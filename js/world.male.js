@@ -112,16 +112,21 @@
             }
         }
 
-        var beforeMoveCallback = (!male.married) ?
-            false :
-            function() {
+        if (male.married) {
+            if (male.x === Math.max(0, male.relationSeed.x - 10) &&
+                male.y === male.relationSeed.y) {
+                return;
+            }
+            male.move(function() {
                 // Men will follow his wife
-                var male = this;
-                var female = male.relationSeed;
+                var male = this,
+                    female = male.relationSeed;
 
                 male.moveTo.x = Math.max(0, female.x - 10);
                 male.moveTo.y = female.y;
-            };
-        male.move(beforeMoveCallback);
+            });
+        } else {
+            male.move(false);
+        }
     };
 })(window);

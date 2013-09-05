@@ -24,7 +24,7 @@
                 window.msRequestAnimationFrame     ||
                 function(callback, element) {
                     window.setTimeout(function() {
-                        callback(+new Date)
+                        callback(+new Date);
                     }, 1000 / 60);
                 }
             );
@@ -77,15 +77,15 @@
         world.tickMod = 0;
 
         /*
-         * Seeds don't trigger their main actions every frame
-         * Example: In 60 frames, a male only seeks for female twice (in 30th frame and 60th frame)
-         * To make it's more efficient, main actions of all seeds will be distributed in all frames
+         * Seeds don't trigger their main actions every frame.
+         * Example: In 60 frames, a male only seeks for female twice (in 30th frame and 60th frame).
+         * To make it's more efficient, main actions of all seeds will be distributed over all frames.
          * Example: male_1 will seek for female in 30th frame, 60th frame...
          *          male_2 will seek for female in 31th frame, 61th frame...
          *
          * distributedTicks property has its length equals <tickPerYear - 1> which means:
          * In every <tickPerYear> frames
-         * <tickPerYear - 1> frames are used to trigger main actions of seeds
+         * <tickPerYear - 1> frames are used to trigger main actions of seeds.
          * Last frame is used for other calculations such as statistic, user interface update...
          */
         world.distributedTicks = [];
@@ -174,6 +174,7 @@
         world.Tile.set(seed);
 
         // Put the seed in a frame which has lowest number of seeds occupied
+        // to avoid a single frame that needs to trigger too many seeds' main actions
         var distributedTicks = world.distributedTicks,
             minIndex = 0,
             minValue = distributedTicks[minIndex];
@@ -186,9 +187,12 @@
         distributedTicks[minIndex]++;
         seed.tickIndex = minIndex;
 
-        // By modulusing <actionInterval> which equals half of tickPerYear by default
+        // By modulusing actionInterval - which equals half of tickPerYear by default
         // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
         seed.tickCount += (world.tickMod + seed.tickCount + minIndex) % seed.actionInterval;
+        // stepCount also need to use minIndex to avoid synchronized jumping
+        // among all seeds that appeared in the same time
+        seed.stepCount = seed.tickCount;
 
         world.Statistic.seedAdded(seed);
 
@@ -218,7 +222,7 @@
         world.distributedTicks[seed.tickIndex]--;
 
         return world;
-    }
+    };
 
     /**
      * Add random people to the world
@@ -424,7 +428,7 @@
     WorldJS.prototype.start = function() {
         this.running = true;
         this.run();
-    }
+    };
 
     /**
      * Stop the world
@@ -435,5 +439,5 @@
         if (typeof callback === 'function') {
             this.stopCallback = callback;
         }
-    }
+    };
 })(window);
