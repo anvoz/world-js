@@ -43,8 +43,10 @@
         female.maxChildAge = 15;
 
         female.married = false;
-        female.totalChildren = undefined; // Need to be set 0 on her first marriage
-        // Last age when she bears a child
+        // Total children that she gave birth
+        // Need to be set from undefined to 0 right after her first marriage
+        female.totalChildren = undefined;
+        // The age when she bears her youngest child
         female.ageLastBear = 0;
 
         female.chances = data.chances || {
@@ -87,7 +89,9 @@
             if (female.married && age >= female.chances.childbirth[0].range[0] && age > female.ageLastBear) {
                 var childBirthChance = female.getChance(female, 'childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
-                    female.ageLastBear = age;
+                    // +1 because she has more than 1 chance to give birth every year
+                    // depended on <actionInterval> value
+                    female.ageLastBear = age + 1;
                     female.totalChildren++;
 
                     var data = {

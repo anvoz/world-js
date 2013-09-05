@@ -47,11 +47,14 @@
         y: 10,
         moveTo: { x: 320, y: 180 },
         age: 13,
+        moveUntilStep: 9999, // Always move
         chances: {
+            // Guarantee to live at least <firstMenMaxAge> age
             death: [
                 { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
                 { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
             ],
+            // 100% marriage success chance
             marriage: [
                 { range: [1, firstMenMaxAge], from: 1, to: 1 }
             ]
@@ -62,11 +65,14 @@
         y: 350,
         moveTo: { x: 320, y: 180 },
         age: 13,
+        moveUntilStep: 9999, // Always move
         chances: {
+            // Guarantee to live at least <firstMenMaxAge> age
             death: [
                 { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
                 { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
             ],
+            // 100% childbirth success chance
             childbirth: [
                 { range: [1, firstMenMaxAge], from: 1, to: 1 }
             ]

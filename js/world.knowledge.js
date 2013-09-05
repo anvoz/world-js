@@ -61,9 +61,9 @@
             totalDistributedUnit = 0;
 
         /*
-         * Create distributed IQ list
-         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge each year
-         * Distributing to a fake knowledge is represented as wasted IQ every year
+         * Create distributed IQ list.
+         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge each year.
+         * Distributing to a fake knowledge is represented as wasted IQ every year.
          */
         for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
             distributedIQList[i] = Math.floor(Math.random() * 101); // Random [0, 100]
