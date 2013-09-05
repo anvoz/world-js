@@ -44,9 +44,10 @@
 
         male.chances = data.chances || {
             death: [
-                { range: [1, 5], from: 0.001, to: 0.005 },
-                { range: [5, 15], from: 0.005, to: 0.01 },
-                { range: [15, 25], from: 0.01, to: 0.025 }
+                { range: [1, 20], from: 0.02, to: 0.01 },
+                { range: [20, 60], from: 0.01, to: 0.02 },
+                { range: [60, 80], from: 0.02, to: 0.05 },
+                { range: [80, 100], from: 0.05, to: 0.5 }
             ],
             marriage: [
                 { range: [15, 30], from: 0.1, to: 0.5 },

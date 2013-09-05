@@ -128,11 +128,10 @@
      * Update information (Statistic, Rules, Knowledge) every year
      */
     Interface.yearPassed = function() {
-        var world = this,
-            year = world.Statistic.year;
-        // More people appeared every 25 years
-        if (year < 100 && year % 25 == 0) {
-            world.addRandomPeople(25, 10, 20, ((year == 25) ? 1 : ((year == 50) ? 2 : 5)));
+        var world = this;
+
+        if (world.Statistic.year == 25) {
+            world.addRandomPeople(50, 10, 20, 5);
         }
 
         var Statistic = world.Statistic,

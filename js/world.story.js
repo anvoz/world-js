@@ -51,8 +51,10 @@
         chances: {
             // Guarantee to live at least <firstMenMaxAge> age
             death: [
-                { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
-                { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
+                { range: [1, firstMenMaxAge], from: 0, to: 0 },
+                { range: [firstMenMaxAge, 60], from: 0.01, to: 0.02 },
+                { range: [60, 80], from: 0.02, to: 0.05 },
+                { range: [80, 100], from: 0.05, to: 0.5 }
             ],
             // 100% marriage success chance
             marriage: [
@@ -69,8 +71,10 @@
         chances: {
             // Guarantee to live at least <firstMenMaxAge> age
             death: [
-                { range: [1, firstMenMaxAge - 1], from: 0, to: 0 },
-                { range: [firstMenMaxAge - 1, firstMenMaxAge], from: 1, to: 1 }
+                { range: [1, firstMenMaxAge], from: 0, to: 0 },
+                { range: [firstMenMaxAge, 65], from: 0.01, to: 0.02 },
+                { range: [65, 85], from: 0.02, to: 0.05 },
+                { range: [85, 105], from: 0.05, to: 0.5 }
             ],
             // 100% childbirth success chance
             childbirth: [

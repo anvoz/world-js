@@ -70,7 +70,7 @@ world.add(world.Female, { age: 25 });
 * [DONE] Re-design layout: focus on mobile-friendly and responsive layout, upgrade to Bootstrap 3.0.
 * [DONE] Remove Helper sub module: use inline functions instead of call them from Helper sub module.
 * [DONE] People stand still sometimes instead always move around.
-* People will be harder to reach to 20 years old. But if they can make it, they will live much older.
+* [DONE] People will be harder to reach to 20 years old. But if they can make it, they will live much older.
 
 #### Version 2.0
 * Things: other objects of the world beside human.
