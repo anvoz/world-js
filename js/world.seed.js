@@ -29,6 +29,8 @@
         seed.tickIndex = false;
         seed.tickMod = false;
 
+        seed.age = data.age || 0;
+
         // Seed coordinate (top, left)
         seed.x = (typeof data.x === 'undefined') ? false : data.x;
         seed.y = (typeof data.y === 'undefined') ? false : data.y;
