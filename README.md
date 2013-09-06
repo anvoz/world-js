@@ -4,7 +4,7 @@ World JS: Evolution Simulator
 In World JS, people move around, find their partner and have children. As they grow smarter with every generation, greater knowledge will be gained. You watch the world, have some god powers to lead it and choose the fate of the world yourself.
 
 **Live Demo:** http://anvoz.github.io/world-js/
-![Version 1.1 screenshot](https://f.cloud.github.com/assets/4688035/887848/f6802384-fa02-11e2-81cc-a839cca329d5.png "Version 1.1 screenshot")
+![Version 1.3 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1095554/9e323b28-16e9-11e3-9942-75688aba55e2.png "Version 1.3 screenshot on medium screen size")
 
 ## Links
 * [Wiki](https://github.com/anvoz/world-js/wiki)
@@ -22,7 +22,6 @@ Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki)
  * Knowledge: Manage knowledge of a world. Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
  * Rules: Manage rules of a world. Apply new rules to the world every year.
  * Statistic: Track statistic of a world via function callback.
- * Helper (will be removed soon): Helper functions like `is()`, `has()` and `random()`. 
 * Interface: Bind a world and its properties to UI. Define UI interactions.
 * Story: Initialize a world and define its main plot.
 * God: Functions that modify a world instance directly. Use as developer tools to debug the game. Most functions will be removed in final release.
@@ -48,6 +47,12 @@ world.add(world.Female, { age: 25 });
 ```
 
 ### Change Log
+#### Version 1.3
+* New layout: focus on mobile-friendly and responsive design, upgrade to Bootstrap 3.0.
+* People standing mechanic: move X steps then stop until Y age then move again.
+* Game mechanic: changed death rate and Famine rule.
+* Removed Helper sub module: use inline functions instead of call them from Helper sub module.
+
 #### Version 1.2
 * Replaced `Front` sub module with `Interface` and `Story` sub modules.
 * Distributed ticks mechanic: prevented a tick that has too many actions to trigger that make the game feels janky.
@@ -64,20 +69,6 @@ world.add(world.Female, { age: 25 });
 #### Version 1.1
 * Separated source code into smaller sub modules.
 * Improved Tile management mechanic: used array instead of hash map.
-
-### To do
-#### Version 1.3
-* [DONE] Re-design layout: focus on mobile-friendly and responsive layout, upgrade to Bootstrap 3.0.
-* [DONE] Remove Helper sub module: use inline functions instead of call them from Helper sub module.
-* [DONE] People stand still sometimes instead always move around.
-* [DONE] People will be harder to reach to 20 years old. But if they can make it, they will live much older.
-
-#### Version 2.0
-* Things: other objects of the world beside human.
-* Talking: people will be able to talk to share what they see.
-* Unknown knowledge: only be unlocked by specific conditions.
-* Population limit: population is only expanded by the game story or some knowledge.
-* Finish the first part of the game story: simulated the Stone Age.
 
 ## Benchmark
 
