@@ -2,189 +2,182 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>World JS: Evolution Simulator</title>
-        <meta name="author" content="An Vo">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <title>World JS: Evolution Simulator</title>
+
+        <meta name="author" content="An Vo">
         <meta name="title" content="World JS: Evolution Simulator" />
-        <meta name="keywords" content="world,evolution,simulator,history" />
-        <meta name="description" content="In World JS, people move around, find their partner and have children. As they grow smarter with every generation, greater knowledge will be gained. You watch the world, have some god powers to lead it and choose the fate of the world yourself." />
+        <meta name="keywords" content="world,human,evolution,simulator,history" />
+        <meta name="description" content="TBD" />
         <meta property="og:title" content="World JS: Evolution Simulator" />
         <meta property="og:site_name" content="World JS: Evolution Simulator" />
         <meta property="og:url" content="http://anvoz.github.io/world-js/" />
-        <meta property="og:description" content="In World JS, people move around, find their partner and have children. As they grow smarter with every generation, greater knowledge will be gained. You watch the world, have some god powers to lead it and choose the fate of the world yourself." />
+        <meta property="og:description" content="TBD" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="http://anvoz.github.io/world-js/images/seeds.png" />
 
         <!-- Le styles -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="brand" href="http://anvoz.github.io/world-js/">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle js-navbar-toggle" data-target=".js-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://anvoz.github.io/world-js/">
                         World JS: Evolution Simulator
                         <sup><small>[beta]</small></sup>
                     </a>
-                    <ul class="nav">
+                </div><!--/.navbar-header -->
+                <div class="collapse navbar-collapse js-navbar-collapse">
+                    <ul class="nav navbar-nav">
                         <li class="active"><a href="http://anvoz.github.io/world-js/">Home</a></li>
                         <li><a target="_blank" href="https://github.com/anvoz/world-js">Github</a></li>
                         <li><a target="_blank" href="https://github.com/anvoz/world-js/wiki">Wiki</a></li>
                     </ul>
-                </div>
+                </div><!--/.navbar-collapse -->
             </div>
-        </div> <!-- /header -->
+        </div><!--/.navbar-fixed-top -->
 
         <div class="container">
             <div class="row">
-                <div class="span9">
-                    <div class="row">
-                        <div class="span4 offset1">
-                            <div class="stat-cells">
-                                <div class="clearfix">
-                                    <b class="pull-left">Year</b>
-                                    <h1 class="pull-right" id="world-year">0</h1>
-                                </div>
-                            </div>
+                <div class="col-lg-2 top-padding visible-lg" id="world-statistic-container">
+                    <button class="btn btn-sm btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
+                    <div><p><strong>Statistic</strong></p></div>
+                    <div class="statistic-container">
+                        <div class="statistic-group">
+                            <div>&bull; <i class="wicon-men"></i> Men: <b id="world-men-ex">0</b></div>
+                            <div>&bull; <i class="wicon-women"></i> Women: <b id="world-women-ex">0</b></div>
+                            <div>&bull; <i class="wicon-boy"></i> Boys: <b id="world-boys-ex">0</b></div>
+                            <div>&bull; <i class="wicon-girl"></i> Girls: <b id="world-girls-ex">0</b></div>
                         </div>
-                        <div class="span4">
-                            <div class="stat-cells">
-                                <div class="clearfix">
-                                    <div><b>God</b></div>
-                                    <div class="pull-right">
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini btn-info" onclick="WorldJS.God.freeze();" id="world-freeze-btn">Freeze</button>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini dropdown-toggle">Miracles <small>&nabla;</small></button>
-                                            <ul class="dropdown-menu pull-right no-border">
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.addRandomPeople(50);">Add 50 random people</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.giveFood(10000);">Give 10,000 food</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini dropdown-toggle">Disasters <small>&nabla;</small></button>
-                                            <ul class="dropdown-menu pull-right no-border">
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(10);">Tsunamis (kill 10%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(25);">Cyclones (kill 25%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(50);">Earthquakes (kill 50%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(75);">Floods (kill 75%)</a></li>
-                                                <li><a class="btn btn-mini" href="#" onclick="return WorldJS.God.kill(90);">Epidemics (kill 90%)</a></li>
-                                            </ul>
-                                        </div>
+
+                        <div class="statistic-group">
+                            <div>
+                                &bull; <div class="family"><i class="wicon-women"></i><i class="wicon-men"></i></div>
+                                Families: <b id="world-families-ex">0</b>
+                            </div>
+                            <div>&bull; Average children</div>
+                            <div>per family: <b id="world-avgChildren">0</b></div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; <i class="wicon-men"></i> / <i class="wicon-women"></i> Adult:</div>
+                            <div><b id="world-adultFoodChange">0</b> food per year</div>
+                            <div>&bull; <i class="wicon-boy"></i> / <i class="wicon-girl"></i> Child:</div>
+                            <div><b id="world-childFoodChange">0</b> food per year</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Average age: <b id="world-avgAge">0</b></div>
+                            <div>&bull; Max age: <b id="world-maxAge">0</b> (died in <b id="world-yearMaxAge">0</b>)</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Average IQ: <b id="world-avgIQ">0</b></div>
+                            <div>&bull; Max IQ: <b id="world-maxIQ">0</b> (born in <b id="world-yearMaxIQ">0</b>)</div>
+                        </div>
+
+                        <div class="statistic-group">
+                            <div>&bull; Food spoilage:</div>
+                            <div>-<b id="world-foodSpoilage">0</b>% food per year</div>
+                        </div>
+                    </div>
+                </div><!--/#world-statistic-container -->
+                <div class="col-lg-7 col-md-9 top-padding">
+                    <div class="row text-center">
+                        <strong>Year <span id="world-year">0</span></strong>
+                        <button class="btn btn-sm btn-default" id="world-freeze-btn" onclick="WorldJS.God.freeze();">Freeze</button>
+                    </div><!--/ Top row -->
+                    <div class="row top-padding">
+                        <div class="container clearfix">
+                            <div class="badges-vgroup hidden-lg pull-left">
+                                <div title="Men">
+                                    <div class="badge">
+                                        <i class="wicon-men"></i><div class="badge-num ellipsis" id="world-men">0</div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix">
-                        <div class="pull-left stat-badges">
-                            <div title="Men">
-                                <div class="badge">
-                                    <i class="icon-men"></i><div class="stat-num ellipsis" id="world-men">0</div>
-                                </div>
-                            </div>
-                            <div title="Women">
-                                <div class="badge">
-                                    <i class="icon-women"></i><div class="stat-num ellipsis" id="world-women">0</div>
-                                </div>
-                            </div>
-                            <div title="Families">
-                                <div class="badge">
-                                    <div class="family">
-                                        <i class="icon-women"></i><i class="icon-men"></i>
+                                <div title="Women">
+                                    <div class="badge">
+                                        <i class="wicon-women"></i><div class="badge-num ellipsis" id="world-women">0</div>
                                     </div>
-                                    <div class="stat-num ellipsis" id="world-families">0</div>
                                 </div>
-                            </div>
-                            <div title="Boys">
-                                <div class="badge">
-                                    <i class="icon-boy"></i><div class="stat-num ellipsis" id="world-boys">0</div>
+                                <div title="Families">
+                                    <div class="badge">
+                                        <div class="family">
+                                            <i class="wicon-women"></i><i class="wicon-men"></i>
+                                        </div>
+                                        <div class="badge-num ellipsis" id="world-families">0</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div title="Girls">
-                                <div class="badge">
-                                    <i class="icon-girl"></i><div class="stat-num ellipsis" id="world-girls">0</div>
+                                <div title="Boys">
+                                    <div class="badge">
+                                        <i class="wicon-boy"></i><div class="badge-num ellipsis" id="world-boys">0</div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div title="Girls">
+                                    <div class="badge">
+                                        <i class="wicon-girl"></i><div class="badge-num ellipsis" id="world-girls">0</div>
+                                    </div>
+                                </div>
+                                <div class="top-padding">
+                                    <button class="btn btn-sm btn-default js-statistic-toggle" title="Show statistic">...</button>
+                                </div>
+                            </div><!--/.badges-vgroup -->
+
+                            <!-- Main canvas wrapper -->
+                            <div class="border pull-left" id="world"></div>
                         </div>
-                        <div class="border pull-right" id="world"></div>
-                    </div>
-                    <div class="row">
-                        <div class="span4 offset1">
-                            <div class="stat-cells">
-                                <div class="clearfix">
-                                    <b class="pull-left">Population</b>
-                                    <h1 class="pull-right" id="world-population">0</h1>
-                                </div>
-                                <div class="small-text">
-                                    <ul>
-                                        <li>Average age: <b id="world-avgAge">0</b></li>
-                                        <li>Max age: <b id="world-maxAge">0</b> (died in <b id="world-yearMaxAge">0</b>)</li>
-                                        <li>Average children per family: <b id="world-avgChildren">0</b></li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div><!--/ Middle row -->
+                    <div class="row text-center">
+                        <div class="col-xs-4 top-padding">
+                            <div><strong>Population</strong></div>
+                            <h4 id="world-population">0</h4>
                         </div>
-                        <div class="span4">
-                            <div class="stat-cells">
-                                <div class="clearfix">
-                                    <b class="pull-left">
-                                        Food
-                                        <span id="world-labelFamine" class="label label-important hide">Famine</span>
-                                    </b>
-                                    <h1 class="pull-right" id="world-food">0</h1>
-                                </div>
-                                <div class="small-text">
-                                    <ul>
-                                        <li>Adult: <b id="world-adultFoodChange">0</b> food / year</li>
-                                        <li>Child: <b id="world-childFoodChange">0</b> food / year</li>
-                                        <li>Food spoilage: -<b id="world-foodSpoilage">0</b>% food / 100 years</li>
-                                    </ul>
-                                </div>
+                        <div class="col-xs-4 top-padding border-side">
+                            <div>
+                                <strong>Food</strong>
+                                <span id="world-labelFamine" class="label label-danger hide">Famine</span>
                             </div>
+                            <h4 id="world-food">0</h4>
                         </div>
-                    </div>
+                        <div class="col-xs-4 top-padding">
+                            <div><strong>Total IQ</strong></div>
+                            <h4 id="world-IQ">0</h4>
+                        </div>
+                    </div><!--/ Bottom row -->
                 </div>
-                <div class="span3">
-                    <div class="stat-cells no-border">
-                        <div class="clearfix">
-                            <b class="pull-left"><small><small>Total</small></small> IQ</b>
-                            <h1 class="pull-right" id="world-IQ">0</h1>
-                        </div>
-                        <div class="small-text">
-                            <ul>
-                                <li>Average: <b id="world-avgIQ">0</b></li>
-                                <li>Max: <b id="world-maxIQ">0</b> (born in <b id="world-yearMaxIQ">0</b>)</li>
+                <div class="col-lg-3 col-md-3 top-padding">
+                    <div id="knowledge">
+                        <div><p><strong>Knowledge</strong></p></div>
+                        <div>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a class="world-knowledge" href="#" data-target="#world-knowledgeTrending">Trending</a></li>
+                                <li><a class="world-knowledge" href="#" data-target="#world-knowledgeHistory">History</a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div id="knowledge">
-                        <div class="header clearfix">
-                            <b class="pull-left">Knowledge</b>
-                            <div class="pull-right">
-                                <a href="#" rel="trending" class="label">Trending</a> | <a href="#" rel="history">History</a>
-                            </div>
-                        </div>
-                        <div id="world-knowledgeTrending" class="knowledgeTrending"></div>
-                        <div id="world-knowledgeHistory" class="knowledgeHistory hide"></div>
-                    </div>
+                        <div id="world-knowledgeTrending"></div>
+                        <div id="world-knowledgeHistory" class="hide"></div>
+                    </div><!--/#knowledge -->
                 </div>
             </div>
-        </div> <!-- /container -->
+        </div><!--/.container -->
 
         <div class="navbar navbar-inverse navbar-fixed-bottom">
-            <div class="navbar-inner">
-                <div class="container">
-                    <div id="footer">
-                        <small>
-                            Last updated: 2013-08-23.
-                            Licensed under the <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.
-                        </small>
-                    </div>
-                </div>
+            <div class="container">
+                <p class="top-padding text-center text-muted">
+                    Last updated: Sep 06 2013.
+                    Licensed under the <a class="navbar-link" target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>
+                </p>
             </div>
-        </div> <!-- /footer -->
+        </div><!--/.navbar-fixed-bottom -->
 
         <!-- Le javascript -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
