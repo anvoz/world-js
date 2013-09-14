@@ -253,19 +253,21 @@
 
             if (fromBorder > 0) {
                 var border = (fromBorder == 5) ?
-                    random(1, 4) : fromBorder;
+                    random(1, 4) : fromBorder,
+                    padding = 10;
+                // Used random number to avoid people appeared in the same edge
                 switch (border) {
                     case 1: // top
-                        data.y = 0;
+                        data.y = random(0, padding);
                         break;
                     case 2: // bottom
-                        data.y = world.height - 1;
+                        data.y = random(world.height - padding - 1, world.height - 1);
                         break;
                     case 3: // left
-                        data.x = 0;
+                        data.x = random(0, padding);
                         break;
                     case 4: // right
-                        data.x = world.width - 1;
+                        data.x = random(world.width - padding - 1, world.width - 1);
                         break;
                 }
             }
