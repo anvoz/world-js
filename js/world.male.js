@@ -47,7 +47,7 @@
                 { range: [1, 20], from: 0.02, to: 0.01 },
                 { range: [20, 60], from: 0.01, to: 0.02 },
                 { range: [60, 80], from: 0.02, to: 0.05 },
-                { range: [80, 100], from: 0.05, to: 0.5 }
+                { range: [80, 100], from: 0.05, to: 0.9 }
             ],
             marriage: [
                 { range: [15, 30], from: 0.1, to: 0.5 },

@@ -53,7 +53,7 @@
                 { range: [1, 25], from: 0.02, to: 0.01 },
                 { range: [25, 65], from: 0.01, to: 0.02 },
                 { range: [65, 85], from: 0.02, to: 0.05 },
-                { range: [85, 105], from: 0.05, to: 0.5 }
+                { range: [85, 105], from: 0.05, to: 0.9 }
             ],
             childbirth: [
                 { range: [15, 25], from: 0.1, to: 0.25 },
