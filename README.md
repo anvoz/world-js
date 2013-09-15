@@ -50,7 +50,7 @@ world.add(world.Female, { age: 25 });
 
 ### Change Log
 #### Version 2.0
-* Completed 1st part of the game: simulated the world from the first appearance of humans to the cognitive revolution.
+* Completed 1st part of the game: simulated the world from the first appearance of our ancestors to the cognitive revolution.
 * Food resources mechanic: People obtain food from limited food resources.
 * Population limit mechanic: You have to unlock a specific knowledge to expand the population limit.
 * Layout: Separated Statistic box on left column into 2 tabs.
