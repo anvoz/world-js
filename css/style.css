@@ -8,9 +8,13 @@
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
 
-body {
-  padding: 50px 0;
+.footer {
+  color: #999;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+  padding: 20px 0;
 }
+
 @media (max-width:767px) {
   .container {
     min-width: 735px;
@@ -26,9 +30,6 @@ body {
   display: block;
 }
 
-.border {
-  border: 1px solid #ccc;
-}
 .border-side {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
@@ -40,6 +41,18 @@ body {
   -o-text-overflow: ellipsis;  /* for Opera 9 & 10 */
 }
 
+#world-container {
+  position: relative;
+  border: 1px solid #ccc;
+}
+#world-container .guide {
+  position: absolute;
+  width: 640px;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+  text-align: center;
+}
 #world {
   width: 640px;
   height: 360px;
@@ -54,6 +67,7 @@ body {
 @media (max-width:1199px) {
   #world-statistic-container {
     position: absolute;
+    padding-top: 10px;
     top: 50px;
     left: 0;
     z-index: 900;
@@ -61,7 +75,7 @@ body {
     border: 1px solid #ccc;
     background-clip: padding-box;
     min-width: 195px;
-    height: 410px;
+    height: 423px;
     overflow-y: auto;
   }
   .js-statistic-toggle.hide {
@@ -97,6 +111,7 @@ body {
 .knowledge .description ul {
   margin-bottom: 0;
   padding-left: 25px;
+  font-weight: bold;
 }
 .knowledge .priority {
   float: left;

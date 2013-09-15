@@ -24,9 +24,8 @@
     Knowledge.list = WorldJS.KnowledgeData;
 
     // Start with some knowledge
-    Knowledge.trending = ['huga', 'fire'];
+    Knowledge.trending = ['huga'];
     Interface.trendingAdded(Knowledge.list.huga);
-    Interface.trendingAdded(Knowledge.list.fire);
 
     // Bind callback
     Knowledge.trendingAdded = Interface.trendingAdded;
@@ -82,6 +81,9 @@
             ]
         }
     });
+
+    world.Rules.Population.limit = 50;
+    world.padding = 50;
 
     world.start();
 })(window);

@@ -22,6 +22,10 @@
     Rules = WorldJS.Rules = function() {
         var rules = this;
 
+        rules.Population = {
+            limit: 100
+        };
+
         rules.baseIQ = 0;
 
         // Base chances
@@ -40,22 +44,29 @@
         };
 
         rules.Food = {
-            adult: 1,       // Produce 1 food per year
-            child: -1,      // Consume 1 food per year
-            min: -10000     // Minimum food value
+            adult: 1,           // Produce 1 food per year
+            child: -1,          // Consume 1 food per year
+            resourceIncr: 0,    // Percent of food resource increase per year
+            min: -10000         // Minimum food value
         };
 
         // When famine affected,
-        // death chance increase 50% every -1000 food
+        // death chance increase 10% every -100 food
         rules.Famine = {
-            deathChanceIncr: 0.5,
-            unit: -1000
+            deathChanceIncr: 0.1,
+            unit: -100
         };
 
         // Food decrease 90% every 100 years
         rules.FoodSpoilage = {
             foodDecr: 0.9,
             interval: 1
+        };
+
+        // Death chance increase for each man surpass the population limit
+        rules.LargeCooperation = {
+            deathChanceIncr: 0.1,
+            unit: 1
         };
     };
 
@@ -65,14 +76,26 @@
     Rules.prototype.change = function(world) {
         var Rules = world.Rules,
             Statistic = world.Statistic,
+
             food = Statistic.food,
+            foodResource = Statistic.foodResource,
+            population = Statistic.population,
+
             totalAdult = Statistic.men + Statistic.women,
             totalChildren = Statistic.boys + Statistic.girls;
 
-        food += (
-            totalAdult * Rules.Food.adult + 
-            totalChildren * Rules.Food.child
-        );
+        // Food resource increase / decrease per year
+        if (foodResource > 0) {
+            foodResource = Math.max(0, foodResource + Math.ceil(foodResource * Rules.Food.resourceIncr));
+        }
+
+        var foodProduce = Math.min(foodResource, totalAdult * Rules.Food.adult),
+            foodConsume = totalChildren * Rules.Food.child,
+            foodDelta = foodProduce + foodConsume;
+
+        // Obtain food from food resource
+        foodResource = Math.max(0, foodResource - foodProduce);
+        food += foodDelta;
 
         if (food < Rules.Food.min) {
             food = Rules.Food.min;
@@ -91,8 +114,15 @@
             food -= Math.floor(food * Rules.FoodSpoilage.foodDecr);
         }
 
+        // Population limit: increase death chance
+        if (population > Rules.Population.limit) {
+            var delta = population - Rules.Population.limit;
+            deathChance += delta * Rules.LargeCooperation.deathChanceIncr;
+        }
+
         // Apply new changes
         Statistic.food = food;
+        Statistic.foodResource = foodResource;
         Rules.Chance.death = deathChance + Rules.ChanceIncr.death;
     };
 })(window);

@@ -77,13 +77,20 @@
             totalDistributedUnit += distributedIQList[i];
         }
 
-        var tmpTrending = [],
+        var maxDistributedValues = { '0.1': 0.01, '1': 0.05, '2': 0.1 },
+            tmpTrending = [],
             tmpFollowing = [],
             tmpCompleted = [];
         for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
             var knowledge = Knowledge.list[Knowledge.trending[i]],
                 distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
-                gainedIQ = Math.floor(knowledge.IQ.gained + distributedIQ);
+                gainedIQ = knowledge.IQ.gained;
+
+            // Prevent to gain too much IQ a year
+            gainedIQ += Math.floor(Math.min(knowledge.IQ.required * maxDistributedValues[knowledge.IQ.priority], distributedIQ));
+            if (isNaN(gainedIQ)) {
+                gainedIQ = knowledge.IQ.gained;
+            }
 
             if (gainedIQ >= knowledge.IQ.required) {
                 // Completed knowledge

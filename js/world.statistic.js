@@ -22,6 +22,7 @@
 
         statistic.year = 0;
         statistic.food = 0;
+        statistic.foodResource = 100;
 
         // Re-calculate every year
         statistic.population = 0;
