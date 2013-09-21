@@ -3,6 +3,8 @@ World JS: Evolution Simulator
 
 In World JS, people move around, find their partner and have children. As they grow smarter with every generation, greater knowledge will be gained. You watch the world, have some god powers to lead it and choose the fate of the world yourself.
 
+**Update:** In version 2.0, I removed the term **God powers** from this game. Some available user interactions are now categorized as **human decisions**. You can let the game process by itself until you are forced to touch it in order to keep it alive.
+
 **Live Demo:** http://anvoz.github.io/world-js/
 ![Version 1.3 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1095554/9e323b28-16e9-11e3-9942-75688aba55e2.png "Version 1.3 screenshot on medium screen size")
 
@@ -47,6 +49,12 @@ world.add(world.Female, { age: 25 });
 ```
 
 ### Change Log
+#### Version 2.0
+* Completed 1st part of the game: simulated the world from the first appearance of our ancestors to the cognitive revolution.
+* Food resources mechanic: People obtain food from limited food resources.
+* Population limit mechanic: You have to unlock a specific knowledge to expand the population limit.
+* Layout: Separated Statistic box on left column into 2 tabs.
+
 #### Version 1.3
 * New layout: focus on mobile-friendly and responsive design, upgrade to Bootstrap 3.0.
 * People standing mechanic: move X steps then stop until Y age then move again.
