@@ -11,14 +11,13 @@
 (function(window, undefined) {
     'use strict';
 
-    var WorldJS = window.WorldJS,
+    var document = window.document,
+        WorldJS = window.WorldJS,
         Interface = WorldJS.Interface,
 
         // Create a new world
         world = new WorldJS(),
         Knowledge = world.Knowledge;
-
-    WorldJS.God.setWorldInstance(world);
 
     // Define knowledge of the world
     Knowledge.list = WorldJS.KnowledgeData;
@@ -31,6 +30,42 @@
     Knowledge.trendingAdded = Interface.trendingAdded;
     Knowledge.trendingRemoved = Interface.trendingRemoved;
     world.yearPassedCallback = Interface.yearPassed;
+
+    // Bind UI
+    $('#world-freeze-btn').click(function() {
+        if (world.running) {
+            world.stop();
+            $(this).html('Unfreeze');
+        } else {
+            world.start();
+            $(this).html('Freeze');
+        }
+    });
+    $(document).on('change', '.priority', function() {
+        var $this = $(this),
+            id = $this.data('id'),
+            priority = $this.find('option:selected').attr('value'),
+            priorityValue = 0,
+            progressBarClass = '';
+
+        switch (priority) {
+            case 'high':
+                priorityValue = 2;
+                progressBarClass = 'progress-bar';
+                break;
+            case 'low':
+                priorityValue = 0.1;
+                progressBarClass = 'progress-bar progress-bar-danger';
+                break;
+            default:
+                priorityValue = 1;
+                progressBarClass = 'progress-bar progress-bar-info';
+                break;
+        }
+
+        world.Knowledge.list[id].IQ.priority = priorityValue;
+        $this.parents('.knowledge').find('.progress').find('.progress-bar').attr('class', progressBarClass);
+    });
 
     world.init('world');
 

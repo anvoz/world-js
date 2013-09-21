@@ -90,22 +90,16 @@
      */
     Interface.trendingAdded = function(knowledge) {
         // Get css class for display based on default priority of a knowledge
-        var progressBarClass, lowBtnClass, normalBtnClass, highBtnClass;
+        var progressBarClass;
         switch (knowledge.IQ.priority) {
             case 0.1:
                 progressBarClass = 'progress-bar progress-bar-danger';
-                lowBtnClass = 'btn btn-sm btn-default active';
-                normalBtnClass = highBtnClass = 'btn btn-sm btn-default';
                 break;
             case 2:
                 progressBarClass = 'progress-bar';
-                highBtnClass = 'btn btn-sm btn-default active';
-                lowBtnClass = normalBtnClass = 'btn btn-sm btn-default';
                 break;
             default:
                 progressBarClass = 'progress-bar progress-bar-info';
-                normalBtnClass = 'btn btn-sm btn-default active';
-                lowBtnClass = highBtnClass = 'btn btn-sm btn-default';
                 break;
         }
 
@@ -115,14 +109,16 @@
                 '<div id="world-knowledge-', knowledge.id, '" class="knowledge">',
                     '<div class="name">', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
-                    '<div class="progress"><div class="', progressBarClass, '"></div></div>',
-                    '<div class="clearfix">',
-                        '<div class="btn-group priority">',
-                            '<a class="', lowBtnClass, '" href="#" title="Priority: low" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 0.1);">&bull;</a>',
-                            '<a class="', normalBtnClass, '" href="#" title="Priority: normal" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 1);">&gt;</a>',
-                            '<a class="', highBtnClass, '" href="#" title="Priority: high" onclick="return WorldJS.God.setKnowledgePriority(this, \'', knowledge.id, '\', 2);">&gt;&gt;</a>',
-                        '</div>',
-                        '<div class="IQ"><span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ</div>',
+                    '<div class="progress">',
+                        '<div class="', progressBarClass, '"></div>',
+                        '<div class="IQ"><span>&nbsp;<span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ&nbsp;</span></div>',
+                    '</div>',
+                    '<div>',
+                        '<select class="priority form-control input-sm" data-id="', knowledge.id, '">',
+                            '<option value="low" ', ((knowledge.IQ.priority == 0.1) ? 'selected' : ''), '>Low priority</option>',
+                            '<option value="normal" ', ((knowledge.IQ.priority == 1) ? 'selected' : ''), '>Normal priority</option>',
+                            '<option value="high" ', ((knowledge.IQ.priority == 2) ? 'selected' : ''), '>High priority</option>',
+                        '</select>',
                     '</div>',
                 '</div>'
             ].join(''),
