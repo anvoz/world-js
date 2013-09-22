@@ -19,14 +19,14 @@
             name: 'Hunting and gathering',
             description: [
                 'Live a hand-to-mouth existence by collecting food from the wild.',
-                '<ul><li>Adult +1 food / year</li><li>Food resource +10000</li></ul>'
+                '<ul><li>Adult +1 food / year</li><li>Food resource +50,000</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 100 },
             following: ['fire', 'hula'],
             affectedYear: 0,
             onAffected: function(world) {
                 world.Rules.Food.adult += 1;
-                world.Statistic.foodResource += 10000;
+                world.Statistic.foodResource += 50000;
                 if (world.Statistic.food < 0) {
                     world.Statistic.foodResource += world.Statistic.food;
                     world.Statistic.food = 0;
@@ -58,10 +58,10 @@
             name: 'Hunting large animals',
             description: [
                 'Take more risks in hunting larger animals for more food.',
-                '<ul><li>Death rate +10%</li><li>Adult +2 food / year</li><li>Food resource +100000</li></ul>',
+                '<ul><li>Death rate +10%</li><li>Adult +2 food / year</li><li>Food resource +200,000</li></ul>',
                 'The extinction of large animals, which is very likely to happen because of their long pregnancy, ',
                 'could completely change the ecological system.',
-                '<ul><li>Food resource -2% / year</li></ul>'
+                '<ul><li>Food resource -1% / year</li></ul>'
             ].join(''),
             IQ: { priority: 0.1, gained: 0, required: 20000 },
             following: [],
@@ -69,8 +69,8 @@
             onAffected: function(world) {
                 world.Rules.ChanceIncr.death += 0.1;
                 world.Rules.Food.adult += 2;
-                world.Statistic.foodResource += 100000;
-                world.Rules.Food.resourceIncr -= 0.02;
+                world.Statistic.foodResource += 200000;
+                world.Rules.Food.resourceIncr -= 0.01;
                 if (world.Statistic.food < 0) {
                     world.Statistic.foodResource += world.Statistic.food;
                     world.Statistic.food = 0;
@@ -82,7 +82,7 @@
             name: 'Living a nomadic lifestyle',
             description: [
                 'Follow the annual migration of animals and the growth cycles of plants to obtain food.',
-                '<ul><li>Food resource +1% / year</li></ul>',
+                '<ul><li>Food resource +2% / year</li></ul>',
                 'Prevent infectious diseases to take hold and spread.',
                 '<ul><li>Death rate -10%</li></ul>'
             ].join(''),
@@ -90,7 +90,7 @@
             following: ['osea'],
             affectedYear: 0,
             onAffected: function(world) {
-                world.Rules.Food.resourceIncr += 0.01;
+                world.Rules.Food.resourceIncr += 0.02;
                 world.Rules.ChanceIncr.death -= 0.1;
             }
         },
@@ -99,7 +99,7 @@
             name: 'Cooking',
             description: [
                 'Start eating many new things that could not be digested earlier, such as wheat, rice and potatoes.',
-                '<ul><li>Adult +1 food / year</li><li>Food resource +50000</li></ul>',
+                '<ul><li>Adult +1 food / year</li><li>Food resource +100,000</li></ul>',
                 'Improve nutrition by cooked proteins.',
                 '<ul><li>Base IQ +1</li></ul>',
                 'Kill germs and parasites that infest food.',
@@ -110,7 +110,7 @@
             affectedYear: 0,
             onAffected: function(world) {
                 world.Rules.Food.adult += 1;
-                world.Statistic.foodResource += 50000;
+                world.Statistic.foodResource += 100000;
                 world.Rules.baseIQ += 1;
                 world.Rules.ChanceIncr.death -= 0.2;
                 world.Rules.FoodSpoilage.foodDecr -= 0.1;
@@ -165,7 +165,7 @@
             name: 'Crossing the open sea',
             description: [
                 'Develop sailing crafts and boats to cross large stretches of open sea and start living in new remote islands or Continent.',
-                '<ul><li>Food resource +200000</li></ul>',
+                '<ul><li>Food resource +500,000</li></ul>',
                 'Humans were able to adapt almost over a night to a completely new ecosystem based on what knowledge they have gained.',
                 '<ul><li>Death rate +0%</li></ul>'
             ].join(''),
@@ -173,7 +173,7 @@
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                world.Statistic.foodResource += 200000;
+                world.Statistic.foodResource += 500000;
                 if (world.Statistic.food < 0) {
                     world.Statistic.foodResource += world.Statistic.food;
                     world.Statistic.food = 0;
