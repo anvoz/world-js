@@ -41,6 +41,9 @@
   -o-text-overflow: ellipsis;  /* for Opera 9 & 10 */
 }
 
+#world-pause-btn {
+  width: 60px;
+}
 #world-container {
   position: relative;
   border: 1px solid #ccc;

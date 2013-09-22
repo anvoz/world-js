@@ -113,13 +113,13 @@
     };
 
     // Bind UI
-    $('#world-freeze-btn').click(function() {
+    $('#world-pause-btn').click(function() {
         if (world.running) {
             world.stop();
-            $(this).html('Unfreeze');
+            $(this).html('Play');
         } else {
             world.start();
-            $(this).html('Freeze');
+            $(this).html('Pause');
         }
     });
     $(document).on('change', '.priority', function() {
