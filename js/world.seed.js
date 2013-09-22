@@ -73,8 +73,8 @@
     Seed.prototype.draw = function(context, spriteImage) {
         var seed = this;
 
-        if (seed.appearance === false) {
-            context.fillRect(seed.x, seed.y, 10, 10);
+        if (spriteImage === false || seed.appearance === false) {
+            context.fillRect(seed.x, seed.y, 1, 1);
         } else {
             // Handle child-state of the seed
             var appearance = (seed.age <= seed.maxChildAge) ?

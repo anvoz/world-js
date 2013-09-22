@@ -122,6 +122,13 @@
             $(this).html('Pause');
         }
     });
+    $('#world-display-mode-btns button').click(function() {
+        var $this = $(this),
+            displayMode = $this.data('mode');
+
+        $this.addClass('active').siblings('.active').removeClass('active');
+        world.displayMode = displayMode;
+    });
     $(document).on('change', '.priority', function() {
         var $this = $(this),
             id = $this.data('id'),

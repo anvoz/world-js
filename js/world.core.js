@@ -58,6 +58,14 @@
             image: false    // DOM image object of sprite
         };
 
+        /*
+         * Display mode:
+         * - full: draw seeds based on sprite image
+         * - dot: only draw a single pixel per seed
+         * - none: not draw anything
+         */
+        world.displayMode = 'full';
+
         // World contains seeds
         // Each seed has an unique id
         world.nextSeedId = 1;
@@ -361,7 +369,16 @@
                         // Not draw all seeds in a tile
                         if (displayedSeeds < maxDisplayedSeeds) {
                             // Draw current state of the seed
-                            seed.draw(context, spriteImage);
+                            switch (world.displayMode) {
+                                case 'full':
+                                    seed.draw(context, spriteImage);
+                                    break;
+                                case 'dot':
+                                    seed.draw(context, false);
+                                    break;
+                                case 'none':
+                                    break;
+                            }
                             displayedSeeds++;
                         }
                     }
