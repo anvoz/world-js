@@ -91,6 +91,8 @@
             if (Knowledge.trending.length == 0) {
                 Knowledge.trending.push('coso');
                 Interface.trendingAdded(Knowledge.list['coso']);
+
+                Rules.Population.limit = 50000;
             }
             if (Statistic.population == 0) {
                 $('#world-freeze-btn').prop('disabled', 'disabled');
