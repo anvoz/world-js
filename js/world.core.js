@@ -73,14 +73,33 @@
         // Don't draw every frame (tick) if total seeds > this value
         world.maxSafeSeedsForDisplay = 30000;
 
-        // Used for calculating age of a seed
+        /*
+         * tickPerYear: indicate one year passed.
+         * speed: running speed of the world, affects moving speed and actionInterval of a seed.
+         * actionInterval: indicate how often a seed triggers its main action.
+         * By default, actionInterval is as half as tickPerYear, which means a seed triggers its main action twice a year.
+         *
+         * tickPerYear and speed must be set manually together.
+         * Example:
+         * tickPerYear      60  30  20  12  10  6
+         * speed            1   2   3   5   6   10
+         * actionInterval   30  15  10  6   5   3
+         *
+         * All 3 values are divisibility to avoid extra implements.
+         */
         world.tickPerYear = 60;
+        world.speed = 1;
+        // actionInterval: see Seed module
 
         /*
          * Used for indicating a year, +1 every frame (tick)
          * Example: tickPerYear = 60
          * tickMod: 0   60  120 180 ...
          * year:    0   1   2   3   ...
+         *
+         * If tickPerYear is changed to 30:
+         * tickMod: 210 240 ...
+         * year:    4   5   ...
          */
         world.tickMod = 0;
 
@@ -91,7 +110,7 @@
          * Example: male_1 will seek for female in 30th frame, 60th frame...
          *          male_2 will seek for female in 31th frame, 61th frame...
          *
-         * distributedTicks property has its length equals <tickPerYear - 1> which means:
+         * distributedTicks has its length equals <tickPerYear - 1>, which means:
          * In every <tickPerYear> frames
          * <tickPerYear - 1> frames are used to trigger main actions of seeds.
          * Last frame is used for other calculations such as statistic, user interface update...
@@ -110,7 +129,7 @@
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
 
-        // Call once every <tickPerYear> ticks
+        // Callback for every year passed
         world.yearPassedCallback = function() {};
     };
 
@@ -195,8 +214,9 @@
         distributedTicks[minIndex]++;
         seed.tickIndex = minIndex;
 
-        // By modulusing actionInterval - which equals half of tickPerYear by default
+        // By modulusing actionInterval which is as half as tickPerYear by default
         // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
+        // TODO: review the distributed ticks mechanic with different speed
         seed.tickCount += (world.tickMod + seed.tickCount + minIndex) % seed.actionInterval;
         // stepCount also need to use minIndex to avoid synchronized jumping
         // among all seeds that appeared in the same time
@@ -297,30 +317,33 @@
         var world = this,
             Statistic = world.Statistic,
             context = world.canvas.context,
-            spriteImage = world.sprite.image;
+            spriteImage = world.sprite.image,
+            yearPassed = false,
+            reDraw = false;
 
-        // Used for indicating a year
-        // tickMod == 0 -> a year
+        // Modulus tickMod by tickPerYear to avoid its value grows too large
         world.tickMod = (++world.tickMod) % world.tickPerYear;
-        var yearPassed = world.tickMod === 0;
 
-        // Draw the world every year instead of every frame if total seeds is too large
-        var reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
+        yearPassed = (world.tickMod === 0);
 
-        // Clear canvas
+        // Only draw the world every year instead of every frame if total seeds is too large
+        reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
         if (reDraw) {
+            // Clear canvas
             context.clearRect(0, 0, world.width, world.height);
         }
 
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
 
-            // Statistic
+            // Statistic: re-calculate every frame (tick)
             sPopulation = 0,
             sIQ = 0,
             sMen = 0, sWomen = 0,
             sBoys = 0, sGirls = 0,
-            sFamilies = 0;
+            sFamilies = 0,
+
+            speed = world.speed;
 
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
@@ -335,6 +358,8 @@
                      * an empty spot of tile array instead of just appending to the array.
                      * That reference will possibly be available on next pass of the current loop
                      * which could cause a seed ticks twice.
+                     *
+                     * Used tickMod to indicate a seed is already ticked in the current loop.
                      */
                     if (seed.tickMod == world.tickMod) {
                         continue;
@@ -366,7 +391,7 @@
                     }
 
                     if (reDraw) {
-                        // Not draw all seeds in a tile
+                        // Don't need to draw too many seeds in a small area of a single tile
                         if (displayedSeeds < maxDisplayedSeeds) {
                             // Draw current state of the seed
                             switch (world.displayMode) {
@@ -383,7 +408,7 @@
                         }
                     }
                     // Seed moves around or triggers some actions
-                    seed.tick();
+                    seed.tick(speed);
 
                     // Update tiles if seed moves
                     var newTileIndex = world.Tile.getIndex(seed);

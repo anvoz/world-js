@@ -61,13 +61,14 @@
 
     /**
      * Male action in every frame (tick)
+     * speed: speed of the world
      */
-    Male.prototype.tick = function() {
+    Male.prototype.tick = function(speed) {
         var male = this;
 
         male.tickCount++;
 
-        var actionInterval = male.actionInterval;
+        var actionInterval = male.actionInterval / speed;
         if (male.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
             var world = male.world;
@@ -117,7 +118,7 @@
                 male.y === male.relationSeed.y) {
                 return;
             }
-            male.move(function() {
+            male.move(speed, function() {
                 // Men will follow his wife
                 var male = this,
                     female = male.relationSeed;
@@ -126,7 +127,7 @@
                 male.moveTo.y = female.y;
             });
         } else {
-            male.move(false);
+            male.move(speed, false);
         }
     };
 })(window);

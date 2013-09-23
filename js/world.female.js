@@ -67,13 +67,14 @@
 
     /**
      * Female action in every frame (tick)
+     * speed: speed of the world
      */
-    Female.prototype.tick = function() {
+    Female.prototype.tick = function(speed) {
         var female = this;
 
         female.tickCount++;
 
-        var actionInterval = female.actionInterval;
+        var actionInterval = female.actionInterval / speed;
         if (female.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
             var world = female.world,
@@ -109,6 +110,6 @@
             }
         }
 
-        female.move(false);
+        female.move(speed, false);
     };
 })(window);

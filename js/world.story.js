@@ -129,6 +129,23 @@
         $this.addClass('active').siblings('.active').removeClass('active');
         world.displayMode = displayMode;
     });
+    $('#world-speed-btns button').click(function() {
+        var $this = $(this),
+            speed = $this.data('speed');
+
+        $this.addClass('active').siblings('.active').removeClass('active');
+        switch (speed) {
+            case 2:
+            case 5:
+                world.tickPerYear = 60 / speed;
+                world.speed = speed;
+                break;
+            default:
+                world.tickPerYear = 60;
+                world.speed = 1;
+                break;
+        }
+    });
     $(document).on('change', '.priority', function() {
         var $this = $(this),
             id = $this.data('id'),

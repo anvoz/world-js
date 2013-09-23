@@ -104,9 +104,10 @@
 
     /**
      * Update new coordinate of the seed in the world
+     * speed: speed of the world
      * beforeMoveCallback: callback function or false
      */
-    Seed.prototype.move = function(beforeMoveCallback) {
+    Seed.prototype.move = function(speed, beforeMoveCallback) {
         var seed = this,
             random = function(min, max) {
                 return Math.floor(Math.random() * (max - min + 1) + min);
@@ -142,17 +143,17 @@
 
         seed.stepCount++;
 
-        // Move in 8-direction to reach moveTo coordinate, one step per frame (tick)
+        // Move in 8-direction to reach moveTo coordinate, <speed> pixels per frame (tick)
         if (seed.x < seed.moveTo.x) {
-            seed.x++;
+            seed.x = Math.min(seed.x + speed, seed.moveTo.x);
         } else if (seed.x > seed.moveTo.x) {
-            seed.x--;
+            seed.x = Math.max(seed.x - speed, 0);
         }
 
         if (seed.y < seed.moveTo.y) {
-            seed.y++;
+            seed.y = Math.min(seed.y + speed, seed.moveTo.y);
         } else if (seed.y > seed.moveTo.y) {
-            seed.y--;
+            seed.y = Math.max(seed.y - speed, 0);
         }
     };
 
