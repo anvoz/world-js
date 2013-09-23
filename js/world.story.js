@@ -50,7 +50,7 @@
                     $('#world-container .guide').html(guide);
                     setTimeout(function() {
                         $('#world-container .guide').empty();
-                    }, 15000);
+                    }, 15000 / world.speed);
                     break;
                 case 30:
                     // Show guide and add more people in year 30
@@ -61,7 +61,7 @@
                     $('#world-container .guide').html(guide);
                     setTimeout(function() {
                         $('#world-container .guide').empty();
-                    }, 30000);
+                    }, 30000 / world.speed);
                     world.addRandomPeople(25, 20, 30, 5);
                     break;
             }
@@ -122,9 +122,9 @@
             $(this).html('Pause');
         }
     });
-    $('#world-display-mode-btns button').click(function() {
+    $('#world-display-btns button').click(function() {
         var $this = $(this),
-            displayMode = $this.data('mode');
+            displayMode = $this.data('display');
 
         $this.addClass('active').siblings('.active').removeClass('active');
         world.displayMode = displayMode;
