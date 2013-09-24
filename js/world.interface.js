@@ -221,10 +221,7 @@
 
         var miscCache = Cache.Misc;
         Cache.toggleLabel(miscCache.labelPopulationLimit, (Statistic.population >= Rules.Population.limit));
-        Cache.toggleLabel(miscCache.labelNotEnoughResource, (
-            Statistic.foodResource < 75 ||      // Food resource is too low
-            Knowledge.completed.length == 8     // Completed all knowledge of the first part of the game
-        ));
+        Cache.toggleLabel(miscCache.labelNotEnoughResource, (Statistic.foodResource < 75));
         Cache.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
     };
 
