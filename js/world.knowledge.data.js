@@ -190,6 +190,8 @@
                 'to <b>the cognitive revolution</b>. ',
                 'During this time, humans gained some remarkable knowledge not only to spread all over the world ',
                 'but also to adapt to completely new ecological conditions within a very short time.</p>',
+                '<p>The next part of the game which is simulated <b>the agricultural revolution</b> ',
+                'will be released on October 15, 2013.</p>',
                 '<p>For any feedback or ideas, email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a></p>'
             ].join(''),
             IQ: { priority: 0.1, gained: 0, required: 1000000000 },

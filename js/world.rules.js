@@ -44,10 +44,11 @@
         };
 
         rules.Food = {
-            adult: 1,           // Produce 1 food per year
-            child: -1,          // Consume 1 food per year
-            resourceIncr: 0,    // Percent of food resource increase per year
-            min: -10000         // Minimum food value
+            adult: 1,               // Produce 1 food per year
+            child: -1,              // Consume 1 food per year
+            resourceIncr: 0,        // Percent of food resource increase per year
+            resourceMax: 1000000,   // Maximum food resources
+            min: -10000             // Minimum food value
         };
 
         // When famine affected,

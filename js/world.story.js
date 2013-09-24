@@ -36,6 +36,8 @@
             Rules = world.Rules,
             year = Statistic.year;
 
+        Statistic.foodResource = Math.min(Statistic.foodResource, Rules.Food.resourceMax);
+
         // Update UI
         Interface.yearPassed.call(world);
 
@@ -92,22 +94,23 @@
                 Knowledge.trending.push('coso');
                 Interface.trendingAdded(Knowledge.list['coso']);
 
-                Rules.Population.limit = 50000;
+                $('<button class="btn btn-default btn-xs">Unlock</button>').css({
+                    fontSize: '75%',
+                    lineHeight: 1,
+                    padding: '0.2em 0.6em',
+                    margin: '1px 5px 0 0'
+                }).click(function() {
+                    var msg = 'This is a free play mode, not based on the story of the game.\nDo you want to unlock the population limit?';
+                    if (window.confirm(msg)) {
+                        $(this).remove();
+                        Rules.Population.limit = 500000;
+                        Rules.Food.resourceMax = 99999999;
+                    }
+                }).insertBefore($('#world-labelPopulationLimit'));
             }
             if (Statistic.population == 0) {
                 $('#world-pause-btn').prop('disabled', 'disabled');
                 world.stop();
-
-                var guide = [
-                    '<div class="lead">Thank you for playing until the very end of this game</div>',
-                    '<div>Humans have never really managed to live in harmony with nature. ',
-                    'Food resources in the wild have their limit. ',
-                    'In order to survive, our ancestors need to be able to self-produce food ',
-                    'by planting crops and domesticating wild animals.</div>',
-                    '<div class="top-padding">It was how <b>the agricultural revolution</b> began and</div>',
-                    '<div>will be simulated in the next part of <b>World JS: Evolution Simulator</b>.</div>'
-                ].join('');
-                $('#world-container .guide').html(guide).css({ bottom: 85 });
             }
         }
     };
