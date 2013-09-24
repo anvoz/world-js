@@ -82,7 +82,7 @@
             name: 'Living a nomadic lifestyle',
             description: [
                 'Follow the annual migration of animals and the growth cycles of plants to obtain food.',
-                '<ul><li>Food resource +2% / year</li></ul>',
+                '<ul><li>Food resource +3% / year</li></ul>',
                 'Prevent infectious diseases to take hold and spread.',
                 '<ul><li>Death rate -10%</li></ul>'
             ].join(''),
@@ -90,7 +90,7 @@
             following: ['osea'],
             affectedYear: 0,
             onAffected: function(world) {
-                world.Rules.Food.resourceIncr += 0.02;
+                world.Rules.Food.resourceIncr += 0.03;
                 world.Rules.ChanceIncr.death -= 0.1;
             }
         },
