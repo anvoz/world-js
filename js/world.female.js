@@ -86,18 +86,22 @@
                 return;
             }
 
-            // Bear a child (once a year)
-            if (female.married && age >= female.chances.childbirth[0].range[0] && age > female.ageLastBear) {
+            if (female.married &&                                       // Is married
+                    age >= female.chances.childbirth[0].range[0] &&     // Enough age to give birth
+                    age > female.ageLastBear) {                         // Not give birth in the same year
                 var childBirthChance = female.getChance(female, 'childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     // +1 because she has more than 1 chance to give birth every year
-                    // depended on <actionInterval> value
+                    // depended on actionInterval
                     female.ageLastBear = age + 1;
                     female.totalChildren++;
 
                     var data = {
                             x: female.x,
-                            y: Math.min(world.height - 1 - world.padding, female.y + Math.floor(female.appearance.height / 2)),
+                            y: Math.min(
+                                world.height - 1 - world.padding,
+                                female.y + Math.floor(female.appearance.height / 2)
+                            ),
                             IQ: Math.round((female.relationSeed.IQ + female.IQ) / 2) // inherit IQ from parent
                         };
 

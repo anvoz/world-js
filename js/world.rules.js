@@ -101,11 +101,12 @@
             food = Rules.Food.min;
         }
 
-        var deathChance = 0;
+        var deathChance = 0,
+            delta = 0;
 
         // Famine: increase death chance
         if (food <= Rules.Famine.unit) {
-            var delta = Math.floor(food / Rules.Famine.unit);
+            delta = Math.floor(food / Rules.Famine.unit);
             deathChance += delta * Rules.Famine.deathChanceIncr;
         }
 
@@ -116,7 +117,7 @@
 
         // Population limit: increase death chance
         if (population > Rules.Population.limit) {
-            var delta = population - Rules.Population.limit;
+            delta = population - Rules.Population.limit;
             deathChance += delta * Rules.LargeCooperation.deathChanceIncr;
         }
 

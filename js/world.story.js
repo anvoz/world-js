@@ -95,7 +95,7 @@
                 Rules.Population.limit = 50000;
             }
             if (Statistic.population == 0) {
-                $('#world-freeze-btn').prop('disabled', 'disabled');
+                $('#world-pause-btn').prop('disabled', 'disabled');
                 world.stop();
 
                 var guide = [
@@ -104,10 +104,10 @@
                     'Food resources in the wild have their limit. ',
                     'In order to survive, our ancestors need to be able to self-produce food ',
                     'by planting crops and domesticating wild animals.</div>',
-                    '<div class="top-padding">It was how <b>the agricultural revolution</b> began and will be simulated</div>',
-                    '<div>in the next part of <b>World JS: Evolution Simulator</b>.</div>'
+                    '<div class="top-padding">It was how <b>the agricultural revolution</b> began and</div>',
+                    '<div>will be simulated in the next part of <b>World JS: Evolution Simulator</b>.</div>'
                 ].join('');
-                $('#world-container .guide').html(guide).css({ bottom: 90 });
+                $('#world-container .guide').html(guide).css({ bottom: 85 });
             }
         }
     };

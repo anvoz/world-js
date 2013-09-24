@@ -124,8 +124,8 @@
             id: 'goss',
             name: 'Gossiping',
             description: [
-                'Exchange information about what other people are doing and thinking to help them understand each other ', 
-                'and could start living in larger bands.',
+                'Exchange information about what other people are doing and thinking ',
+                'to help them understand each other and could start living in larger bands.',
                 '<ul><li>Population limit: 150</li><li>Base IQ +1</li><li>Child -1 food / year</li></ul>'
             ].join(''),
             IQ: { priority: 1, gained: 0, required: 10000 },
@@ -143,9 +143,9 @@
             id: 'spir',
             name: 'Speaking about guardian spirits of the tribe',
             description: [
-                'Unlike ants that know how to cooperate with large numbers of individuals based on their genetic code, ',
-                'humans don\'t really know how to create larger corporation effectively without basing it on imaginary stories ',
-                'that exist only in their minds.',
+                'Unlike ants that know how to cooperate with large numbers of individuals ',
+                'based on their genetic code, humans don\'t really know how to create larger corporation ',
+                'effectively without basing it on imaginary stories that exist only in their minds.',
                 '<ul><li>Population limit 500</li><li>Base IQ +1</li><li>Child -1 food / year</li></ul>',
                 'Suffer more from infectious diseases.',
                 '<ul><li>Death rate +10%</li></ul>'
@@ -164,9 +164,11 @@
             id: 'osea',
             name: 'Crossing the open sea',
             description: [
-                'Develop sailing crafts and boats to cross large stretches of open sea and start living in new remote islands or Continent.',
+                'Develop sailing crafts and boats to cross large stretches of open sea and start living ',
+                'in new remote islands or Continent.',
                 '<ul><li>Food resource +500,000</li></ul>',
-                'Humans were able to adapt almost over a night to a completely new ecosystem based on what knowledge they have gained.',
+                'Humans were able to adapt almost over a night to a completely new ecosystem ',
+                'based on what knowledge they have gained.',
                 '<ul><li>Death rate +0%</li></ul>'
             ].join(''),
             IQ: { priority: 0.1, gained: 0, required: 200000 },
@@ -184,9 +186,10 @@
             id: 'coso',
             name: 'Coming soon...',
             description: [
-                '<p>You have been watching the ancient world from the first appearance of our ancestors to <b>the cognitive revolution</b>. ',
-                'During this time, humans gained some remarkable knowledge not only to spread all over the world but also to adapt to completely ',
-                'new ecological conditions within a very short time.</p>',
+                '<p>You have been watching the ancient world from the first appearance of our ancestors ',
+                'to <b>the cognitive revolution</b>. ',
+                'During this time, humans gained some remarkable knowledge not only to spread all over the world ',
+                'but also to adapt to completely new ecological conditions within a very short time.</p>',
                 '<p>For any feedback or ideas, email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a></p>'
             ].join(''),
             IQ: { priority: 0.1, gained: 0, required: 1000000000 },

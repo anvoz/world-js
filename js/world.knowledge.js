@@ -29,7 +29,7 @@
              *    name: 'Sample knowledge',           // Display name
              *    description: '',
              *    IQ: {
-             *        priority: 1,                    // Priority factor: 0.5 (half), 1 (normal), 2 (double)
+             *        priority: 1,                    // Priority factor: 0.1 (low), 1 (normal), 2 (high)
              *        gained: 0,                      // Gained IQ
              *        required: 1000                  // Need 1000 IQ to start to affect the world
              *    },
@@ -62,7 +62,7 @@
 
         /*
          * Create distributed IQ list.
-         * All IQ will be randomly distributed to trending knowledge + 1 fake knowledge each year.
+         * All IQ will be randomly distributed to trending knowledge and 1 fake knowledge each year.
          * Distributing to a fake knowledge is represented as wasted IQ every year.
          */
         for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
@@ -87,7 +87,10 @@
                 gainedIQ = knowledge.IQ.gained;
 
             // Prevent to gain too much IQ a year
-            gainedIQ += Math.floor(Math.min(knowledge.IQ.required * maxDistributedValues[knowledge.IQ.priority], distributedIQ));
+            gainedIQ += Math.floor(Math.min(
+                knowledge.IQ.required * maxDistributedValues[knowledge.IQ.priority],
+                distributedIQ
+            ));
             if (isNaN(gainedIQ)) {
                 gainedIQ = knowledge.IQ.gained;
             }

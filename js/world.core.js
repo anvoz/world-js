@@ -77,7 +77,8 @@
          * tickPerYear: indicate one year passed.
          * speed: running speed of the world, affects moving speed and actionInterval of a seed.
          * actionInterval: indicate how often a seed triggers its main action.
-         * By default, actionInterval is as half as tickPerYear, which means a seed triggers its main action twice a year.
+         * By default, actionInterval is as half as tickPerYear,
+         * which means a seed triggers its main action twice a year.
          *
          * tickPerYear and speed must be set manually together.
          * Example:
@@ -280,8 +281,7 @@
                 };
 
             if (fromBorder > 0) {
-                var border = (fromBorder == 5) ?
-                    random(1, 4) : fromBorder,
+                var border = (fromBorder === 5) ? random(1, 4) : fromBorder,
                     padding = 10;
                 // Used random number to avoid people appeared in the same edge
                 switch (border) {

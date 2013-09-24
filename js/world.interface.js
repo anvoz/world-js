@@ -49,6 +49,8 @@
                         container: $('#world-' + propName),
                         value: defaultValue
                     };
+
+                    // Some properties are displayed in 2 different places of the UI
                     if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
                         cache[propName + '-ex'] = {
                             container: $('#world-' + propName + '-ex'),
@@ -83,7 +85,7 @@
                 element.container.addClass('hide');
             }
         }
-    }
+    };
 
     /**
      * Callback when a knowledge added to trending
@@ -111,13 +113,21 @@
                     '<div class="description">', knowledge.description, '</div>',
                     '<div class="progress">',
                         '<div class="', progressBarClass, '"></div>',
-                        '<div class="IQ"><span>&nbsp;<span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ&nbsp;</span></div>',
+                        '<div class="IQ">',
+                            '<span>&nbsp;<span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ&nbsp;</span>',
+                        '</div>',
                     '</div>',
                     '<div>',
                         '<select class="priority form-control input-sm" data-id="', knowledge.id, '">',
-                            '<option value="low" ', ((knowledge.IQ.priority == 0.1) ? 'selected' : ''), '>Low priority</option>',
-                            '<option value="normal" ', ((knowledge.IQ.priority == 1) ? 'selected' : ''), '>Normal priority</option>',
-                            '<option value="high" ', ((knowledge.IQ.priority == 2) ? 'selected' : ''), '>High priority</option>',
+                            '<option value="low" ', ((knowledge.IQ.priority == 0.1) ? 'selected' : ''), '>',
+                                'Low priority',
+                            '</option>',
+                            '<option value="normal" ', ((knowledge.IQ.priority == 1) ? 'selected' : ''), '>',
+                                'Normal priority',
+                            '</option>',
+                            '<option value="high" ', ((knowledge.IQ.priority == 2) ? 'selected' : ''), '>',
+                                'High priority',
+                            '</option>',
                         '</select>',
                     '</div>',
                 '</div>'
@@ -211,7 +221,10 @@
 
         var miscCache = Cache.Misc;
         Cache.toggleLabel(miscCache.labelPopulationLimit, (Statistic.population >= Rules.Population.limit));
-        Cache.toggleLabel(miscCache.labelNotEnoughResource, (Statistic.foodResource < 75 || Knowledge.completed.length == 8));
+        Cache.toggleLabel(miscCache.labelNotEnoughResource, (
+            Statistic.foodResource < 75 ||      // Food resource is too low
+            Knowledge.completed.length == 8     // Completed all knowledge of the first part of the game
+        ));
         Cache.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
     };
 

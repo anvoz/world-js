@@ -60,7 +60,7 @@
         seed.stepCount = seed.tickCount;
         seed.jumpInterval = 20;
         seed.moveUntilStep = data.moveUntilStep ||
-            seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
+                seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
         seed.ageToMoveAgain = 0;
 
         // Destination coordinate for seed to move to
@@ -91,8 +91,8 @@
                 halfInterval = 10,
                 jumpIndex = seed.stepCount % jumpInterval,
                 jumpY = (jumpIndex < halfInterval) ?
-                    jumpIndex + 1 :
-                    halfInterval - (jumpIndex % halfInterval) - 1;
+                        jumpIndex + 1 :
+                        halfInterval - (jumpIndex % halfInterval) - 1;
 
             context.drawImage(
                 spriteImage,
