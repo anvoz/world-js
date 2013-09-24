@@ -96,6 +96,11 @@
   height: 22px;
 }
 
+#world-year-container {
+  display: inline-block;
+  width: 100px;
+}
+
 .knowledge {
   margin: 5px 0;
   padding: 5px 5px 0;
