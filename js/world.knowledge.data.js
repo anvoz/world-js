@@ -21,7 +21,7 @@
                 'Live a hand-to-mouth existence by collecting food from the wild.',
                 '<ul><li>Adult +1 food / year</li><li>Food resource +50,000</li></ul>'
             ].join(''),
-            IQ: { priority: 1, gained: 0, required: 100 },
+            IQ: { priority: 1, gained: 0, required: 500 },
             following: ['fire', 'hula'],
             affectedYear: 0,
             onAffected: function(world) {
