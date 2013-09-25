@@ -47,14 +47,18 @@
 #world-container {
   position: relative;
   border: 1px solid #ccc;
+  overflow: hidden;
 }
 #world-container .guide {
   position: absolute;
   width: 640px;
   left: 0;
-  bottom: 0;
-  padding: 15px;
+  bottom: -60px;
+  padding: 10px;
   text-align: center;
+  background-color: #fff;
+  opacity: 0.90;
+  filter: alpha(opacity=90);
 }
 #world {
   width: 640px;

@@ -17,7 +17,35 @@
 
         // Create a new world
         world = new WorldJS(),
-        Knowledge = world.Knowledge;
+        Knowledge = world.Knowledge,
+
+        Guide = {
+            queue: [],
+            show: function(message, duration) {
+                var self = this;
+
+                if (typeof message !== 'undefined') {
+                    self.queue.push({ message: message, duration: duration });
+                    if (self.queue.length == 1) {
+                        self.show();
+                    }
+                } else {
+                    if (self.queue.length > 0) {
+                        var $guide = $('#world-container .guide'),
+                            item = self.queue[0];
+
+                        $guide.html(item.message.join('')).animate({ bottom: 0 }, 400);
+
+                        setTimeout(function() {
+                            $guide.animate({ bottom: -60 }, 400, 'swing', function() {
+                                self.queue.shift();
+                                self.show();
+                            });
+                        }, item.duration);
+                    }
+                }
+            }
+        };
 
     // Define knowledge of the world
     Knowledge.list = WorldJS.KnowledgeData;
@@ -28,7 +56,14 @@
 
     // Bind callback
     Knowledge.trendingAdded = Interface.trendingAdded;
-    Knowledge.trendingRemoved = Interface.trendingRemoved;
+    Knowledge.trendingRemoved = function(knowledge) {
+        Interface.trendingRemoved(knowledge);
+
+        Guide.show([
+            '<div><b>Knowledge Completed</b></div>',
+            '<div>', knowledge.name, '</div>'
+        ], 10000 / world.speed);
+    }
     world.yearPassedCallback = function() {
         var world = this,
             Knowledge = world.Knowledge,
@@ -41,29 +76,21 @@
         // Update UI
         Interface.yearPassed.call(world);
 
-        if (year <= 30) {
+        if (year <= 25) {
             switch (year) {
                 case 10:
                     // Show guide in year 10
-                    var guide = [
+                    Guide.show([
                         '<div>About 250,000 years ago, our ancestors began their lives in East Africa.</div>',
                         '<div>They had extraordinary large brains and the ability of walking upright.</div>'
-                    ].join('');
-                    $('#world-container .guide').html(guide);
-                    setTimeout(function() {
-                        $('#world-container .guide').empty();
-                    }, 15000 / world.speed);
+                    ], 15000 / world.speed);
                     break;
-                case 30:
+                case 25:
                     // Show guide and add more people in year 30
-                    var guide = [
+                    Guide.show([
                         '<div>In trade-off they were less muscular and born prematurely.</div>',
                         '<div>Thus they evolved stronger social ties and started living in small bands.</div>'
-                    ].join('');
-                    $('#world-container .guide').html(guide);
-                    setTimeout(function() {
-                        $('#world-container .guide').empty();
-                    }, 30000 / world.speed);
+                    ], 15000 / world.speed);
                     world.addRandomPeople(25, 20, 30, 5);
                     break;
             }
@@ -85,6 +112,11 @@
                 Knowledge.trending.push(knowledgeId);
                 Interface.trendingAdded(Knowledge.list[knowledgeId]);
                 Knowledge.list[knowledgeId].added = true;
+
+                Guide.show([
+                    '<div><b>Knowledge Unlocked</b></div>',
+                    '<div>', Knowledge.list[knowledgeId].name, '</div>'
+                ], 5000 / world.speed);
                 break;
             }
         }
