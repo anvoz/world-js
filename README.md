@@ -2,7 +2,7 @@ World JS: Evolution Simulator
 ========
 
 **Live Demo:** http://anvoz.github.io/world-js/
-![Version 1.3 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1095554/9e323b28-16e9-11e3-9942-75688aba55e2.png "Version 1.3 screenshot on medium screen size")
+![Version 2.1 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1219134/f2a1be04-26c5-11e3-8a8b-84505d67ce3d.png "Version 2.1 screenshot on medium screen size")
 
 ## TODO (version 3.0)
 
