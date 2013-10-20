@@ -34,6 +34,7 @@ Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki)
  * Knowledge: Manage knowledge of a world. Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
  * Rules: Manage rules of a world. Apply new rules to the world every year.
  * Statistic: Track statistic of a world via function callback.
+ * Event: Register behaviors to take effect when an event occurs.
 * Interface: Bind a world and its properties to UI. Define UI interactions.
 * Story: Initialize a world and define its main plot.
 

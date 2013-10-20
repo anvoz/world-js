@@ -63,8 +63,10 @@
             '<div><b>Knowledge Completed</b></div>',
             '<div>', knowledge.name, '</div>'
         ], 10000 / world.speed);
-    }
-    world.yearPassedCallback = function() {
+    };
+    world.Event.add('yearPassed', 'updateUI', Interface.yearPassed);
+
+    world.Event.add('yearPassed', 'tellStory', function() {
         var world = this,
             Knowledge = world.Knowledge,
             Statistic = world.Statistic,
@@ -72,9 +74,6 @@
             year = Statistic.year;
 
         Statistic.foodResource = Math.min(Statistic.foodResource, Rules.Food.resourceMax);
-
-        // Update UI
-        Interface.yearPassed.call(world);
 
         if (year <= 25) {
             switch (year) {
@@ -145,7 +144,7 @@
                 world.stop();
             }
         }
-    };
+    });
 
     // Bind UI
     $('#world-pause-btn').click(function() {

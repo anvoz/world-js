@@ -129,9 +129,7 @@
         world.Knowledge = new WorldJS.Knowledge();
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
-
-        // Callback for every year passed
-        world.yearPassedCallback = function() {};
+        world.Event = new WorldJS.Event();
     };
 
     /**
@@ -440,8 +438,7 @@
 
             // Execute asynchronous callback
             setTimeout(function() {
-                // Do HTML DOM manipulation in the callback
-                world.yearPassedCallback.call(world);
+                world.Event.trigger.call(world, 'yearPassed');
             }, 1);
 
             if (sPopulation === 0) {
