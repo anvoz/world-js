@@ -35,6 +35,7 @@ Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki)
  * Rules: Manage rules of a world. Apply new rules to the world every year.
  * Statistic: Track statistic of a world via function callback.
  * Event: Register behaviors to take effect when an event occurs.
+ * Guide: Display guide messages on the main screen in queued order.
 * Interface: Bind a world and its properties to UI. Define UI interactions.
 * Story: Initialize a world and define its main plot.
 

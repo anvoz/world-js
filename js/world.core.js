@@ -130,6 +130,7 @@
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
         world.Event = new WorldJS.Event();
+        world.Guide = new WorldJS.Guide();
     };
 
     /**
