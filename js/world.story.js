@@ -183,6 +183,7 @@
                 $(this).html('Play');
             } else {
                 world.start();
+                $(this).removeClass('btn-info');
                 $(this).html('Pause');
             }
         });
@@ -291,5 +292,5 @@
     }
 
     // Start the world
-    world.start();
+    // world.start();
 })(window);
