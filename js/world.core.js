@@ -125,7 +125,7 @@
         world.lastTickTime = 0;
         world.fps = 0;
 
-        world.Tile = new WorldJS.Tile();
+        world.Tile = new WorldJS.Tile(world);
         world.Knowledge = new WorldJS.Knowledge();
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
@@ -155,7 +155,7 @@
         sprite.src = world.sprite.src;
         world.sprite.image = sprite;
 
-        world.Tile.init(world, width, height);
+        world.Tile.init(width, height);
 
         return world;
     };

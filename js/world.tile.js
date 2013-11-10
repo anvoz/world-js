@@ -18,8 +18,11 @@
     /**
      * Tile constructor
      */
-    Tile = WorldJS.Tile = function() {
-        var self = this;
+    Tile = WorldJS.Tile = function(world) {
+        var worldTile = this;
+
+        // Store reference of a world
+        worldTile.world = world;
 
         /*
          * Old storage structure:
@@ -44,38 +47,38 @@
          */
 
         // List of tiles
-        self.list = [];
+        worldTile.list = [];
         // List of available indexes to insert
-        self.availableArrayIndexes = [];
+        worldTile.availableArrayIndexes = [];
 
         // 20 x 20 pixels per tile
-        self.size = 20;
+        worldTile.size = 20;
 
         // Only draw 7 seeds each tile
-        self.maxDisplayedSeeds = 7;
+        worldTile.maxDisplayedSeeds = 7;
 
         // Need to calculate base on size of the world
-        self.totalTiles = false;
-        self.tilesPerRow = false;
-        self.tilesPerCol = false;
+        worldTile.totalTiles = false;
+        worldTile.tilesPerRow = false;
+        worldTile.tilesPerCol = false;
     };
 
     /**
      * Divide the world into smaller tiles
      * Each tile contains a list of seeds that are currently inside the tile
      */
-    Tile.prototype.init = function(world, width, height) {
-        var Tile = world.Tile,
-            tileSize = Tile.size,
+    Tile.prototype.init = function(width, height) {
+        var worldTile = this,
+            tileSize = worldTile.size,
             totalTiles = Math.ceil(width / tileSize) * Math.ceil(height / tileSize);
 
-        Tile.totalTiles = totalTiles;
-        Tile.tilesPerRow = Math.ceil(width / tileSize);
-        Tile.tilesPerCol = Math.ceil(height / tileSize);
+        worldTile.totalTiles = totalTiles;
+        worldTile.tilesPerRow = Math.ceil(width / tileSize);
+        worldTile.tilesPerCol = Math.ceil(height / tileSize);
 
         // Initialize tiles with an array of empty objects
-        var listTiles = Tile.list,
-            availableArrayIndexes = Tile.availableArrayIndexes;
+        var listTiles = worldTile.list,
+            availableArrayIndexes = worldTile.availableArrayIndexes;
         for (var i = 0; i < totalTiles; i++) {
             listTiles.push([]);
             availableArrayIndexes.push([]);
@@ -93,9 +96,9 @@
      * Add seed to tile list
      */
     Tile.prototype.set = function(seed) {
-        var self = this,
-            tile = self.list[seed.tileIndex],
-            availableArrayIndexes = self.availableArrayIndexes[seed.tileIndex];
+        var worldTile = this,
+            tile = worldTile.list[seed.tileIndex],
+            availableArrayIndexes = worldTile.availableArrayIndexes[seed.tileIndex];
 
         if (availableArrayIndexes.length > 0) {
             seed.tileArrayIndex = availableArrayIndexes.pop();
@@ -110,14 +113,14 @@
      * Remove seed from tile list
      */
     Tile.prototype.rem = function(seed) {
-        var self = this;
+        var worldTile = this;
 
         /*
          * Set false instead of delete the array element
          * to avoid holey array which is much slower to access than packed array
          * http://jsperf.com/packed-vs-holey-arrays/10
          */
-        self.list[seed.tileIndex][seed.tileArrayIndex] = false;
-        self.availableArrayIndexes[seed.tileIndex].push(seed.tileArrayIndex);
+        worldTile.list[seed.tileIndex][seed.tileArrayIndex] = false;
+        worldTile.availableArrayIndexes[seed.tileIndex].push(seed.tileArrayIndex);
     };
 })(window);
