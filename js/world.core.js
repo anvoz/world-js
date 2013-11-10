@@ -127,7 +127,7 @@
 
         world.Tile = new WorldJS.Tile(world);
         world.Knowledge = new WorldJS.Knowledge(world);
-        world.Statistic = new WorldJS.Statistic();
+        world.Statistic = new WorldJS.Statistic(world);
         world.Rules = new WorldJS.Rules();
         world.Event = new WorldJS.Event();
         world.Guide = new WorldJS.Guide();

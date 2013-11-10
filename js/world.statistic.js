@@ -17,49 +17,52 @@
     /**
      * Statistic constructor
      */
-    Statistic = WorldJS.Statistic = function() {
-        var statistic = this;
+    Statistic = WorldJS.Statistic = function(world) {
+        var worldStatistic = this;
 
-        statistic.year = 0;
-        statistic.food = 0;
-        statistic.foodResource = 500;
+        // Store reference of a world
+        worldStatistic.world = world;
+
+        worldStatistic.year = 0;
+        worldStatistic.food = 0;
+        worldStatistic.foodResource = 500;
 
         // Re-calculate every year
-        statistic.population = 0;
-        statistic.IQ = 0;
-        statistic.men = 0;          // adult male
-        statistic.women = 0;        // adult female
-        statistic.boys = 0;         // young male
-        statistic.girls = 0;        // young female
-        statistic.families = 0;
+        worldStatistic.population = 0;
+        worldStatistic.IQ = 0;
+        worldStatistic.men = 0;          // adult male
+        worldStatistic.women = 0;        // adult female
+        worldStatistic.boys = 0;         // young male
+        worldStatistic.girls = 0;        // young female
+        worldStatistic.families = 0;
 
         // Record when someone was born
         // Max IQ of a person and the year when he/she was born
-        statistic.maxIQ = 0;
-        statistic.yearMaxIQ = 0;
+        worldStatistic.maxIQ = 0;
+        worldStatistic.yearMaxIQ = 0;
         // Max age of a person and the year when he/she died
-        statistic.maxAge = 0;
-        statistic.yearMaxAge = 0;
+        worldStatistic.maxAge = 0;
+        worldStatistic.yearMaxAge = 0;
 
         // Record when someone died
         // Used for calculating average age
-        statistic.die = 0;                  // Number of dead people
-        statistic.sumAge = 0;               // and total age of them
+        worldStatistic.die = 0;                  // Number of dead people
+        worldStatistic.sumAge = 0;               // and total age of them
         // Used for calculating average children of each family
-        statistic.dieMarriedFemale = 0;     // Number of dead married female
-        statistic.sumChildren = 0;          // and total children of them
+        worldStatistic.dieMarriedFemale = 0;     // Number of dead married female
+        worldStatistic.sumChildren = 0;          // and total children of them
     };
 
     /**
      * Calculate when a seed is added to the world
      */
     Statistic.prototype.seedAdded = function(seed) {
-        var statistic = this;
+        var worldStatistic = this;
 
         // Max IQ of a person and the year when he/she was born
-        if (seed.IQ > statistic.maxIQ) {
-            statistic.maxIQ = seed.IQ;
-            statistic.yearMaxIQ = statistic.year;
+        if (seed.IQ > worldStatistic.maxIQ) {
+            worldStatistic.maxIQ = seed.IQ;
+            worldStatistic.yearMaxIQ = worldStatistic.year;
         }
     };
 
@@ -67,22 +70,22 @@
      * Calculate when a seed is removed from the world
      */
     Statistic.prototype.seedRemoved = function(seed) {
-        var statistic = this;
+        var worldStatistic = this;
 
-        statistic.die++;
+        worldStatistic.die++;
 
         // Max age of a person and the year when he/she died
         var age = seed.age;
-        if (age > statistic.maxAge) {
-            statistic.maxAge = age;
-            statistic.yearMaxAge = statistic.year;
+        if (age > worldStatistic.maxAge) {
+            worldStatistic.maxAge = age;
+            worldStatistic.yearMaxAge = worldStatistic.year;
         }
-        statistic.sumAge += age;
+        worldStatistic.sumAge += age;
 
         // Not check married because married will be set to false if her husband die
         if (typeof seed.totalChildren !== 'undefined') {
-            statistic.dieMarriedFemale++;
-            statistic.sumChildren += seed.totalChildren;
+            worldStatistic.dieMarriedFemale++;
+            worldStatistic.sumChildren += seed.totalChildren;
         }
     };
 
@@ -90,19 +93,19 @@
      * Calculate when a year is passed
      */
     Statistic.prototype.yearPassed = function(data) {
-        var statistic = this;
+        var worldStatistic = this;
 
-        statistic.year++;
+        worldStatistic.year++;
 
-        statistic.population = data.population;
+        worldStatistic.population = data.population;
 
-        statistic.IQ = data.IQ;
+        worldStatistic.IQ = data.IQ;
 
-        statistic.men = data.men;
-        statistic.women = data.women;
-        statistic.boys = data.boys;
-        statistic.girls = data.girls;
+        worldStatistic.men = data.men;
+        worldStatistic.women = data.women;
+        worldStatistic.boys = data.boys;
+        worldStatistic.girls = data.girls;
 
-        statistic.families = data.families;
+        worldStatistic.families = data.families;
     };
 })(window);
