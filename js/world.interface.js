@@ -149,22 +149,23 @@
      */
     Interface.trendingRemoved = function(knowledge) {
         // Remove completed knowledge from knowledge trending container
-        var knowledgeCache = Cache.Knowledge[knowledge.id];
+        var Cached = Cache,
+            knowledgeCache = Cached.Knowledge[knowledge.id];
         knowledgeCache.IQContainer.html(knowledge.IQ.required);
         knowledgeCache.barContainer.width('100%');
         knowledgeCache.container.remove();
 
         // Remove knowledge container cache
-        delete Cache.Knowledge[knowledge.id];
+        delete Cached.Knowledge[knowledge.id];
 
         // Add completed knowledge to knowledge history container
         var html = [
                 '<div class="knowledge">',
-                    '<div class="name">', Cache.Statistic.year.value, ': ', knowledge.name, '</div>',
+                    '<div class="name">', Cached.Statistic.year.value, ': ', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
                 '</div>'
             ].join('');
-        Cache.Knowledge.knowledgeHistory.container.prepend(html);
+        Cached.Knowledge.knowledgeHistory.container.prepend(html);
     };
 
     /**
@@ -172,30 +173,32 @@
      */
     Interface.yearPassed = function() {
         var world = this,
+            Cached = Cache,
+
             Statistic = world.Statistic,
-            statisticCache = Cache.Statistic;
+            statisticCache = Cached.Statistic;
         for (var propName in statisticCache) {
             if (statisticCache.hasOwnProperty(propName)) {
                 switch (propName) {
                     case 'avgIQ':
                         var avgIQ = (Statistic.population == 0) ?
                             0 : Math.round(Statistic.IQ / Statistic.population);
-                        Cache.set(statisticCache.avgIQ, avgIQ);
+                        Cached.set(statisticCache.avgIQ, avgIQ);
                         break;
                     case 'avgAge':
                         var avgAge = (Statistic.die == 0) ?
                             0 : Math.round(Statistic.sumAge / Statistic.die);
-                        Cache.set(statisticCache.avgAge, avgAge);
+                        Cached.set(statisticCache.avgAge, avgAge);
                         break;
                     case 'avgChildren':
                         var avgChildren = (Statistic.dieMarriedFemale == 0) ?
                             0 : Math.round(Statistic.sumChildren / Statistic.dieMarriedFemale);
-                        Cache.set(statisticCache.avgChildren, avgChildren);
+                        Cached.set(statisticCache.avgChildren, avgChildren);
                         break;
                     default:
-                        Cache.set(statisticCache[propName], Statistic[propName]);
+                        Cached.set(statisticCache[propName], Statistic[propName]);
                         if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
-                            Cache.set(statisticCache[propName + '-ex'], Statistic[propName]);
+                            Cached.set(statisticCache[propName + '-ex'], Statistic[propName]);
                         }
                         break;
                 }
@@ -203,26 +206,26 @@
         }
 
         var Rules = world.Rules,
-            rulesCache = Cache.Rules;
-        Cache.set(rulesCache.deathChance, (Rules.Chance.death * 100).toFixed());
-        Cache.set(rulesCache.adultFoodChange, Rules.Food.adult);
-        Cache.set(rulesCache.childFoodChange, Rules.Food.child);
-        Cache.set(rulesCache.foodSpoilage, (Rules.FoodSpoilage.foodDecr * 100).toFixed());
-        Cache.set(rulesCache.resourceIncr, (Rules.Food.resourceIncr * 100).toFixed());
+            rulesCache = Cached.Rules;
+        Cached.set(rulesCache.deathChance, (Rules.Chance.death * 100).toFixed());
+        Cached.set(rulesCache.adultFoodChange, Rules.Food.adult);
+        Cached.set(rulesCache.childFoodChange, Rules.Food.child);
+        Cached.set(rulesCache.foodSpoilage, (Rules.FoodSpoilage.foodDecr * 100).toFixed());
+        Cached.set(rulesCache.resourceIncr, (Rules.Food.resourceIncr * 100).toFixed());
 
         var Knowledge = world.Knowledge;
         for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
             var knowledge = Knowledge.list[Knowledge.trending[i]],
-                knowledgeCache = Cache.Knowledge[knowledge.id];
+                knowledgeCache = Cached.Knowledge[knowledge.id];
 
             knowledgeCache.IQContainer.html(knowledge.IQ.gained);
             knowledgeCache.barContainer.width(Math.round(knowledge.IQ.gained / knowledge.IQ.required * 100) + '%');
         }
 
-        var miscCache = Cache.Misc;
-        Cache.toggleLabel(miscCache.labelPopulationLimit, (Statistic.population >= Rules.Population.limit));
-        Cache.toggleLabel(miscCache.labelNotEnoughResource, (Statistic.foodResource < 75));
-        Cache.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
+        var miscCache = Cached.Misc;
+        Cached.toggleLabel(miscCache.labelPopulationLimit, (Statistic.population >= Rules.Population.limit));
+        Cached.toggleLabel(miscCache.labelNotEnoughResource, (Statistic.foodResource < 75));
+        Cached.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
     };
 
     // Basic UI: switch between tabs

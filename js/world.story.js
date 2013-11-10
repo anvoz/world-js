@@ -38,7 +38,7 @@
         Knowledge.trendingRemoved = function(knowledge) {
             Interface.trendingRemoved(knowledge);
 
-            Guide.show.call(world, [
+            world.Guide.show.call(world, [
                 '<div><b>Knowledge Completed</b></div>',
                 '<div>', knowledge.name, '</div>'
             ].join(''), 5);
