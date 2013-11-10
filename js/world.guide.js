@@ -17,11 +17,14 @@
     /**
      * Guide constructor
      */
-    Guide = WorldJS.Guide = function() {
-        var guide = this;
+    Guide = WorldJS.Guide = function(world) {
+        var worldGuide = this;
 
-        guide.$container = undefined;
-        guide.queue = [];
+        // Store reference of a world
+        worldGuide.world = world;
+
+        worldGuide.$container = undefined;
+        worldGuide.queue = [];
     };
 
     /**
@@ -38,27 +41,27 @@
      * ytl: message's year to live
      */
     Guide.prototype.show = function(message, ytl) {
-        var world = this,
-            Guide = world.Guide;
+        var worldGuide = this,
+            world = worldGuide.world;
 
         if (typeof message !== 'undefined') {
             // Add message to queue
-            Guide.queue.push({ message: message, ytl: ytl });
-            if (Guide.queue.length == 1) {
-                Guide.show.call(world);
+            worldGuide.queue.push({ message: message, ytl: ytl });
+            if (worldGuide.queue.length == 1) {
+                worldGuide.show();
             }
         } else {
             // Show first message in queue
-            if (Guide.queue.length > 0) {
-                var item = Guide.queue[0],
+            if (worldGuide.queue.length > 0) {
+                var item = worldGuide.queue[0],
                     hiddenYear = world.Statistic.year + item.ytl;
 
-                Guide.$container.html(item.message).animate({ bottom: 0 }, 400);
+                worldGuide.$container.html(item.message).animate({ bottom: 0 }, 400);
 
                 world.Event.add('yearPassed', 'guide', function() {
                     var world = this;
                     if (world.Statistic.year >= hiddenYear) {
-                        world.Guide.hide.call(world);
+                        world.Guide.hide();
                         world.Event.remove('yearPassed', 'guide');
                     }
                 });
@@ -70,14 +73,14 @@
      * Hide guide message
      */
     Guide.prototype.hide = function() {
-        var world = this,
-            guide = world.Guide;
+        var worldGuide = this,
+            world = worldGuide.world;
 
-        guide.$container.animate({ bottom: -60 }, 400, 'swing', function() {
+        worldGuide.$container.animate({ bottom: -60 }, 400, 'swing', function() {
             // Remove from queue
-            guide.queue.shift();
+            worldGuide.queue.shift();
             // Show next item in queue
-            guide.show.call(world);
+            worldGuide.show();
         });
     };
 })(window);
