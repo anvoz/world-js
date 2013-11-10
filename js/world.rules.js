@@ -19,17 +19,20 @@
      * Rules constructor
      * Define default rules of the world
      */
-    Rules = WorldJS.Rules = function() {
-        var rules = this;
+    Rules = WorldJS.Rules = function(world) {
+        var worldRules = this;
 
-        rules.Population = {
+        // Store reference of a world
+        worldRules.world = world;
+
+        worldRules.Population = {
             limit: 100
         };
 
-        rules.baseIQ = 0;
+        worldRules.baseIQ = 0;
 
         // Base chances
-        rules.Chance = {
+        worldRules.Chance = {
             death: 0,
             marriage: 0,
             childbirth: 0
@@ -37,13 +40,13 @@
 
         // Chances that increase or decrease temporarily
         // based on some specific value
-        rules.ChanceIncr = {
+        worldRules.ChanceIncr = {
             death: 0,
             marriage: 0,
             childbirth: 0
         };
 
-        rules.Food = {
+        worldRules.Food = {
             adult: 1,               // Produce 1 food per year
             child: -1,              // Consume 1 food per year
             resourceIncr: 0,        // Percent of food resource increase per year
@@ -53,19 +56,19 @@
 
         // When famine affected,
         // death chance increase 10% every -100 food
-        rules.Famine = {
+        worldRules.Famine = {
             deathChanceIncr: 0.1,
             unit: -100
         };
 
         // Food decrease 90% every 100 years
-        rules.FoodSpoilage = {
+        worldRules.FoodSpoilage = {
             foodDecr: 0.9,
             interval: 1
         };
 
         // Death chance increase for each man surpass the population limit
-        rules.LargeCooperation = {
+        worldRules.LargeCooperation = {
             deathChanceIncr: 0.1,
             unit: 1
         };
@@ -74,8 +77,10 @@
     /**
      * Change rules of the world
      */
-    Rules.prototype.change = function(world) {
-        var Rules = world.Rules,
+    Rules.prototype.change = function() {
+        var worldRules = this,
+            world = worldRules.world,
+
             Statistic = world.Statistic,
 
             food = Statistic.food,
@@ -87,44 +92,44 @@
 
         // Food resource increase / decrease per year
         if (foodResource > 0) {
-            foodResource = Math.max(0, foodResource + Math.ceil(foodResource * Rules.Food.resourceIncr));
+            foodResource = Math.max(0, foodResource + Math.ceil(foodResource * worldRules.Food.resourceIncr));
         }
 
-        var foodProduce = Math.min(foodResource, totalAdult * Rules.Food.adult),
-            foodConsume = totalChildren * Rules.Food.child,
+        var foodProduce = Math.min(foodResource, totalAdult * worldRules.Food.adult),
+            foodConsume = totalChildren * worldRules.Food.child,
             foodDelta = foodProduce + foodConsume;
 
         // Obtain food from food resource
         foodResource = Math.max(0, foodResource - foodProduce);
         food += foodDelta;
 
-        if (food < Rules.Food.min) {
-            food = Rules.Food.min;
+        if (food < worldRules.Food.min) {
+            food = worldRules.Food.min;
         }
 
         var deathChance = 0,
             delta = 0;
 
         // Famine: increase death chance
-        if (food <= Rules.Famine.unit) {
-            delta = Math.floor(food / Rules.Famine.unit);
-            deathChance += delta * Rules.Famine.deathChanceIncr;
+        if (food <= worldRules.Famine.unit) {
+            delta = Math.floor(food / worldRules.Famine.unit);
+            deathChance += delta * worldRules.Famine.deathChanceIncr;
         }
 
         // Food spoilage: decrease food
-        if (Statistic.year % Rules.FoodSpoilage.interval === 0 && food > 0) {
-            food -= Math.floor(food * Rules.FoodSpoilage.foodDecr);
+        if (Statistic.year % worldRules.FoodSpoilage.interval === 0 && food > 0) {
+            food -= Math.floor(food * worldRules.FoodSpoilage.foodDecr);
         }
 
         // Population limit: increase death chance
-        if (population > Rules.Population.limit) {
-            delta = population - Rules.Population.limit;
-            deathChance += delta * Rules.LargeCooperation.deathChanceIncr;
+        if (population > worldRules.Population.limit) {
+            delta = population - worldRules.Population.limit;
+            deathChance += delta * worldRules.LargeCooperation.deathChanceIncr;
         }
 
         // Apply new changes
         Statistic.food = food;
         Statistic.foodResource = foodResource;
-        Rules.Chance.death = deathChance + Rules.ChanceIncr.death;
+        worldRules.Chance.death = deathChance + worldRules.ChanceIncr.death;
     };
 })(window);

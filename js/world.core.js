@@ -125,12 +125,12 @@
         world.lastTickTime = 0;
         world.fps = 0;
 
-        world.Tile = new WorldJS.Tile(world);
+        world.Tile      = new WorldJS.Tile(world);
         world.Knowledge = new WorldJS.Knowledge(world);
         world.Statistic = new WorldJS.Statistic(world);
-        world.Rules = new WorldJS.Rules();
-        world.Event = new WorldJS.Event();
-        world.Guide = new WorldJS.Guide();
+        world.Rules     = new WorldJS.Rules(world);
+        world.Event     = new WorldJS.Event();
+        world.Guide     = new WorldJS.Guide();
     };
 
     /**
@@ -434,7 +434,7 @@
                 families: sFamilies
             });
 
-            world.Rules.change(world);
+            world.Rules.change();
             world.Knowledge.gain();
 
             // Execute asynchronous callback
