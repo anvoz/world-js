@@ -18,11 +18,14 @@
      * Event constructor
      * Initialize events list for a world
      */
-    Event = WorldJS.Event = function() {
-        var event = this;
+    Event = WorldJS.Event = function(world) {
+        var worldEvent = this;
+
+        // Store reference of a world
+        worldEvent.world = world;
 
         // All of the available events must be declared here
-        event.list = {
+        worldEvent.list = {
             // One event can have many actions that are registered by action names
             // Unused actions must be removed manually
             yearPassed: {
@@ -56,8 +59,10 @@
      * event: event name
      */
     Event.prototype.trigger = function(event) {
-        var world = this,
-            actions = world.Event.list[event];
+        var worldEvent = this,
+            world = worldEvent.world,
+
+            actions = worldEvent.list[event];
         for (var actionName in actions) {
             if (actions.hasOwnProperty(actionName)) {
                 actions[actionName].call(world);
