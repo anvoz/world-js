@@ -126,7 +126,7 @@
         world.fps = 0;
 
         world.Tile = new WorldJS.Tile(world);
-        world.Knowledge = new WorldJS.Knowledge();
+        world.Knowledge = new WorldJS.Knowledge(world);
         world.Statistic = new WorldJS.Statistic();
         world.Rules = new WorldJS.Rules();
         world.Event = new WorldJS.Event();
@@ -435,7 +435,7 @@
             });
 
             world.Rules.change(world);
-            world.Knowledge.gain(world);
+            world.Knowledge.gain();
 
             // Execute asynchronous callback
             setTimeout(function() {

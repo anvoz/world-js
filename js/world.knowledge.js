@@ -18,11 +18,14 @@
     /**
      * Knowledge constructor
      */
-    Knowledge = WorldJS.Knowledge = function() {
-        var knowledge = this;
+    Knowledge = WorldJS.Knowledge = function(world) {
+        var worldKnowledge = this;
+
+        // Store reference of a world
+        worldKnowledge.world = world;
 
         // List of all knowledge
-        knowledge.list = {
+        worldKnowledge.list = {
             /*
              * samp: {
              *    id: 'samp',                         // Knowledge id
@@ -41,20 +44,22 @@
         };
 
         // Trending knowledge id list
-        knowledge.trending = [];
+        worldKnowledge.trending = [];
 
-        knowledge.trendingAdded = function() {};
-        knowledge.trendingRemoved = function() {};
+        worldKnowledge.trendingAdded = function() {};
+        worldKnowledge.trendingRemoved = function() {};
 
         // Completed knowledge list
-        knowledge.completed = [];
+        worldKnowledge.completed = [];
     };
 
     /**
      * Gain knowledge
      */
-    Knowledge.prototype.gain = function(world) {
-        var Knowledge = this,
+    Knowledge.prototype.gain = function() {
+        var worldKnowledge = this,
+            world = worldKnowledge.world,
+
             year = world.Statistic.year,
             totalIQ = world.Statistic.IQ,
             distributedIQList = [],
@@ -65,10 +70,10 @@
          * All IQ will be randomly distributed to trending knowledge and 1 fake knowledge each year.
          * Distributing to a fake knowledge is represented as wasted IQ every year.
          */
-        for (var i = 0, len = Knowledge.trending.length; i <= len; i++) {
+        for (var i = 0, len = worldKnowledge.trending.length; i <= len; i++) {
             distributedIQList[i] = Math.floor(Math.random() * 101); // Random [0, 100]
             if (i < len) {
-                var knowledge = Knowledge.list[Knowledge.trending[i]];
+                var knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
                 if (knowledge.IQ.priority != 1) {
                     distributedIQList[i] *= knowledge.IQ.priority;
                 }
@@ -81,8 +86,8 @@
             tmpTrending = [],
             tmpFollowing = [],
             tmpCompleted = [];
-        for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
-            var knowledge = Knowledge.list[Knowledge.trending[i]],
+        for (var i = 0, len = worldKnowledge.trending.length; i < len; i++) {
+            var knowledge = worldKnowledge.list[worldKnowledge.trending[i]],
                 distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
                 gainedIQ = knowledge.IQ.gained;
 
@@ -116,16 +121,16 @@
         if (tmpCompleted.length > 0) {
             // Move completed trending knowledge to completed knowledge list
             for (var i = 0; i < tmpCompleted.length; i++) {
-                Knowledge.trendingRemoved(tmpCompleted[i]);
-                Knowledge.completed.push(tmpCompleted[i]);
+                worldKnowledge.trendingRemoved(tmpCompleted[i]);
+                worldKnowledge.completed.push(tmpCompleted[i]);
             }
 
             // Add new knowledge to trending
             for (var i = 0; i < tmpFollowing.length; i++) {
-                Knowledge.trendingAdded(Knowledge.list[tmpFollowing[i]]);
+                worldKnowledge.trendingAdded(worldKnowledge.list[tmpFollowing[i]]);
                 tmpTrending.push(tmpFollowing[i]);
             }
-            Knowledge.trending = tmpTrending;
+            worldKnowledge.trending = tmpTrending;
         }
     };
 })(window);
