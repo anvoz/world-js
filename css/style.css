@@ -99,6 +99,16 @@
 .statistic-group > div {
   height: 22px;
 }
+#world-intro {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 10px 25px;
+}
+#world-intro .content {
+  height: 160px;
+}
 
 #world-year-container {
   display: inline-block;

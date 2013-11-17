@@ -151,12 +151,12 @@
 
     var messages = [
         { year: 5, ytl: 15, html: [
-            '<div>About 250,000 years ago, our ancestors began their lives in East Africa.</div>',
-            '<div>They had extraordinary large brains and the ability of walking upright.</div>'
+            '<div>About 250,000 years ago, our ancestors begin their lives in East Africa.</div>',
+            '<div>They have extraordinary large brains and the ability of walking upright.</div>'
         ].join('') },
         { year: 20, ytl: 15, html: [
-            '<div>In trade-off they were less muscular and born prematurely.</div>',
-            '<div>Thus they evolved stronger social ties and started living in small bands.</div>'
+            '<div>In trade-off they are less muscular and born prematurely.</div>',
+            '<div>Thus they evolve stronger social ties and start living in small bands.</div>'
         ].join('') }
     ];
     for (var i = 0; i < messages.length; i++) {
@@ -173,16 +173,44 @@
     }
 
     /** UI setup */
+    $('#world-start-btn').click(function() {
+        $('#world-intro').addClass('hide');
+        $('#world-pause-btn').prop('disabled', false).click();
+    });
     $('#world-pause-btn').click(function() {
         if (world.running) {
             world.stop();
             $(this).html('Play');
         } else {
             world.start();
-            $(this).removeClass('btn-info');
             $(this).html('Pause');
         }
     });
+    (function() {
+        var $wrapper = $('#world-intro'),
+            items = $wrapper.data('items').split(','),
+            $next = $wrapper.find($wrapper.data('next')),
+            $prev = $wrapper.find($wrapper.data('prev')),
+            currentIndex = 0,
+            change = function(num) {
+                var index = currentIndex + num;
+                if (index >= 0 && index < items.length) {
+                    $wrapper.find(items[currentIndex]).addClass('hide');
+                    $wrapper.find(items[index]).removeClass('hide');
+                    currentIndex = index;
+                }
+                (index === 0) ? $prev.addClass('disabled') : $prev.removeClass('disabled');
+                (index === items.length - 1) ? $next.addClass('disabled') : $next.removeClass('disabled');
+            };
+            $next.click(function() {
+                change(1);
+                return false;
+            });
+            $prev.click(function() {
+                change(-1);
+                return false;
+            });
+    })();
     $('#world-display-btns button').click(function() {
         var $this = $(this),
             displayMode = $this.data('display');
