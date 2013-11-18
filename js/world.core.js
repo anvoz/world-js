@@ -436,11 +436,7 @@
 
             world.Rules.change();
             world.Knowledge.gain();
-
-            // Execute asynchronous callback
-            setTimeout(function() {
-                world.Event.trigger('yearPassed');
-            }, 1);
+            world.Event.trigger('yearPassed');
 
             if (sPopulation === 0) {
                 // Stop the world
