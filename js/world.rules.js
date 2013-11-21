@@ -49,7 +49,7 @@
         worldRules.Food = {
             adult: 1,               // Produce 1 food per year
             child: -1,              // Consume 1 food per year
-            resourceIncr: 0,        // Percent of food resource increase per year
+            resourceIncr: 0,        // Percent of food resource increase per 10 years (if enabled)
             resourceMax: 1000000,   // Maximum food resources
             min: -10000             // Minimum food value
         };
@@ -89,11 +89,6 @@
 
             totalAdult = Statistic.men + Statistic.women,
             totalChildren = Statistic.boys + Statistic.girls;
-
-        // Food resource increase / decrease per year
-        if (foodResource > 0) {
-            foodResource = Math.max(0, foodResource + Math.ceil(foodResource * worldRules.Food.resourceIncr));
-        }
 
         var foodProduce = Math.min(foodResource, totalAdult * worldRules.Food.adult),
             foodConsume = totalChildren * worldRules.Food.child,

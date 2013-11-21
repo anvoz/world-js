@@ -24,7 +24,7 @@
                 avgIQ: 0, avgAge: 0, avgChildren: 0
             },
             Rules: {
-                adultFoodChange: 0, childFoodChange: 0, resourceIncr: 0, foodSpoilage: 0,
+                adultFoodChange: 0, childFoodChange: 0, foodResourceRecovery: 100, foodSpoilage: 0,
                 deathChance: 0
             },
             Knowledge: {
@@ -211,7 +211,7 @@
         Cached.set(rulesCache.adultFoodChange, Rules.Food.adult);
         Cached.set(rulesCache.childFoodChange, Rules.Food.child);
         Cached.set(rulesCache.foodSpoilage, (Rules.FoodSpoilage.foodDecr * 100).toFixed());
-        Cached.set(rulesCache.resourceIncr, (Rules.Food.resourceIncr * 100).toFixed());
+        Cached.set(rulesCache.foodResourceRecovery, (100 + Rules.Food.resourceIncr * 100).toFixed());
 
         var Knowledge = world.Knowledge;
         for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
