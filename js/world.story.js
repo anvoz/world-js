@@ -42,6 +42,12 @@
             '<div><b>Knowledge Completed</b></div>',
             '<div>', knowledge.name, '</div>'
         ].join(''), 5);
+
+        switch (knowledge.id) {
+            case 'noma':
+                $('#world-foodResourceRecovery').parent().removeClass('text-muted');
+                break;
+        }
     };
 
     /** Rule setup */
