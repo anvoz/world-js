@@ -2,7 +2,7 @@
  * world.event.js
  * Register behaviors to take effect when an event occurs
  *
- * World JS: Evolution Simulator
+ * World JS
  * https://github.com/anvoz/world-js
  * Copyright (c) 2013 An Vo - anvo4888@gmail.com
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
