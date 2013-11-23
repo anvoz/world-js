@@ -1,4 +1,4 @@
-World JS: Evolution Simulator
+World JS: History Simulation
 ========
 
 **Live Demo:** http://anvoz.github.io/world-js/
@@ -6,7 +6,7 @@ World JS: Evolution Simulator
 
 ## TODO (version 3.0)
 
-* Change the project name: possibly replace "evolution" with "history".
+* ~~Change the project name: possibly replace "evolution" with "history".~~
 * ~~Not start the game on page loaded: the main screen displays a short introduction of history (from the Big Bang to the time when the game start) and a "Start" button.~~
 * ~~Food resource re-fills with a fixed number every Y years, enough to maintain a low population.~~
 * Be able to manually adjust the population limit (still need to complete a knowledge to increase the max value).

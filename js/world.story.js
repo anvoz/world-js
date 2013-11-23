@@ -163,7 +163,7 @@
     /** UI setup */
     $('#world-start-btn').click(function() {
         $('#world-intro').addClass('hide');
-        $('.opacity').animate({ opacity: 1 }, 500);
+        $('.opacity').animate({ opacity: 1 }, 'fast');
         $('#world-pause-btn').prop('disabled', false).click();
     });
     $('#world-pause-btn').click(function() {
@@ -184,15 +184,16 @@
             change = function(num) {
                 var index = currentIndex + num;
                 if (index >= 0 && index < items.length) {
-                    $wrapper.find(items[currentIndex]).addClass('hide');
-                    $wrapper.find(items[index]).removeClass('hide');
-                    currentIndex = index;
+                    $wrapper.find(items[currentIndex]).fadeOut('fast', function() {
+                        $wrapper.find(items[index]).removeClass('hide').fadeIn('fast');
+                        currentIndex = index;
+                    });
                 }
 
                 (index === 0) ? $prev.addClass('disabled') : $prev.removeClass('disabled');
                 if (index === items.length - 1) {
                     $next.addClass('disabled');
-                    $('.opacity').animate({ opacity: 1 }, 500);
+                    $('.opacity').animate({ opacity: 1 }, 'fast');
                 } else {
                     $next.removeClass('disabled');
                 }
