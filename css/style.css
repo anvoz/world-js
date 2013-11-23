@@ -8,6 +8,10 @@
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
 
+.opacity {
+    opacity: 0.10;
+    filter: alpha(opacity=10);
+}
 .footer {
     color: #999;
     border-top: 1px solid #ccc;

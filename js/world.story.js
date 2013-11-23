@@ -163,6 +163,7 @@
     /** UI setup */
     $('#world-start-btn').click(function() {
         $('#world-intro').addClass('hide');
+        $('.opacity').animate({ opacity: 1 }, 500);
         $('#world-pause-btn').prop('disabled', false).click();
     });
     $('#world-pause-btn').click(function() {
@@ -187,8 +188,14 @@
                     $wrapper.find(items[index]).removeClass('hide');
                     currentIndex = index;
                 }
+
                 (index === 0) ? $prev.addClass('disabled') : $prev.removeClass('disabled');
-                (index === items.length - 1) ? $next.addClass('disabled') : $next.removeClass('disabled');
+                if (index === items.length - 1) {
+                    $next.addClass('disabled');
+                    $('.opacity').animate({ opacity: 1 }, 500);
+                } else {
+                    $next.removeClass('disabled');
+                }
             };
             $next.click(function() {
                 change(1);
