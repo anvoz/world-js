@@ -4,16 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>World JS: Evolution Simulator</title>
+        <title>World JS: History Simulation</title>
 
         <meta name="author" content="An Vo">
-        <meta name="title" content="World JS: Evolution Simulator" />
+        <meta name="title" content="World JS: History Simulation" />
         <meta name="keywords" content="world,human,evolution,simulator,history" />
-        <meta name="description" content="Watching the ancient world from the first appearance of our ancestors to the cognitive revolution. During this time, humans gained some remarkable knowledge not only to spread all over the world but also to adapt to completely new ecological conditions within a very short time." />
-        <meta property="og:title" content="World JS: Evolution Simulator" />
-        <meta property="og:site_name" content="World JS: Evolution Simulator" />
+        <meta name="description" content="Watch the ancient world from the first appearance of our ancestors to the cognitive revolution. During this time, humans gain some remarkable knowledge not only to spread all over the world but also to adapt to completely new ecological conditions within a very short time." />
+        <meta property="og:title" content="World JS: History Simulation" />
+        <meta property="og:site_name" content="World JS: History Simulation" />
         <meta property="og:url" content="http://anvoz.github.io/world-js/" />
-        <meta property="og:description" content="Watching the ancient world from the first appearance of our ancestors to the cognitive revolution. During this time, humans gained some remarkable knowledge not only to spread all over the world but also to adapt to completely new ecological conditions within a very short time." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="http://anvoz.github.io/world-js/images/thumb.png" />
 
@@ -31,14 +30,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="http://anvoz.github.io/world-js/">World JS: Evolution Simulator</a>
+                    <a class="navbar-brand" href="http://anvoz.github.io/world-js/">World JS: History Simulation</a>
                 </div><!--/.navbar-header -->
                 <div class="collapse navbar-collapse js-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="http://anvoz.github.io/world-js/">Home</a></li>
                         <li><a target="_blank" href="https://github.com/anvoz/world-js">Github</a></li>
                         <li><a target="_blank" href="https://github.com/anvoz/world-js/wiki">Wiki</a></li>
-                        <li><a target="_blank" href="http://www.reddit.com/r/codetogether/comments/1in075/game_project_world_js_evolution_simulator_looking/">Discussion</a></li>
                     </ul>
                 </div><!--/.navbar-collapse -->
             </div>
@@ -46,7 +44,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 visible-lg" id="world-statistic-container">
+                <div class="col-lg-2 visible-lg opacity" id="world-statistic-container">
                     <button class="btn btn-xs btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
                     <div><p><strong>Statistic</strong></p></div>
                     <div class="js-tabs">
@@ -69,8 +67,6 @@
                                     &bull; <div class="family"><i class="wicon-women"></i><i class="wicon-men"></i></div>
                                     Families: <b id="world-families-ex">0</b>
                                 </div>
-                                <div>&bull; Average children</div>
-                                <div>per family: <b id="world-avgChildren">0</b></div>
                             </div>
 
                             <div class="statistic-group">
@@ -78,7 +74,8 @@
                                     &bull; Food resource: <b id="world-foodResource">0</b>
                                     <span id="world-labelNotEnoughResource" class="label label-danger hide">!</span>
                                 </div>
-                                <div>&bull; <b id="world-resourceIncr">0</b>% food resource per year</div>
+                                <div>&bull; Food resource recovery:</div>
+                                <div class="text-muted"><b id="world-foodResourceRecovery">100</b>% per 10 years</div>
                             </div>
 
                             <div class="statistic-group">
@@ -91,6 +88,11 @@
                         <div id="world-statisticMore" class="statistic-container top-padding js-tab-content hide">
                             <div class="statistic-group">
                                 <div>&bull; Death rate: <b id="world-deathChance">0</b>%</div>
+                            </div>
+
+                            <div class="statistic-group">
+                                <div>&bull; Average children</div>
+                                <div>per family: <b id="world-avgChildren">0</b></div>
                             </div>
 
                             <div class="statistic-group">
@@ -111,9 +113,9 @@
                     </div>
                 </div><!--/#world-statistic-container -->
                 <div class="col-lg-7 col-md-9">
-                    <div class="row text-center">
+                    <div class="row text-center opacity">
                         <strong id="world-year-container">Year <span id="world-year">0</span></strong>
-                        <button class="btn btn-sm btn-default" id="world-pause-btn" autocomplete="off">Pause</button>
+                        <button class="btn btn-sm btn-info" id="world-pause-btn" autocomplete="off" disabled>Start</button>
                         <div id="world-display-btns" class="btn-group">
                             <button class="btn btn-sm btn-default active" data-display="full">Display: Full</button>
                             <button class="btn btn-sm btn-default" data-display="dot">Dot</button>
@@ -127,7 +129,7 @@
                     </div><!--/ Top row -->
                     <div class="row top-padding">
                         <div class="container clearfix">
-                            <div class="badges-vgroup hidden-lg pull-left">
+                            <div class="badges-vgroup hidden-lg pull-left opacity">
                                 <div title="Men">
                                     <div class="badge">
                                         <i class="wicon-men"></i><div class="badge-num ellipsis" id="world-men">0</div>
@@ -166,10 +168,66 @@
                                 <div id="world"></div>
                                 <!-- Guide -->
                                 <div class="guide"></div>
+                                <!-- Introduction -->
+                                <div id="world-intro" data-items=".physics,.chemistry,.biology,.history,.game" data-next=".next" data-prev=".prev">
+                                    <h1>What is History?</h1>
+                                    <div class="content">
+                                        <div class="physics">
+                                            <blockquote>
+                                                From nothing, our universe begins.
+                                                <small>A Short History of Nearly Everything by Bill Bryson</small>
+                                            </blockquote>
+                                            <p>About 13 billion years ago, matter come into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
+                                            <p>In this first story of our universe - which is called <span class="label label-info">Physics</span> - space, time, matter, energy are formed and start interacting with one another.</p>
+                                        </div>
+                                        <div class="chemistry hide">
+                                            <blockquote>
+                                                It really is the most poetic thing I know about physics: You are all stardust.
+                                                <small>Lawrence M. Krauss</small>
+                                            </blockquote>
+                                            <p>About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.</p>
+                                            <p>The story of atoms, molecules, and their interactions is called <span class="label label-info">Chemistry.</span></p>
+                                        </div>
+                                        <div class="biology hide">
+                                            <blockquote>
+                                                One of the deepest functions of living organisms is to look ahead, to produce future.
+                                                <small>Francois Jacob</small>
+                                            </blockquote>
+                                            <p>About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.</p>
+                                            <p>The story of organisms, their functions and interactions is called <span class="label label-info">Biology.</span></p>
+                                        </div>
+                                        <div class="history hide">
+                                            <blockquote>
+                                                History is simply the next stage in the process of ongoing complexity in the universe.
+                                                <small>A Brief History of Humankind by Yuval Noah Harari</small>
+                                            </blockquote>
+                                            <p>About 70,000 years ago, organisms belonging to our species, <span class="label label-danger">Homo sapiens</span> come together, combine and form even more elaborate structures, which are called cultures.</p>
+                                            <p>The story of the formation, development  and interaction of human cultures is called <span class="label label-info">History.</span></p>
+                                        </div>
+                                        <div class="game hide">
+                                            <p>
+                                                <span class="label label-danger">World JS</span> is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. 
+                                            </p>
+                                            <p>
+                                                The game is currently focusing on the content of <span class="label label-info">the cognitive revolution.</span>
+                                                So it is not complete and the playable part is simple: you can change knowledge priority if needed.<br>
+                                                Or, just let the game process by itself as a <a target="_blank" href="http://en.wikipedia.org/wiki/Zero-player_game">zero-player game</a>.
+                                            </p>
+                                            <p>For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.</p>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <a class="prev btn btn-link disabled pull-left" href="#"><small>&larr; Back</small></a>
+                                        <a class="next btn btn-link pull-right" href="#"><small>Continue reading &rarr;</small></a>
+                                    </div>
+                                    <div class="text-center top-padding">
+                                        <button id="world-start-btn" class="btn btn-info btn-lg">Start Game</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div><!--/ Middle row -->
-                    <div class="row text-center">
+                    <div class="row text-center opacity">
                         <div class="col-xs-4 top-padding">
                             <div>
                                 <strong>Population</strong>
@@ -191,7 +249,7 @@
                     </div><!--/ Bottom row -->
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <div id="knowledge">
+                    <div id="knowledge" class="opacity">
                         <div><p><strong>Knowledge</strong></p></div>
                         <div class="js-tabs">
                             <div>
@@ -209,13 +267,24 @@
         </div><!--/.container -->
 
         <footer class="footer">
-            <div class="container">
-                <p>
-                    Version 2.1 - Last updated: Sep 26 2013
-                    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fanvoz.github.io%2Fworld-js&amp;width=90&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=172920616226763" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px; vertical-align:bottom;" allowTransparency="true"></iframe>
-                    <br>
+            <div class="container clearfix">
+                <div class="pull-left">
+                    Version 2.2 - Last updated: Nov 23 2013<br>
                     Licensed under the <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>
-                </p>
+                </div>
+                <div class="pull-right">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://anvoz.github.io/world-js/">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fanvoz.github.io%2Fworld-js&amp;width=90&amp;height=21&amp;colorscheme=light&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;send=false&amp;appId=172920616226763" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;" allowTransparency="true"></iframe>
+                    <div class="g-plusone" data-size="medium" data-href="http://anvoz.github.io/world-js"></div>
+                    <script type="text/javascript">
+                        (function() {
+                            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                            po.src = 'https://apis.google.com/js/platform.js';
+                            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+                        })();
+                    </script>
+                </div>
             </div>
         </footer><!--/.footer -->
 
