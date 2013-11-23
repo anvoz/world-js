@@ -161,7 +161,7 @@
         // Add completed knowledge to knowledge history container
         var html = [
                 '<div class="knowledge">',
-                    '<div class="name">', Cached.Statistic.year.value, ': ', knowledge.name, '</div>',
+                    '<div class="name">', (Cached.Statistic.year.value + 1), ': ', knowledge.name, '</div>',
                     '<div class="description">', knowledge.description, '</div>',
                 '</div>'
             ].join('');
