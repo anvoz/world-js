@@ -112,10 +112,7 @@
     Event.add('yearPassed', 'default', function() {
         var world = this,
             Knowledge = world.Knowledge,
-            Statistic = world.Statistic,
-            Rules = world.Rules;
-
-        Statistic.foodResource = Math.min(Statistic.foodResource, Rules.Food.resourceMax);
+            Statistic = world.Statistic;
 
         if (Knowledge.completed.length == 8) {
             if (Knowledge.trending.length == 0) {

@@ -50,7 +50,6 @@
             adult: 1,               // Produce 1 food per year
             child: -1,              // Consume 1 food per year
             resourceIncr: 0,        // Percent of food resource increase per 10 years (if enabled)
-            resourceMax: 1000000,   // Maximum food resources
             min: -10000             // Minimum food value
         };
 
