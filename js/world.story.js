@@ -114,17 +114,17 @@
             Knowledge = world.Knowledge,
             Statistic = world.Statistic;
 
+        // Add coming soon message
         if (Knowledge.completed.length == 8) {
             if (Knowledge.trending.length == 0) {
-                // Add coming soon message
                 Knowledge.trending.push('coso');
                 Interface.trendingAdded(Knowledge.list['coso']);
             }
+        }
 
-            if (Statistic.population == 0) {
-                $('#world-pause-btn').prop('disabled', 'disabled');
-                world.stop();
-            }
+        if (Statistic.population == 0) {
+            $('#world-pause-btn').prop('disabled', 'disabled');
+            world.stop();
         }
     });
 
