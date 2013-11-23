@@ -122,21 +122,6 @@
                 // Add coming soon message
                 Knowledge.trending.push('coso');
                 Interface.trendingAdded(Knowledge.list['coso']);
-
-                // Add unlock population limit button
-                $('<button class="btn btn-default btn-xs">Unlock</button>').css({
-                    fontSize: '75%',
-                    lineHeight: 1,
-                    padding: '0.2em 0.6em',
-                    margin: '1px 5px 0 0'
-                }).click(function() {
-                    var msg = 'This is a free play mode, not based on the story of the game.\nDo you want to unlock the population limit?';
-                    if (window.confirm(msg)) {
-                        $(this).remove();
-                        Rules.Population.limit = 500000;
-                        Rules.Food.resourceMax = 99999999;
-                    }
-                }).insertBefore($('#world-labelPopulationLimit'));
             }
 
             if (Statistic.population == 0) {
