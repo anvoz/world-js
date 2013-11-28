@@ -36,14 +36,12 @@
                 <div class="col-lg-2 visible-lg opacity" id="world-statistic-container">
                     <button class="btn btn-xs btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
                     <p><strong>Statistic</strong></p>
-                    <div class="js-tabs">
-                        <div>
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a class="js-tab" href="#" data-target="#world-statisticBasic">Basic</a></li>
-                                <li><a class="js-tab" href="#" data-target="#world-statisticMore">More</a></li>
-                            </ul>
-                        </div>
-                        <div id="world-statisticBasic" class="statistic-container top-padding js-tab-content">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#world-statistic-basic">Basic</a></li>
+                        <li><a data-toggle="tab" href="#world-statistic-more">More</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="world-statistic-basic" class="statistic-container tab-pane active">
                             <div class="statistic-group">
                                 <div>&bull; <i class="wicon-men"></i> Men: <b id="world-men-ex">0</b></div>
                                 <div>&bull; <i class="wicon-women"></i> Women: <b id="world-women-ex">0</b></div>
@@ -74,7 +72,7 @@
                                 <div><b id="world-childFoodChange">0</b> food per year</div>
                             </div>
                         </div>
-                        <div id="world-statisticMore" class="statistic-container top-padding js-tab-content hide">
+                        <div id="world-statistic-more" class="statistic-container tab-pane">
                             <div class="statistic-group">
                                 <div>&bull; Death rate: <b id="world-deathChance">0</b>%</div>
                             </div>
@@ -240,15 +238,13 @@
                 <div class="col-lg-3 col-md-3">
                     <div id="knowledge" class="opacity">
                         <p><strong>Knowledge</strong></p>
-                        <div class="js-tabs">
-                            <div>
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a class="js-tab" href="#" data-target="#world-knowledgeTrending">Trending</a></li>
-                                    <li><a class="js-tab" href="#" data-target="#world-knowledgeHistory">History</a></li>
-                                </ul>
-                            </div>
-                            <div id="world-knowledgeTrending" class="js-tab-content"></div>
-                            <div id="world-knowledgeHistory" class="js-tab-content hide"></div>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#world-knowledgeTrending">Trending</a></li>
+                            <li><a data-toggle="tab" href="#world-knowledgeHistory">History</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="world-knowledgeTrending" class="tab-pane active"></div>
+                            <div id="world-knowledgeHistory" class="tab-pane"></div>
                         </div>
                     </div><!--/#knowledge -->
                 </div>

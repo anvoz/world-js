@@ -96,6 +96,7 @@
 .statistic-container {
     font-size: 12px;
     line-height: 1.7;
+    padding-top: 10px;
 }
 .statistic-container .statistic-group + .statistic-group {
     padding-top: 10px;
