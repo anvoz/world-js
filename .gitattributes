@@ -1,0 +1,18 @@
+# Normalise line endings:
+* eol=lf
+
+# These should always be text files
+*.css       text
+*.js        text
+*.html      text
+*.md        text
+
+# Avoid unreadable diffs for generated text files
+# (e.g. minified JS)
+*.min.*     binary
+
+# These should always be binaries
+*.ico       binary
+*.gif       binary
+*.png       binary
+*.jpg       binary
