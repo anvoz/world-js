@@ -33,8 +33,8 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 visible-lg opacity" id="world-statistic-container">
-                    <button class="btn btn-xs btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
+                <div id="world-statistic-container" class="col-lg-2 visible-lg opacity">
+                    <button class="close js-statistic-toggle hide pull-right">x</button>
                     <p><strong>Statistic</strong></p>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#world-statistic-basic">Basic</a></li>
@@ -114,102 +114,99 @@
                             <button class="btn btn-sm btn-default" data-speed="5">x5</button>
                         </div>
                     </div><!--/ Top row -->
-                    <div class="top-padding">
-                        <div class="clearfix">
-                            <div class="badges-vgroup hidden-lg pull-left opacity">
-                                <div title="Men">
-                                    <div class="badge">
-                                        <i class="wicon-men"></i><div class="badge-num ellipsis" id="world-men">0</div>
+                    <div class="top-padding clearfix">
+                        <div class="badges-vgroup hidden-lg pull-left opacity">
+                            <div title="Men">
+                                <div class="badge">
+                                    <i class="wicon-men"></i><div class="badge-num ellipsis" id="world-men">0</div>
+                                </div>
+                            </div>
+                            <div title="Women">
+                                <div class="badge">
+                                    <i class="wicon-women"></i><div class="badge-num ellipsis" id="world-women">0</div>
+                                </div>
+                            </div>
+                            <div title="Families">
+                                <div class="badge">
+                                    <div class="family">
+                                        <i class="wicon-women"></i><i class="wicon-men"></i>
+                                    </div>
+                                    <div class="badge-num ellipsis" id="world-families">0</div>
+                                </div>
+                            </div>
+                            <div title="Boys">
+                                <div class="badge">
+                                    <i class="wicon-boy"></i><div class="badge-num ellipsis" id="world-boys">0</div>
+                                </div>
+                            </div>
+                            <div title="Girls">
+                                <div class="badge">
+                                    <i class="wicon-girl"></i><div class="badge-num ellipsis" id="world-girls">0</div>
+                                </div>
+                            </div>
+                            <div class="top-padding">
+                                <button class="btn btn-sm btn-default js-statistic-toggle" title="Show statistic">...</button>
+                            </div>
+                        </div><!--/.badges-vgroup -->
+                        <div id="world-container" class="pull-left">
+                            <!-- Main canvas wrapper -->
+                            <div id="world"></div>
+                            <!-- Guide -->
+                            <div class="guide"></div>
+                            <!-- Introduction -->
+                            <div id="world-intro" data-items=".physics,.chemistry,.biology,.history,.game" data-next=".next" data-prev=".prev">
+                                <h1>What is History?</h1>
+                                <div class="content">
+                                    <div class="physics">
+                                        <blockquote>
+                                            From nothing, our universe begins.
+                                            <small>A Short History of Nearly Everything by Bill Bryson</small>
+                                        </blockquote>
+                                        <p>About 13 billion years ago, matter come into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
+                                        <p>In this first story of our universe - which is called <span class="label label-info">Physics</span> - space, time, matter, energy are formed and start interacting with one another.</p>
+                                    </div>
+                                    <div class="chemistry hide">
+                                        <blockquote>
+                                            It really is the most poetic thing I know about physics: You are all stardust.
+                                            <small>Lawrence M. Krauss</small>
+                                        </blockquote>
+                                        <p>About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.</p>
+                                        <p>The story of atoms, molecules, and their interactions is called <span class="label label-info">Chemistry.</span></p>
+                                    </div>
+                                    <div class="biology hide">
+                                        <blockquote>
+                                            One of the deepest functions of living organisms is to look ahead, to produce future.
+                                            <small>Francois Jacob</small>
+                                        </blockquote>
+                                        <p>About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.</p>
+                                        <p>The story of organisms, their functions and interactions is called <span class="label label-info">Biology.</span></p>
+                                    </div>
+                                    <div class="history hide">
+                                        <blockquote>
+                                            History is simply the next stage in the process of ongoing complexity in the universe.
+                                            <small>A Brief History of Humankind by Yuval Noah Harari</small>
+                                        </blockquote>
+                                        <p>About 70,000 years ago, organisms belonging to our species, <span class="label label-danger">Homo sapiens</span> come together, combine and form even more elaborate structures, which are called cultures.</p>
+                                        <p>The story of the formation, development  and interaction of human cultures is called <span class="label label-info">History.</span></p>
+                                    </div>
+                                    <div class="game hide">
+                                        <p>
+                                            <span class="label label-danger">World JS</span> is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. 
+                                        </p>
+                                        <p>
+                                            The game is currently focusing on the content of <span class="label label-info">the cognitive revolution.</span>
+                                            So it is not complete and the playable part is simple: you can change knowledge priority if needed.<br>
+                                            Or, just let the game process by itself as a <a target="_blank" href="http://en.wikipedia.org/wiki/Zero-player_game">zero-player game</a>.
+                                        </p>
+                                        <p>For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.</p>
                                     </div>
                                 </div>
-                                <div title="Women">
-                                    <div class="badge">
-                                        <i class="wicon-women"></i><div class="badge-num ellipsis" id="world-women">0</div>
-                                    </div>
+                                <div class="clearfix">
+                                    <a class="prev btn btn-link disabled pull-left" href="#"><small>&larr; Back</small></a>
+                                    <a class="next btn btn-link pull-right" href="#"><small>Continue reading &rarr;</small></a>
                                 </div>
-                                <div title="Families">
-                                    <div class="badge">
-                                        <div class="family">
-                                            <i class="wicon-women"></i><i class="wicon-men"></i>
-                                        </div>
-                                        <div class="badge-num ellipsis" id="world-families">0</div>
-                                    </div>
-                                </div>
-                                <div title="Boys">
-                                    <div class="badge">
-                                        <i class="wicon-boy"></i><div class="badge-num ellipsis" id="world-boys">0</div>
-                                    </div>
-                                </div>
-                                <div title="Girls">
-                                    <div class="badge">
-                                        <i class="wicon-girl"></i><div class="badge-num ellipsis" id="world-girls">0</div>
-                                    </div>
-                                </div>
-                                <div class="top-padding">
-                                    <button class="btn btn-sm btn-default js-statistic-toggle" title="Show statistic">...</button>
-                                </div>
-                            </div><!--/.badges-vgroup -->
-
-                            <div id="world-container" class="pull-left">
-                                <!-- Main canvas wrapper -->
-                                <div id="world"></div>
-                                <!-- Guide -->
-                                <div class="guide"></div>
-                                <!-- Introduction -->
-                                <div id="world-intro" data-items=".physics,.chemistry,.biology,.history,.game" data-next=".next" data-prev=".prev">
-                                    <h1>What is History?</h1>
-                                    <div class="content">
-                                        <div class="physics">
-                                            <blockquote>
-                                                From nothing, our universe begins.
-                                                <small>A Short History of Nearly Everything by Bill Bryson</small>
-                                            </blockquote>
-                                            <p>About 13 billion years ago, matter come into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
-                                            <p>In this first story of our universe - which is called <span class="label label-info">Physics</span> - space, time, matter, energy are formed and start interacting with one another.</p>
-                                        </div>
-                                        <div class="chemistry hide">
-                                            <blockquote>
-                                                It really is the most poetic thing I know about physics: You are all stardust.
-                                                <small>Lawrence M. Krauss</small>
-                                            </blockquote>
-                                            <p>About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.</p>
-                                            <p>The story of atoms, molecules, and their interactions is called <span class="label label-info">Chemistry.</span></p>
-                                        </div>
-                                        <div class="biology hide">
-                                            <blockquote>
-                                                One of the deepest functions of living organisms is to look ahead, to produce future.
-                                                <small>Francois Jacob</small>
-                                            </blockquote>
-                                            <p>About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.</p>
-                                            <p>The story of organisms, their functions and interactions is called <span class="label label-info">Biology.</span></p>
-                                        </div>
-                                        <div class="history hide">
-                                            <blockquote>
-                                                History is simply the next stage in the process of ongoing complexity in the universe.
-                                                <small>A Brief History of Humankind by Yuval Noah Harari</small>
-                                            </blockquote>
-                                            <p>About 70,000 years ago, organisms belonging to our species, <span class="label label-danger">Homo sapiens</span> come together, combine and form even more elaborate structures, which are called cultures.</p>
-                                            <p>The story of the formation, development  and interaction of human cultures is called <span class="label label-info">History.</span></p>
-                                        </div>
-                                        <div class="game hide">
-                                            <p>
-                                                <span class="label label-danger">World JS</span> is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. 
-                                            </p>
-                                            <p>
-                                                The game is currently focusing on the content of <span class="label label-info">the cognitive revolution.</span>
-                                                So it is not complete and the playable part is simple: you can change knowledge priority if needed.<br>
-                                                Or, just let the game process by itself as a <a target="_blank" href="http://en.wikipedia.org/wiki/Zero-player_game">zero-player game</a>.
-                                            </p>
-                                            <p>For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.</p>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix">
-                                        <a class="prev btn btn-link disabled pull-left" href="#"><small>&larr; Back</small></a>
-                                        <a class="next btn btn-link pull-right" href="#"><small>Continue reading &rarr;</small></a>
-                                    </div>
-                                    <div class="text-center top-padding">
-                                        <button id="world-start-btn" class="btn btn-info btn-lg">Start Now</button>
-                                    </div>
+                                <div class="text-center top-padding">
+                                    <button id="world-start-btn" class="btn btn-info btn-lg">Start Now</button>
                                 </div>
                             </div>
                         </div>
