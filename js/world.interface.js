@@ -228,28 +228,6 @@
         Cached.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
     };
 
-    // Basic UI: switch between tabs
-    $('.js-tab').each(function() {
-        $(this).click(function() {
-            $(this).parent().addClass('active').siblings('li').removeClass('active');
-            $(this).parents('.js-tabs').find('.js-tab-content').addClass('hide');
-            $($(this).data('target')).removeClass('hide');
-            return false;
-        });
-    });
-
-    // Basic UI: toggle navbar in small screen
-    $('.js-navbar-toggle').each(function() {
-        $(this).click(function() {
-            var $target = $($(this).data('target'));
-            if ($target.hasClass('in')) {
-                $target.removeClass('in');
-            } else {
-                $target.addClass('in');
-            }
-        });
-    });
-
     // Basic UI: toggle statistic container
     $('.js-statistic-toggle').each(function() {
         $(this).click(function() {
