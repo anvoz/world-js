@@ -154,10 +154,10 @@
                             <!-- Guide -->
                             <div class="guide"></div>
                             <!-- Introduction -->
-                            <div id="world-intro" data-items=".physics,.chemistry,.biology,.history,.game" data-next=".next" data-prev=".prev">
+                            <div id="world-intro" class="carousel slide" data-interval="false" data-wrap="false">
                                 <h1>What is History?</h1>
-                                <div class="content">
-                                    <div class="physics">
+                                <div class="content carousel-inner">
+                                    <div class="item active">
                                         <blockquote>
                                             From nothing, our universe begins.
                                             <small>A Short History of Nearly Everything by Bill Bryson</small>
@@ -165,7 +165,7 @@
                                         <p>About 13 billion years ago, matter come into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
                                         <p>In this first story of our universe - which is called <span class="label label-info">Physics</span> - space, time, matter, energy are formed and start interacting with one another.</p>
                                     </div>
-                                    <div class="chemistry hide">
+                                    <div class="item">
                                         <blockquote>
                                             It really is the most poetic thing I know about physics: You are all stardust.
                                             <small>Lawrence M. Krauss</small>
@@ -173,7 +173,7 @@
                                         <p>About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.</p>
                                         <p>The story of atoms, molecules, and their interactions is called <span class="label label-info">Chemistry.</span></p>
                                     </div>
-                                    <div class="biology hide">
+                                    <div class="item">
                                         <blockquote>
                                             One of the deepest functions of living organisms is to look ahead, to produce future.
                                             <small>Francois Jacob</small>
@@ -181,7 +181,7 @@
                                         <p>About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.</p>
                                         <p>The story of organisms, their functions and interactions is called <span class="label label-info">Biology.</span></p>
                                     </div>
-                                    <div class="history hide">
+                                    <div class="item">
                                         <blockquote>
                                             History is simply the next stage in the process of ongoing complexity in the universe.
                                             <small>A Brief History of Humankind by Yuval Noah Harari</small>
@@ -189,7 +189,7 @@
                                         <p>About 70,000 years ago, organisms belonging to our species, <span class="label label-danger">Homo sapiens</span> come together, combine and form even more elaborate structures, which are called cultures.</p>
                                         <p>The story of the formation, development  and interaction of human cultures is called <span class="label label-info">History.</span></p>
                                     </div>
-                                    <div class="game hide">
+                                    <div class="item">
                                         <p>
                                             <span class="label label-danger">World JS</span> is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. 
                                         </p>
@@ -202,8 +202,12 @@
                                     </div>
                                 </div>
                                 <div class="clearfix">
-                                    <a class="prev btn btn-link disabled pull-left" href="#"><small>&larr; Back</small></a>
-                                    <a class="next btn btn-link pull-right" href="#"><small>Continue reading &rarr;</small></a>
+                                    <a class="prev btn btn-link pull-left disabled" href="#world-intro" data-slide="prev">
+                                        <small>&larr; Back</small>
+                                    </a>
+                                    <a class="next btn btn-link pull-right" href="#world-intro" data-slide="next">
+                                        <small>Continue reading &rarr;</small>
+                                    </a>
                                 </div>
                                 <div class="text-center top-padding">
                                     <button id="world-start-btn" class="btn btn-info btn-lg">Start Now</button>

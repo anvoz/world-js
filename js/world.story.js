@@ -175,38 +175,6 @@
             $(this).html('Pause');
         }
     });
-    (function() {
-        var $wrapper = $('#world-intro'),
-            items = $wrapper.data('items').split(','),
-            $next = $wrapper.find($wrapper.data('next')),
-            $prev = $wrapper.find($wrapper.data('prev')),
-            currentIndex = 0,
-            change = function(num) {
-                var index = currentIndex + num;
-                if (index >= 0 && index < items.length) {
-                    $wrapper.find(items[currentIndex]).fadeOut('fast', function() {
-                        $wrapper.find(items[index]).removeClass('hide').fadeIn('fast');
-                        currentIndex = index;
-                    });
-                }
-
-                (index === 0) ? $prev.addClass('disabled') : $prev.removeClass('disabled');
-                if (index === items.length - 1) {
-                    $next.addClass('disabled');
-                    $('.opacity').animate({ opacity: 1 }, 'fast');
-                } else {
-                    $next.removeClass('disabled');
-                }
-            };
-            $next.click(function() {
-                change(1);
-                return false;
-            });
-            $prev.click(function() {
-                change(-1);
-                return false;
-            });
-    })();
     $('#world-display-btns button').click(function() {
         var $this = $(this),
             displayMode = $this.data('display');
@@ -229,6 +197,25 @@
                 world.tickPerYear = 60;
                 world.speed = 1;
                 break;
+        }
+    });
+    $('#world-intro').on('slid.bs.carousel', function () {
+        var $carousel = $(this),
+            $content = $carousel.find('.content'),
+            $prev = $carousel.find('.prev'),
+            $next = $carousel.find('.next');
+
+        if ($content.find('.item:first').hasClass('active')) {
+            $prev.addClass('disabled');
+        } else {
+            $prev.removeClass('disabled');
+        }
+
+        if ($content.find('.item:last').hasClass('active')) {
+            $next.addClass('disabled');
+            $('.opacity').animate({ opacity: 1 }, 'fast');
+        } else {
+            $next.removeClass('disabled');
         }
     });
     $(document).on('change', '.priority', function() {
