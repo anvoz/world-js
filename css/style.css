@@ -104,6 +104,7 @@
 .statistic-group > div {
     height: 22px;
 }
+
 #world-intro {
     position: absolute;
     width: 100%;
@@ -113,6 +114,19 @@
 }
 #world-intro .content {
     height: 160px;
+}
+#world-intro .carousel-indicators {
+    bottom: 65px;
+}
+#world-intro .carousel-indicators li {
+    border: 1px solid #5bc0de;
+}
+#world-intro .carousel-indicators .active {
+    background-color: #5bc0de;
+}
+#world-intro .start {
+    text-align: center;
+    padding-top: 15px;
 }
 
 #world-year-container {
