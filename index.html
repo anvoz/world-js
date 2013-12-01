@@ -17,14 +17,14 @@
         <meta property="og:image" content="http://anvoz.github.io/world-js/images/thumb.png" />
 
         <!-- Le styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>
         <header class="navbar navbar-inverse navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle js-navbar-toggle" data-target=".js-navbar-collapse">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -32,7 +32,7 @@
                     </button>
                     <a class="navbar-brand" href="http://anvoz.github.io/world-js/">World JS: History Simulation</a>
                 </div><!--/.navbar-header -->
-                <div class="collapse navbar-collapse js-navbar-collapse">
+                <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="http://anvoz.github.io/world-js/">Home</a></li>
                         <li><a target="_blank" href="https://github.com/anvoz/world-js">Github</a></li>
@@ -44,17 +44,15 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 visible-lg opacity" id="world-statistic-container">
-                    <button class="btn btn-xs btn-default js-statistic-toggle hide pull-right" title="Close statistic">Close</button>
-                    <div><p><strong>Statistic</strong></p></div>
-                    <div class="js-tabs">
-                        <div>
+                <div id="world-statistic-container" class="col-lg-2 visible-lg opacity">
+                    <button class="close js-statistic-toggle hide pull-right">x</button>
+                    <p><strong>Statistic</strong></p>
                             <ul class="nav nav-tabs">
-                                <li class="active"><a class="js-tab" href="#" data-target="#world-statisticBasic">Basic</a></li>
-                                <li><a class="js-tab" href="#" data-target="#world-statisticMore">More</a></li>
+                        <li class="active"><a data-toggle="tab" href="#world-statistic-basic">Basic</a></li>
+                        <li><a data-toggle="tab" href="#world-statistic-more">More</a></li>
                             </ul>
-                        </div>
-                        <div id="world-statisticBasic" class="statistic-container top-padding js-tab-content">
+                    <div class="tab-content">
+                        <div id="world-statistic-basic" class="statistic-container tab-pane active">
                             <div class="statistic-group">
                                 <div>&bull; <i class="wicon-men"></i> Men: <b id="world-men-ex">0</b></div>
                                 <div>&bull; <i class="wicon-women"></i> Women: <b id="world-women-ex">0</b></div>
@@ -85,7 +83,7 @@
                                 <div><b id="world-childFoodChange">0</b> food per year</div>
                             </div>
                         </div>
-                        <div id="world-statisticMore" class="statistic-container top-padding js-tab-content hide">
+                        <div id="world-statistic-more" class="statistic-container tab-pane">
                             <div class="statistic-group">
                                 <div>&bull; Death rate: <b id="world-deathChance">0</b>%</div>
                             </div>
@@ -113,7 +111,7 @@
                     </div>
                 </div><!--/#world-statistic-container -->
                 <div class="col-lg-7 col-md-9">
-                    <div class="row text-center opacity">
+                    <div class="text-center opacity">
                         <strong id="world-year-container">Year <span id="world-year">0</span></strong>
                         <button class="btn btn-sm btn-info" id="world-pause-btn" autocomplete="off" disabled>Start</button>
                         <div id="world-display-btns" class="btn-group">
@@ -127,8 +125,7 @@
                             <button class="btn btn-sm btn-default" data-speed="5">x5</button>
                         </div>
                     </div><!--/ Top row -->
-                    <div class="row top-padding">
-                        <div class="container clearfix">
+                    <div class="top-padding clearfix">
                             <div class="badges-vgroup hidden-lg pull-left opacity">
                                 <div title="Men">
                                     <div class="badge">
@@ -162,25 +159,24 @@
                                     <button class="btn btn-sm btn-default js-statistic-toggle" title="Show statistic">...</button>
                                 </div>
                             </div><!--/.badges-vgroup -->
-
                             <div id="world-container" class="pull-left">
                                 <!-- Main canvas wrapper -->
                                 <div id="world"></div>
                                 <!-- Guide -->
                                 <div class="guide"></div>
                                 <!-- Introduction -->
-                                <div id="world-intro" data-items=".physics,.chemistry,.biology,.history,.game" data-next=".next" data-prev=".prev">
+                            <div id="world-intro" class="carousel slide" data-interval="false" data-wrap="false">
                                     <h1>What is History?</h1>
-                                    <div class="content">
-                                        <div class="physics">
+                                <div class="content carousel-inner">
+                                    <div class="item active">
                                             <blockquote>
                                                 From nothing, our universe begins.
                                                 <small>A Short History of Nearly Everything by Bill Bryson</small>
                                             </blockquote>
-                                            <p>About 13 billion years ago, matter come into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
+                                        <p>About 13 billion years ago, matter comes into existence in what is known as the <span class="label label-danger">Big Bang.</span></p>
                                             <p>In this first story of our universe - which is called <span class="label label-info">Physics</span> - space, time, matter, energy are formed and start interacting with one another.</p>
                                         </div>
-                                        <div class="chemistry hide">
+                                    <div class="item">
                                             <blockquote>
                                                 It really is the most poetic thing I know about physics: You are all stardust.
                                                 <small>Lawrence M. Krauss</small>
@@ -188,7 +184,7 @@
                                             <p>About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.</p>
                                             <p>The story of atoms, molecules, and their interactions is called <span class="label label-info">Chemistry.</span></p>
                                         </div>
-                                        <div class="biology hide">
+                                    <div class="item">
                                             <blockquote>
                                                 One of the deepest functions of living organisms is to look ahead, to produce future.
                                                 <small>Francois Jacob</small>
@@ -196,7 +192,7 @@
                                             <p>About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.</p>
                                             <p>The story of organisms, their functions and interactions is called <span class="label label-info">Biology.</span></p>
                                         </div>
-                                        <div class="history hide">
+                                    <div class="item">
                                             <blockquote>
                                                 History is simply the next stage in the process of ongoing complexity in the universe.
                                                 <small>A Brief History of Humankind by Yuval Noah Harari</small>
@@ -204,7 +200,7 @@
                                             <p>About 70,000 years ago, organisms belonging to our species, <span class="label label-danger">Homo sapiens</span> come together, combine and form even more elaborate structures, which are called cultures.</p>
                                             <p>The story of the formation, development  and interaction of human cultures is called <span class="label label-info">History.</span></p>
                                         </div>
-                                        <div class="game hide">
+                                    <div class="item">
                                             <p>
                                                 <span class="label label-danger">World JS</span> is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. 
                                             </p>
@@ -216,18 +212,28 @@
                                             <p>For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.</p>
                                         </div>
                                     </div>
+                                <ol class="carousel-indicators">
+                                    <li data-target="#world-intro" data-slide-to="0" class="active"></li>
+                                    <li data-target="#world-intro" data-slide-to="1"></li>
+                                    <li data-target="#world-intro" data-slide-to="2"></li>
+                                    <li data-target="#world-intro" data-slide-to="3"></li>
+                                    <li data-target="#world-intro" data-slide-to="4"></li>
+                                </ol>
                                     <div class="clearfix">
-                                        <a class="prev btn btn-link disabled pull-left" href="#"><small>&larr; Back</small></a>
-                                        <a class="next btn btn-link pull-right" href="#"><small>Continue reading &rarr;</small></a>
-                                    </div>
-                                    <div class="text-center top-padding">
+                                    <a class="prev btn btn-link pull-left disabled" href="#world-intro" data-slide="prev">
+                                        <small>&larr; Back</small>
+                                    </a>
+                                    <a class="next btn btn-link pull-right" href="#world-intro" data-slide="next">
+                                        <small>Continue reading &rarr;</small>
+                                    </a>
+                                </div>
+                                <div class="start">
                                         <button id="world-start-btn" class="btn btn-info btn-lg">Start Now</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </div><!--/ Middle row -->
-                    <div class="row text-center opacity">
+                    <div class="text-center opacity">
                         <div class="col-xs-4 top-padding">
                             <div>
                                 <strong>Population</strong>
@@ -250,16 +256,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div id="knowledge" class="opacity">
-                        <div><p><strong>Knowledge</strong></p></div>
-                        <div class="js-tabs">
-                            <div>
+                        <p><strong>Knowledge</strong></p>
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a class="js-tab" href="#" data-target="#world-knowledgeTrending">Trending</a></li>
-                                    <li><a class="js-tab" href="#" data-target="#world-knowledgeHistory">History</a></li>
+                            <li class="active"><a data-toggle="tab" href="#world-knowledgeTrending">Trending</a></li>
+                            <li><a data-toggle="tab" href="#world-knowledgeHistory">History</a></li>
                                 </ul>
-                            </div>
-                            <div id="world-knowledgeTrending" class="js-tab-content"></div>
-                            <div id="world-knowledgeHistory" class="js-tab-content hide"></div>
+                        <div class="tab-content">
+                            <div id="world-knowledgeTrending" class="tab-pane active"></div>
+                            <div id="world-knowledgeHistory" class="tab-pane"></div>
                         </div>
                     </div><!--/#knowledge -->
                 </div>
@@ -269,7 +273,7 @@
         <footer class="footer">
             <div class="container clearfix">
                 <div class="pull-left">
-                    Version 2.2 - Last updated: Nov 23 2013<br>
+                    Version 2.3 - Last updated: Dec 01 2013<br>
                     Licensed under the <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>
                 </div>
                 <div class="pull-right">
@@ -290,6 +294,7 @@
         <!-- Le javascript -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/js/bootstrap.min.js"></script>
         <script src="js/world.min.js"></script>
 
         <!-- Google Analytics -->
