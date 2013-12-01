@@ -17,6 +17,10 @@
         huga: {
             id: 'huga',
             name: 'Hunting and gathering',
+            message: [
+                '<div>They are foraging edible plants and animals from the wild.</div>',
+                '<div>This activity is occupying at least 90 percent of human history.</div>'
+            ].join(''),
             description: [
                 'Live a hand-to-mouth existence by collecting food from the wild.',
                 '<ul><li>Adult +1 food / year</li><li>Food resource +10,000</li></ul>'
@@ -38,6 +42,10 @@
         fire: {
             id: 'fire',
             name: 'Controlling of fire',
+            message: [
+                '<div>Controlling of fire is an important step in the evolution of our ancestors.</div>',
+                '<div>They gain new source of light, warmth and power to start changing their behaviors.</div>'
+            ].join(''),
             description: [
                 'Provide protection from predators and insects.',
                 '<ul><li>Death rate -10%</li></ul>',
@@ -69,6 +77,10 @@
         hula: {
             id: 'hula',
             name: 'Hunting large animals',
+            message: [
+                '<div>Lions and sharks evolved to fill the position of top predator over millions of years.</div>',
+                '<div>But humans ascend to this position almost immediately so they are not well adapted to it.</div>'
+            ].join(''),
             description: [
                 'Take more risks in hunting larger animals for more food.',
                 '<ul><li>Death rate +10%</li><li>Adult +2 food / year</li><li>Food resource +5,000</li></ul>',
@@ -105,6 +117,10 @@
         noma: {
             id: 'noma',
             name: 'Living a nomadic lifestyle',
+            message: [
+                '<div>They are roaming around in a large area to reach new food resources.</div>',
+                '<div>Nomadic hunting and gathering is the oldest human subsistence method.</div>'
+            ].join(''),
             description: [
                 'Follow the annual migration of animals and the growth cycles of plants to obtain food.',
                 '<ul><li>Enable food resource recovery</li></ul>',
@@ -136,6 +152,10 @@
         cook: {
             id: 'cook',
             name: 'Cooking',
+            message: [
+                '<div>After the domestication of fire, our ancestors start cooking food.</div>',
+                '<div>Cooking provides better diet to support their hunter-gatherer lifestyle.</div>'
+            ].join(''),
             description: [
                 'Start eating many new things that could not be digested earlier, such as wheat, rice and potatoes.',
                 '<ul><li>Adult +1 food / year</li><li>Food resource +20,000</li></ul>',
@@ -165,6 +185,10 @@
         goss: {
             id: 'goss',
             name: 'Gossiping',
+            message: [
+                '<div>The ability to gossip helps humans to form larger and more stable bands.</div>',
+                '<div>They are now gaining information without spending all day watching other people around.</div>'
+            ].join(''),
             description: [
                 'Exchange information about what other people are doing and thinking ',
                 'to help them understand each other and start living in larger bands.',
@@ -188,6 +212,10 @@
         spir: {
             id: 'spir',
             name: 'Speaking about guardian spirits of the tribe',
+            message: [
+                '<div>The secret that enables humans to go beyond the threshold of 150 individuals is fictive language.</div>',
+                '<div>By believing in common gods, larger numbers of strangers can cooperate successfully.</div>'
+            ].join(''),
             description: [
                 'Unlike ants that know how to cooperate with large numbers of individuals ',
                 'based on their genetic code, humans don\'t really know how to create larger corporation ',
@@ -211,6 +239,10 @@
         osea: {
             id: 'osea',
             name: 'Crossing the open sea',
+            message: [
+                '<div>Without any significant genetic evolution, humans can live in almost everywhere.</div>',
+                '<div>They soon make the biggest ecological disasters that ever befall the animal kingdom.</div>'
+            ].join(''),
             description: [
                 'Develop sailing crafts and boats to cross large stretches of open sea and start living ',
                 'in new remote islands or Continent.',

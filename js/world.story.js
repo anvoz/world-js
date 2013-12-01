@@ -38,10 +38,7 @@
     Knowledge.trendingRemoved = function(knowledge) {
         Interface.trendingRemoved(knowledge);
 
-        Guide.show([
-            '<div><b>Knowledge Completed</b></div>',
-            '<div>', knowledge.name, '</div>'
-        ].join(''), 5);
+        Guide.show(knowledge.message, 15);
 
         switch (knowledge.id) {
             case 'noma':
@@ -62,17 +59,17 @@
         var world = this,
             year = world.Statistic.year;
 
-        if (year <= 20) {
+        if (year <= 30) {
             if (year == 20) {
                 // Based on the story
-                world.addRandomPeople(25, 20, 30, 5);
+                world.addRandomPeople(10, 20, 30, 5);
             }
         } else {
-            var Statistic = world.Statistic,
-                Rules = world.Rules;
+            var worldStatistic = world.Statistic,
+                worldRules = world.Rules;
 
             // Keep the population stable if there is enough food
-            if (Statistic.population < 30 && Statistic.food > Rules.Famine.unit) {
+            if (worldStatistic.population < 30 && worldStatistic.food > worldRules.Famine.unit) {
                 world.addRandomPeople(10, 20, 30, 5);
             }
 
@@ -85,25 +82,37 @@
     // Unlock population limit
     Event.add('yearPassed', 'populationLimitUnlock', function() {
         var world = this,
-            Knowledge = world.Knowledge,
-            listKnowledge = [
-                { id: 'goss', population: 50 },
-                { id: 'spir', population: 150 }
-            ];
+            worldKnowledge = world.Knowledge;
 
+        if (worldKnowledge.completed.length < 1) {
+            return;
+        }
+
+        var listKnowledge = [
+                {
+                    id: 'goss',
+                    population: 50,
+                    message: 'Without gossip, it is very hard to cooperate effectively with other people.'
+                },
+                {
+                    id: 'spir',
+                    population: 150,
+                    message: 'The stability of larger band is broken easily, people can not intimately know too many individuals.'
+                }
+            ];
         for (var i = 0; i < listKnowledge.length; i++) {
             var knowledgeId = listKnowledge[i].id;
 
             // Add new knowledge when the population reached its limit
-            if (world.Statistic.population >= listKnowledge[i].population && !Knowledge.list[knowledgeId].added) {
-                Knowledge.list[knowledgeId].added = true;
-                Knowledge.trending.push(knowledgeId);
-                Interface.trendingAdded(Knowledge.list[knowledgeId]);
+            if (world.Statistic.population >= listKnowledge[i].population && !worldKnowledge.list[knowledgeId].added) {
+                worldKnowledge.list[knowledgeId].added = true;
+                worldKnowledge.trending.push(knowledgeId);
+                Interface.trendingAdded(worldKnowledge.list[knowledgeId]);
 
                 world.Guide.show([
-                    '<div><b>Knowledge Unlocked</b></div>',
-                    '<div>', Knowledge.list[knowledgeId].name, '</div>'
-                ].join(''), 5);
+                    '<div>New trending knowledge appeared: <b>' + worldKnowledge.list[knowledgeId].name + '</b></div>',
+                    '<div>', listKnowledge[i].message, '</div>'
+                ].join(''), 15);
 
                 if (knowledgeId == 'spir') {
                     world.Event.remove('yearPassed', 'populationLimitUnlock');
@@ -117,20 +126,32 @@
     // Default behaviors for every year
     Event.add('yearPassed', 'default', function() {
         var world = this,
-            Knowledge = world.Knowledge,
-            Statistic = world.Statistic;
+            worldKnowledge = world.Knowledge,
+            worldStatistic = world.Statistic;
 
         // Add coming soon message
-        if (Knowledge.completed.length == 8) {
-            if (Knowledge.trending.length == 0) {
-                Knowledge.trending.push('coso');
-                Interface.trendingAdded(Knowledge.list['coso']);
+        if (worldKnowledge.completed.length == 8) {
+            if (worldKnowledge.trending.length == 0) {
+                worldKnowledge.trending.push('coso');
+                Interface.trendingAdded(worldKnowledge.list['coso']);
             }
         }
 
-        if (Statistic.population == 0) {
+        if (worldStatistic.year == 750) {
+            world.Guide.show([
+                '<div>Humans simply destroy everything that stands on their paths.</div>',
+                '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
+            ].join(''), 500);
+        }
+
+        if (worldStatistic.population == 0) {
             $('#world-pause-btn').prop('disabled', 'disabled');
             world.stop();
+
+            world.Guide.show([
+                '<div>When the decline in the availability of wild foods becomes critical, humans could do better than</div>',
+                '<div>what you\'ve just seen. They would gain new knowledge to live in equilibrium or to produce food.</div>'
+            ].join(''), 1000);
         }
     });
 
