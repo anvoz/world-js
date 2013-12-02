@@ -1,7 +1,8 @@
 World JS: History Simulation
 ========
 
-**Live Demo:** http://anvoz.github.io/world-js/
+`World JS` is an attempt to show you a brief history of humankind via a game in 4 parts: the cognitive revolution, the agricultural revolution, the scientific revolution and the future.
+
 ![Version 2.1 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1219134/f2a1be04-26c5-11e3-8a8b-84505d67ce3d.png "Version 2.1 screenshot on medium screen size")
 
 ## TODO (version 3.0)
