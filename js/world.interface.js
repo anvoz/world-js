@@ -88,6 +88,31 @@
     };
 
     /**
+     * HTML for knowledge priority buttons group
+     */
+    Interface.knowledgePriorityHTML = function(knowledge) {
+        var priorityList = [
+                { rawValue: 0.1, value: 'low', label: 'Priority: &times;1', title: 'Low' },
+                { rawValue: 1, value: 'normal', label: '&times;10', title: 'Normal' },
+                { rawValue: 2, value: 'high', label: '&times;20', title: 'High' }
+            ],
+            baseClass = 'world-knowledge-priority btn btn-sm btn-default',
+            htmlArray = ['<div class="btn-group" data-id="', knowledge.id, '">'];
+        for (var i = 0; i < priorityList.length; i++) {
+            var activeClass = (knowledge.IQ.priority == priorityList[i].rawValue) ?
+                    ' active' : '';
+            htmlArray.push([
+                '<button class="', baseClass, activeClass, '" data-value="',
+                        priorityList[i].value, '" title="', priorityList[i].title, '">',
+                    priorityList[i].label,
+                '</button>'
+            ].join(''));
+        }
+        htmlArray.push('</div>');
+        return htmlArray.join('');
+    };
+
+    /**
      * Callback when a knowledge added to trending
      */
     Interface.trendingAdded = function(knowledge) {
@@ -114,21 +139,14 @@
                     '<div class="progress">',
                         '<div class="', progressBarClass, '"></div>',
                         '<div class="IQ">',
-                            '<span>&nbsp;<span class="progress-IQ">0</span> / ', knowledge.IQ.required, ' IQ&nbsp;</span>',
+                            '<span>&nbsp;',
+                                '<span class="progress-IQ">0</span> / ',
+                                knowledge.IQ.required, ' IQ',
+                            '&nbsp;</span>',
                         '</div>',
                     '</div>',
                     '<div>',
-                        '<select class="priority form-control input-sm" data-id="', knowledge.id, '">',
-                            '<option value="low" ', ((knowledge.IQ.priority == 0.1) ? 'selected' : ''), '>',
-                                'Low priority',
-                            '</option>',
-                            '<option value="normal" ', ((knowledge.IQ.priority == 1) ? 'selected' : ''), '>',
-                                'Normal priority',
-                            '</option>',
-                            '<option value="high" ', ((knowledge.IQ.priority == 2) ? 'selected' : ''), '>',
-                                'High priority',
-                            '</option>',
-                        '</select>',
+                        Interface.knowledgePriorityHTML(knowledge),
                     '</div>',
                 '</div>'
             ].join(''),
@@ -138,9 +156,12 @@
         // Cache knowledge container
         var container = $('#' + id);
         knowledgeCache[knowledge.id] = {
-            container: container,                           // Main container
-            IQContainer: container.find('.progress-IQ'),    // Required IQ container
-            barContainer: container.find('.progress-bar')   // Progress bar container
+            // Main container
+            container: container,
+            // Required IQ container
+            IQContainer: container.find('.progress-IQ'),
+            // Progress bar container
+            barContainer: container.find('.progress-bar')
         };
     };
 
