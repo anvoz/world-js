@@ -74,9 +74,10 @@
      */
     Guide.prototype.hide = function() {
         var worldGuide = this,
-            world = worldGuide.world;
+            world = worldGuide.world,
+            $container = worldGuide.$container;
 
-        worldGuide.$container.animate({ bottom: -60 }, 400, 'swing', function() {
+        $container.animate({ bottom: -$container.outerHeight() }, 400, 'swing', function() {
             // Remove from queue
             worldGuide.queue.shift();
             // Show next item in queue
