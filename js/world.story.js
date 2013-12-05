@@ -38,7 +38,21 @@
     Knowledge.trendingRemoved = function(knowledge) {
         Interface.trendingRemoved(knowledge);
 
-        Guide.show(knowledge.message, 15);
+        // Show message that includes the knowledge's message
+        // and list of new appeared knowledge
+        var messageArray = [knowledge.message];
+        if (knowledge.following.length > 0) {
+            messageArray.push('<hr>');
+            messageArray.push('<div><b>New trending knowledge appeared:</b></div>');
+            for (var i = 0; i < knowledge.following.length; i++) {
+                messageArray.push([
+                    '<div>',
+                        Knowledge.list[knowledge.following[i]].name,
+                    '</div>'
+                ].join(''));
+            }
+        }
+        Guide.show(messageArray.join(''), 15);
 
         switch (knowledge.id) {
             case 'noma':
@@ -104,14 +118,17 @@
             var knowledgeId = listKnowledge[i].id;
 
             // Add new knowledge when the population reached its limit
-            if (world.Statistic.population >= listKnowledge[i].population && !worldKnowledge.list[knowledgeId].added) {
+            if (world.Statistic.population >= listKnowledge[i].population
+                    && !worldKnowledge.list[knowledgeId].added) {
                 worldKnowledge.list[knowledgeId].added = true;
                 worldKnowledge.trending.push(knowledgeId);
                 Interface.trendingAdded(worldKnowledge.list[knowledgeId]);
 
                 world.Guide.show([
-                    '<div>New trending knowledge appeared: <b>' + worldKnowledge.list[knowledgeId].name + '</b></div>',
-                    '<div>', listKnowledge[i].message, '</div>'
+                    '<div>', listKnowledge[i].message, '</div>',
+                    '<hr>',
+                    '<div><b>New trending knowledge appeared:</b></div>',
+                    '<div>', worldKnowledge.list[knowledgeId].name, '</div>'
                 ].join(''), 15);
 
                 if (knowledgeId == 'spir') {
@@ -316,7 +333,4 @@
             ]
         }
     });
-
-    // Start the world
-    // world.start();
 })(window);

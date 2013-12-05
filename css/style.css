@@ -64,6 +64,10 @@
     opacity: 0.90;
     filter: alpha(opacity=90);
 }
+#world-container .guide hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 #world {
     width: 640px;
     height: 360px;
