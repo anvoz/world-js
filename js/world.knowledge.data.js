@@ -211,7 +211,7 @@
         },
         spir: {
             id: 'spir',
-            name: 'Speaking about guardian spirits of the tribe',
+            name: 'Speaking about gods',
             message: [
                 '<div>The secret that enables humans to go beyond the threshold of 150 individuals is fictive language.</div>',
                 '<div>By believing in common gods, larger numbers of strangers can cooperate successfully.</div>'
