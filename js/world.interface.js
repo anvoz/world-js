@@ -92,19 +92,22 @@
      */
     Interface.knowledgePriorityHTML = function(knowledge) {
         var priorityList = [
-                { rawValue: 0.1, value: 'low', label: 'Priority: &times;1', title: 'Low' },
-                { rawValue: 1, value: 'normal', label: '&times;10', title: 'Normal' },
-                { rawValue: 2, value: 'high', label: '&times;20', title: 'High' }
+                { name: 'Low', value: 0.1 },
+                { name: 'Normal', value: 1 },
+                { name: 'High', value: 2 }
             ],
             baseClass = 'world-knowledge-priority btn btn-sm btn-default',
             htmlArray = ['<div class="btn-group" data-id="', knowledge.id, '">'];
         for (var i = 0; i < priorityList.length; i++) {
-            var activeClass = (knowledge.IQ.priority == priorityList[i].rawValue) ?
-                    ' active' : '';
+            var priority = priorityList[i],
+                labelPrefix = (priority.name.toLowerCase() === 'low') ? 'Priority: ' : '',
+                btnTitle = priority.name + ' (' + priority.value + ')',
+                btnClass = (knowledge.IQ.priority === priority.value) ?
+                    baseClass + ' active' : baseClass;
             htmlArray.push([
-                '<button class="', baseClass, activeClass, '" data-value="',
-                        priorityList[i].value, '" title="', priorityList[i].title, '">',
-                    priorityList[i].label,
+                '<button class="' + btnClass + '" data-value="' + priority.name.toLowerCase() + '" title="' + btnTitle + '">',
+                    '<span class="hidden-md">' + labelPrefix + priority.name + '</span>',
+                    '<span class="visible-md">' + labelPrefix + priority.value + '</span>',
                 '</button>'
             ].join(''));
         }
