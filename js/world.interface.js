@@ -92,26 +92,23 @@
      */
     Interface.knowledgePriorityHTML = function(knowledge) {
         var priorityList = [
-                { name: 'Low', value: 0.1 },
-                { name: 'Normal', value: 1 },
-                { name: 'High', value: 2 }
+                { name: 'low', value: 0.1 },
+                { name: 'normal', value: 1 },
+                { name: 'high', value: 2 }
             ],
-            baseClass = 'world-knowledge-priority btn btn-sm btn-default',
-            htmlArray = ['<div class="btn-group" data-id="', knowledge.id, '">'];
+            htmlArray = [];
         for (var i = 0; i < priorityList.length; i++) {
             var priority = priorityList[i],
-                labelPrefix = (priority.name.toLowerCase() === 'low') ? 'Priority: ' : '',
-                btnTitle = priority.name + ' (' + priority.value + ')',
-                btnClass = (knowledge.IQ.priority === priority.value) ?
-                    baseClass + ' active' : baseClass;
+                checked = (knowledge.IQ.priority === priority.value) ?
+                    ' checked' : '';
             htmlArray.push([
-                '<button class="' + btnClass + '" data-value="' + priority.name.toLowerCase() + '" title="' + btnTitle + '">',
-                    '<span class="hidden-md">' + labelPrefix + priority.name + '</span>',
-                    '<span class="visible-md">' + labelPrefix + priority.value + '</span>',
-                '</button>'
+                '<label class="radio-inline">',
+                    '<input class="knowledge-priority-radio" type="radio" ',
+                        'value="' + priority.name + '" name="' + knowledge.id + '"' + checked + '>',
+                    priority.name,
+                '</label>'
             ].join(''));
         }
-        htmlArray.push('</div>');
         return htmlArray.join('');
     };
 
@@ -136,35 +133,41 @@
         // Add new knowledge to knowledge trending (learning) container
         var id = 'world-knowledge-' + knowledge.id,
             html = [
-                '<div id="world-knowledge-', knowledge.id, '" class="knowledge">',
-                    '<div class="name">', knowledge.name, '</div>',
-                    '<div class="description">', knowledge.description, '</div>',
-                    '<div class="progress">',
-                        '<div class="', progressBarClass, '"></div>',
-                        '<div class="IQ">',
-                            '<span>&nbsp;',
-                                '<span class="progress-IQ">0</span> / ',
-                                knowledge.IQ.required, ' IQ',
-                            '&nbsp;</span>',
+                '<div class="knowledge panel">',
+                    '<a class="knowledge-name" href="#' + id + '" data-parent="#world-knowledgeTrending" data-toggle="collapse">',
+                        knowledge.name,
+                    '</a>',
+                    '<div class="knowledge-progress progress">',
+                        '<div class="' + progressBarClass + '"></div>',
+                    '</div>',
+                    '<div class="knowledge-detail panel-collapse collapse in" id="' + id + '">',
+                        '<div class="knowledge-IQ">',
+                            '<b>Require: </b>',
+                            '<span>',
+                                '<span class="knowledge-progress-IQ">0</span> / ',
+                                knowledge.IQ.required + ' IQ',
+                            '</span>',
                         '</div>',
+                        '<div class="knowledge-priority">',
+                            '<b>Priority: </b>',
+                            Interface.knowledgePriorityHTML(knowledge),
+                        '</div>',
+                        '<div class="knowledge-description">' + knowledge.description + '</div>',
                     '</div>',
-                    '<div>',
-                        Interface.knowledgePriorityHTML(knowledge),
-                    '</div>',
-                '</div>'
+                '</div>',
             ].join(''),
             knowledgeCache = Cache.Knowledge;
         knowledgeCache.knowledgeTrending.container.append(html);
 
         // Cache knowledge container
-        var container = $('#' + id);
+        var $container = $('#' + id);
         knowledgeCache[knowledge.id] = {
             // Main container
-            container: container,
+            container: $container,
             // Required IQ container
-            IQContainer: container.find('.progress-IQ'),
+            IQContainer: $container.find('.knowledge-progress-IQ'),
             // Progress bar container
-            barContainer: container.find('.progress-bar')
+            barContainer: $container.siblings('.knowledge-progress').find('.progress-bar')
         };
     };
 
@@ -177,7 +180,7 @@
             knowledgeCache = Cached.Knowledge[knowledge.id];
         knowledgeCache.IQContainer.html(knowledge.IQ.required);
         knowledgeCache.barContainer.width('100%');
-        knowledgeCache.container.remove();
+        knowledgeCache.container.closest('.knowledge').remove();
 
         // Remove knowledge container cache
         delete Cached.Knowledge[knowledge.id];

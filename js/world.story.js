@@ -256,15 +256,16 @@
             $next.removeClass('disabled');
         }
     });
-    $(document).on('click', '.world-knowledge-priority', function() {
+    $(document).on('change', '.knowledge-priority-radio', function() {
         var $this = $(this),
+            knowledgeId = $this.attr('name'),
 
             // Default priority:
             // value = normal, rawValue = 1, progressBarClass = info
             priorityValue = 1,
             progressBarClass = 'progress-bar progress-bar-info';
 
-        switch ($this.data('value')) {
+        switch ($this.val()) {
             case 'high':
                 priorityValue = 2;
                 progressBarClass = 'progress-bar';
@@ -275,12 +276,10 @@
                 break;
         }
 
-        $this.addClass('active')
-            .siblings('.active').removeClass('active');
-        $this.parents('.knowledge')
+        $this.closest('.knowledge')
             .find('.progress-bar').attr('class', progressBarClass);
 
-        world.Knowledge.list[$this.parent().data('id')].IQ.priority = priorityValue;
+        world.Knowledge.list[knowledgeId].IQ.priority = priorityValue;
     });
 
     // Initialize the world
