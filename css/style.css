@@ -152,6 +152,12 @@
     color: #000;
     text-decoration: none;
 }
+.knowledge-name .caret {
+    display: none;
+}
+.knowledge-name.collapsed .caret {
+    display: inline-block;
+}
 .knowledge-progress {
     height: 5px;
     margin-bottom: 5px;

@@ -151,19 +151,24 @@
         // Add new knowledge to knowledge trending (learning) container
         var knowledgeCache = Cache.Knowledge,
             $trendingContainer = knowledgeCache.knowledgeTrending.container,
-            id = 'world-knowledge-' + knowledge.id,
-            collapsed = ($trendingContainer.find('.knowledge-detail')
-                    .filter('.in,.collapsing').length === 0) ?
-                ' in' : ' collapse',
+            collapsedToggle = ' collapsed',
+            collapsedPanel = ' collapse';
+        if ($trendingContainer.find('.knowledge-detail').filter('.in,.collapsing').length === 0) {
+            collapsedToggle = '';
+            collapsedPanel = ' in';
+        }
+        var id = 'world-knowledge-' + knowledge.id,
             html = [
                 '<div class="knowledge panel">',
-                    '<a class="knowledge-name" href="#' + id + '" data-parent="#world-knowledgeTrending" data-toggle="collapse">',
+                    '<a class="knowledge-name' + collapsedToggle + '" href="#' + id + '" ',
+                            'data-parent="#world-knowledgeTrending" data-toggle="collapse">',
                         knowledge.name,
+                        '<span class="caret"></span>',
                     '</a>',
                     '<div class="knowledge-progress progress">',
                         '<div class="' + progressBarClass + '"></div>',
                     '</div>',
-                    '<div class="knowledge-detail panel-collapse' + collapsed + '" id="' + id + '">',
+                    '<div class="knowledge-detail panel-collapse' + collapsedPanel + '" id="' + id + '">',
                         '<div class="knowledge-IQ">',
                             '&bull; Require: ',
                             '<span class="no-wrap">',
