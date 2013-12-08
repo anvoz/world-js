@@ -18,13 +18,15 @@
             id: 'huga',
             name: 'Hunting and gathering',
             message: [
-                '<div>They are foraging edible plants and animals from the wild.</div>',
-                '<div>This activity is occupying at least 90 percent of human history.</div>'
+                'They are foraging edible plants and animals from the wild.<br>',
+                'This activity is occupying at least 90 percent of human history.'
             ].join(''),
             description: [
-                'Live a hand-to-mouth existence by collecting food from the wild.',
-                '<ul><li>Adult +1 food / year</li><li>Food resource +10,000</li></ul>'
-            ].join(''),
+                {
+                    text: 'Live a hand-to-mouth existence by collecting food from the wild.',
+                    code: ['Adult +1 food / year', 'Food resource +10k']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 500 },
             following: ['fire', 'hula'],
             affectedYear: 0,
@@ -47,13 +49,19 @@
                 '<div>They gain new source of light, warmth and power to start changing their behaviors.</div>'
             ].join(''),
             description: [
-                'Provide protection from predators and insects.',
-                '<ul><li>Death rate -10%</li></ul>',
-                'Expand human activity into the dark and colder hours of the night.',
-                '<ul><li>Base IQ +1</li></ul>',
-                'Be able to burn down forests for food that can also start changing the environment.',
-                '<ul><li>Food resource recovery -5% / century</li></ul>'
-            ].join(''),
+                {
+                    text: 'Provide protection from predators and insects.',
+                    code: ['Death rate -10%']
+                },
+                {
+                    text: 'Expand human activity into the dark and colder hours of the night.',
+                    code: ['Base IQ +1']
+                },
+                {
+                    text: 'Be able to burn down forests for food that can also start changing the environment.',
+                    code: ['Food resource recovery -5% / century']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 3000 },
             following: ['cook', 'noma'],
             affectedYear: 0,
@@ -82,12 +90,18 @@
                 '<div>But humans ascend to this position almost immediately so they are not well adapted to it.</div>'
             ].join(''),
             description: [
-                'Take more risks in hunting larger animals for more food.',
-                '<ul><li>Death rate +10%</li><li>Adult +2 food / year</li><li>Food resource +5,000</li></ul>',
-                'The extinction of large animals, which is very likely to happen because of their long pregnancy, ',
-                'can completely change the ecological system.',
-                '<ul><li>Food resource recovery -5% / century</li></ul>'
-            ].join(''),
+                {
+                    text: 'Take more risks in hunting larger animals for more food.',
+                    code: ['Death rate +10%', 'Adult +2 food / year', 'Food resource +5k']
+                },
+                {
+                    text: [
+                        'The extinction of large animals, which is very likely to happen because of their long pregnancy, ',
+                        'can completely change the ecological system.'
+                    ].join(''),
+                    code: ['Food resource recovery -5% / century']
+                }
+            ],
             IQ: { priority: 0.1, gained: 0, required: 20000 },
             following: [],
             affectedYear: 0,
@@ -122,11 +136,15 @@
                 '<div>Nomadic hunting and gathering is the oldest human subsistence method.</div>'
             ].join(''),
             description: [
-                'Follow the annual migration of animals and the growth cycles of plants to obtain food.',
-                '<ul><li>Enable food resource recovery</li></ul>',
-                'Prevent infectious diseases to take hold and spread.',
-                '<ul><li>Death rate -10%</li></ul>'
-            ].join(''),
+                {
+                    text: 'Follow the annual migration of animals and the growth cycles of plants to obtain food.',
+                    code: ['Enable food resource recovery']
+                },
+                {
+                    text: 'Prevent infectious diseases to take hold and spread.',
+                    code: ['Death rate -10%']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 50000 },
             following: ['osea'],
             affectedYear: 0,
@@ -157,13 +175,19 @@
                 '<div>Cooking provides better diet to support their hunter-gatherer lifestyle.</div>'
             ].join(''),
             description: [
-                'Start eating many new things that could not be digested earlier, such as wheat, rice and potatoes.',
-                '<ul><li>Adult +1 food / year</li><li>Food resource +20,000</li></ul>',
-                'Improve nutrition by cooked proteins.',
-                '<ul><li>Base IQ +1</li></ul>',
-                'Kill germs and parasites that infest food.',
-                '<ul><li>Death rate -10%</li><li>Food spoilage -10%</li></ul>'
-            ].join(''),
+                {
+                    text: 'Start eating many new things that could not be digested earlier, such as wheat, rice and potatoes.',
+                    code: ['Adult +1 food / year', 'Food resource +20k']
+                },
+                {
+                    text: 'Improve nutrition by cooked proteins.',
+                    code: ['Base IQ +1']
+                },
+                {
+                    text: 'Kill germs and parasites that infest food.',
+                    code: ['Death rate -10%', 'Food spoilage -10%']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 5000 },
             following: [],
             affectedYear: 0,
@@ -190,10 +214,14 @@
                 '<div>They are now gaining information without spending all day watching other people around.</div>'
             ].join(''),
             description: [
-                'Exchange information about what other people are doing and thinking ',
-                'to help them understand each other and start living in larger bands.',
-                '<ul><li>Population limit: 150</li><li>Base IQ +1</li><li>Child -1 food / year</li></ul>'
-            ].join(''),
+                {
+                    text: [
+                        'Exchange information about what other people are doing and thinking ',
+                        'to help them understand each other and start living in larger bands.'
+                    ].join(''),
+                    code: ['Population limit 150', 'Base IQ +1', 'Child -1 food / year']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 10000 },
             following: [],
             affectedYear: 0,
@@ -217,13 +245,19 @@
                 '<div>By believing in common gods, larger numbers of strangers can cooperate successfully.</div>'
             ].join(''),
             description: [
-                'Unlike ants that know how to cooperate with large numbers of individuals ',
-                'based on their genetic code, humans don\'t really know how to create larger corporation ',
-                'effectively without basing it on imaginary stories that exist only in their minds.',
-                '<ul><li>Population limit 500</li><li>Base IQ +1</li><li>Child -1 food / year</li></ul>',
-                'Suffer more from infectious diseases.',
-                '<ul><li>Death rate +10%</li></ul>'
-            ].join(''),
+                {
+                    text: [
+                        'Unlike ants that know how to cooperate with large numbers of individuals ',
+                        'based on their genetic code, humans don\'t really know how to create larger corporation ',
+                        'effectively without basing it on imaginary stories that exist only in their minds.'
+                    ].join(''),
+                    code: ['Population limit 500', 'Base IQ +1', 'Child -1 food / year']
+                },
+                {
+                    text: 'Suffer more from infectious diseases.',
+                    code: ['Death rate +10%']
+                }
+            ],
             IQ: { priority: 1, gained: 0, required: 50000 },
             following: [],
             affectedYear: 0,
@@ -244,13 +278,21 @@
                 '<div>They soon make the biggest ecological disasters that ever befall the animal kingdom.</div>'
             ].join(''),
             description: [
-                'Develop sailing crafts and boats to cross large stretches of open sea and start living ',
-                'in new remote islands or Continent.',
-                '<ul><li>Food resource +10,000</li><li>Food resource recovery +20%</li></ul>',
-                'Humans are able to adapt almost over a night to a completely new ecosystem ',
-                'based on all knowledge they have gained.',
-                '<ul><li>Death rate +0%</li></ul>'
-            ].join(''),
+                {
+                    text: [
+                        'Develop sailing crafts and boats to cross large stretches of open sea and start living ',
+                        'in new remote islands or Continent.'
+                    ].join(''),
+                    code: ['Food resource +10k', 'Food resource recovery +20%']
+                },
+                {
+                    text: [
+                        'Humans are able to adapt almost over a night to a completely new ecosystem ',
+                        'based on all knowledge they have gained.'
+                    ].join(''),
+                    code: ['Death rate +0%']
+                }
+            ],
             IQ: { priority: 0.1, gained: 0, required: 200000 },
             following: [],
             affectedYear: 0,
@@ -269,13 +311,28 @@
             id: 'coso',
             name: 'Coming soon...',
             description: [
-                '<p>You have been watching the ancient world from the first appearance of our ancestors ',
-                'to <b>the cognitive revolution</b>.</p>',
-                '<p>During this time, humans gain some remarkable knowledge not only to spread all over the world ',
-                'but also to adapt to completely new ecological conditions within a very short time.</p>',
-                '<p>The next part of the game which is simulated <b>the agricultural revolution</b> ',
-                'will be released soon.</p>'
-            ].join(''),
+                {
+                    text: [
+                        'You have been watching the ancient world from the first appearance of our ancestors ',
+                        'to <b>the cognitive revolution</b>.'
+                    ].join(''),
+                    code: []
+                },
+                {
+                    text: [
+                        'During this time, humans gain some remarkable knowledge not only to spread all over the world ',
+                        'but also to adapt to completely new ecological conditions within a very short time.'
+                    ].join(''),
+                    code: []
+                },
+                {
+                    text: [
+                        'The next part of the game which is simulated <b>the agricultural revolution</b> ',
+                        'will be released soon.'
+                    ].join(''),
+                    code: []
+                }
+            ],
             IQ: { priority: 0.1, gained: 0, required: 1000000000 },
             following: [],
             affectedYear: 0,

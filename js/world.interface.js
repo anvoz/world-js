@@ -96,7 +96,7 @@
                 { name: 'normal', value: 1 },
                 { name: 'high', value: 2 }
             ],
-            htmlArray = [];
+            htmlArray = ['<span class="no-wrap">'];
         for (var i = 0; i < priorityList.length; i++) {
             var priority = priorityList[i],
                 checked = (knowledge.IQ.priority === priority.value) ?
@@ -108,6 +108,24 @@
                     priority.name,
                 '</label>'
             ].join(''));
+        }
+        htmlArray.push('</span>');
+        return htmlArray.join('');
+    };
+
+    /**
+     * HTML for knowledge description
+     */
+    Interface.knowledgeDescriptionHTML = function(knowledge) {
+        var description = knowledge.description,
+            htmlArray = [];
+        for (var i = 0; i < description.length; i++) {
+            var line = description[i];
+            htmlArray.push('<p>&bull; ' + line.text);
+            if (line.code.length > 0) {
+                htmlArray.push(' <code>' + line.code.join('</code> <code>') + '</code>');
+            }
+            htmlArray.push('</p>');
         }
         return htmlArray.join('');
     };
@@ -147,17 +165,19 @@
                     '</div>',
                     '<div class="knowledge-detail panel-collapse' + collapsed + '" id="' + id + '">',
                         '<div class="knowledge-IQ">',
-                            '<b>Require: </b>',
-                            '<span>',
+                            '&bull; Require: ',
+                            '<span class="no-wrap">',
                                 '<span class="knowledge-progress-IQ">0</span> / ',
                                 knowledge.IQ.required + ' IQ',
                             '</span>',
                         '</div>',
                         '<div class="knowledge-priority">',
-                            '<b>Priority: </b>',
+                            '&bull; Priority: ',
                             Interface.knowledgePriorityHTML(knowledge),
                         '</div>',
-                        '<div class="knowledge-description">' + knowledge.description + '</div>',
+                        '<div class="knowledge-description">',
+                            Interface.knowledgeDescriptionHTML(knowledge),
+                        '</div>',
                     '</div>',
                 '</div>',
             ].join('');

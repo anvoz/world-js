@@ -27,12 +27,6 @@
 .top-padding {
     padding-top: 10px;
 }
-.collapse  {
-    display: none;
-}
-.collapse.in  {
-    display: block;
-}
 
 .border-side {
     border-left: 1px solid #ccc;
@@ -43,6 +37,9 @@
     overflow: hidden;
     text-overflow: ellipsis;  /* IE 6+, FF 7+, Op 11+, Saf 1.3+, Chr 1+ */
     -o-text-overflow: ellipsis;  /* for Opera 9 & 10 */
+}
+.no-wrap {
+    white-space: nowrap;
 }
 
 #world-pause-btn {
@@ -163,10 +160,8 @@
     font-size: 12px;
     line-height: 1.7;
 }
-.knowledge-detail ul {
-    margin-bottom: 0;
-    padding-left: 20px;
-    font-weight: bold;
+.knowledge-description p {
+    margin-bottom: 5px;
 }
 .knowledge-IQ {
     font-size: 12px;
