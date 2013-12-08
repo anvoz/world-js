@@ -217,8 +217,14 @@
         // Add completed knowledge to knowledge history container
         var html = [
                 '<div class="knowledge">',
-                    '<div class="name">', (Cached.Statistic.year.value + 1), ': ', knowledge.name, '</div>',
-                    '<div class="description">', knowledge.description, '</div>',
+                    '<div class="knowledge-name">',
+                        (Cached.Statistic.year.value + 1) + ': ' + knowledge.name,
+                    '</div>',
+                    '<div class="knowledge-detail">',
+                        '<div class="knowledge-description">',
+                            Interface.knowledgeDescriptionHTML(knowledge),
+                        '</div>',
+                    '</div>',
                 '</div>'
             ].join('');
         Cached.Knowledge.knowledgeHistory.container.prepend(html);
