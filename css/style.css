@@ -8,6 +8,12 @@
  * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
  */
 
+.ribbon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
 .opacity {
     opacity: 0.10;
     filter: alpha(opacity=10);
