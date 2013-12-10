@@ -172,6 +172,9 @@
     font-size: 12px;
     line-height: 1.7;
 }
+.knowledge-description {
+    margin-top: 5px;
+}
 .knowledge-description p {
     margin-bottom: 5px;
 }
