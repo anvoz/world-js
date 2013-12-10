@@ -14,15 +14,17 @@
         <meta property="og:description" content="A brief history of humankind in Javascript">
         <meta property="og:site_name" content="World JS: History Simulation">
 
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <header class="navbar navbar-inverse navbar-static-top">
+            <a class="visible-lg" target="_blank" href="https://github.com/anvoz/world-js">
+                <img class="ribbon" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+            </a>
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -32,6 +34,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="http://anvoz.github.io/world-js/">Home</a></li>
+                        <li><a class="hidden-lg" target="_blank" href="https://github.com/anvoz/world-js">Github</a></li>
                     </ul>
                 </div><!--/.navbar-collapse -->
             </div>
@@ -115,9 +118,9 @@
                             <button class="btn btn-sm btn-default" data-display="none">None</button>
                         </div>
                         <div id="world-speed-btns" class="btn-group">
-                            <button class="btn btn-sm btn-default active" data-speed="1">Speed: x1</button>
-                            <button class="btn btn-sm btn-default" data-speed="2">x2</button>
-                            <button class="btn btn-sm btn-default" data-speed="5">x5</button>
+                            <button class="btn btn-sm btn-default active" data-speed="1">Speed: &times;1</button>
+                            <button class="btn btn-sm btn-default" data-speed="2">&times;2</button>
+                            <button class="btn btn-sm btn-default" data-speed="5">&times;5</button>
                         </div>
                     </div><!--/ Top row -->
                     <div class="top-padding clearfix">
@@ -257,7 +260,7 @@
                             <li><a data-toggle="tab" href="#world-knowledgeHistory">History</a></li>
                                 </ul>
                         <div class="tab-content">
-                            <div id="world-knowledgeTrending" class="tab-pane active"></div>
+                            <div id="world-knowledgeTrending" class="tab-pane active panel-group"></div>
                             <div id="world-knowledgeHistory" class="tab-pane"></div>
                         </div>
                     </div><!--/#knowledge -->
@@ -268,8 +271,9 @@
         <footer class="footer">
             <div class="container clearfix">
                 <div class="pull-left">
-                    Version 2.3 - Last updated: Dec 01 2013<br>
-                    Licensed under the <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>
+                    Version 2.4 - Last updated: Dec 10 2013<br>
+                    Made with love by <a target="_blank" href="https://github.com/anvoz">anvoz</a>.
+                    Licensed under the <a target="_blank" href="http://www.opensource.org/licenses/mit-license.php">MIT license</a>.
                 </div>
                 <div class="pull-right">
                     <iframe allowtransparency="true" frameborder="0" scrolling="no" src="https://platform.twitter.com/widgets/tweet_button.html?url=http%3A%2F%2Fanvoz.github.io%2Fworld-js" style="width:80px; height:20px;"></iframe>
