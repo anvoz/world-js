@@ -40,20 +40,26 @@
 
         // Show message that includes the knowledge's message
         // and list of new appeared knowledge
-        var messageArray = [knowledge.message];
+        var messageArray = [
+            '<div><b>✓ ' + knowledge.name + '</b></div>',
+            '<div>' + knowledge.message + '</div>',
+        ];
         if (knowledge.following.length > 0) {
             messageArray.push('<hr>');
-            messageArray.push('<div><b>New trending knowledge appeared:</b></div>');
+            messageArray.push('<div class="knowledge-trending">');
             for (var i = 0; i < knowledge.following.length; i++) {
                 var newKnowledge = Knowledge.list[knowledge.following[i]];
                 messageArray.push([
-                    '<div>',
-                        newKnowledge.name,
-                        ' &bull; Priority: ',
-                        Interface.knowledgePriorityHTML(newKnowledge, true),
+                    '<div class="knowledge-clone">',
+                        '<div><b>' + newKnowledge.name + '</b></div>',
+                        '<div class="knowledge-priority">',
+                            '&bull; Priority: ',
+                            Interface.knowledgePriorityHTML(newKnowledge, true),
+                        '</div>',
                     '</div>'
                 ].join(''));
             }
+            messageArray.push('</div>');
         }
         Guide.show(messageArray.join(''), 15);
 
@@ -129,14 +135,16 @@
                 Interface.trendingAdded(newKnowledge);
 
                 world.Guide.show([
-                    '<div>', newKnowledge.message, '</div>',
-                    '<hr>',
-                    '<div><b>New trending knowledge appeared:</b></div>',
-                    '<div>',
-                        newKnowledge.name,
-                        ' &bull; Priority: ',
-                        Interface.knowledgePriorityHTML(newKnowledge, true),
-                    '</div>'
+                    '<div class="knowledge-trending">',
+                        '<div class="knowledge-clone">',
+                            '<div><b>' + newKnowledge.name + '</b></div>',
+                            '<div class="knowledge-priority">',
+                                '&bull; Priority: ',
+                                Interface.knowledgePriorityHTML(newKnowledge, true),
+                            '</div>',
+                        '</div>',
+                    '</div>',
+                    '<div>' + listKnowledge[i].message + '</div>'
                 ].join(''), 15);
 
                 if (knowledgeId == 'spir') {

@@ -178,8 +178,17 @@
 .knowledge-description p {
     margin-bottom: 5px;
 }
-.knowledge-IQ {
+.knowledge-trending {
+    margin: 0 auto;
+    text-align: center;
+}
+.knowledge-trending .knowledge-clone {
+    display: inline-block;
+    width: 300px;
+}
+.knowledge-trending .knowledge-priority {
     font-size: 12px;
+    line-height: 1.7;
 }
 
 [class^="wicon-"],
