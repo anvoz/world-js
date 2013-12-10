@@ -90,8 +90,9 @@
     /**
      * HTML for knowledge priority buttons group
      */
-    Interface.knowledgePriorityHTML = function(knowledge) {
-        var priorityList = [
+    Interface.knowledgePriorityHTML = function(knowledge, isClone) {
+        var isClone = isClone || false,
+            priorityList = [
                 { name: 'low', value: 0.1 },
                 { name: 'normal', value: 1 },
                 { name: 'high', value: 2 }
@@ -100,11 +101,21 @@
         for (var i = 0; i < priorityList.length; i++) {
             var priority = priorityList[i],
                 checked = (knowledge.IQ.priority === priority.value) ?
-                    ' checked' : '';
+                    'checked ' : '',
+                radioClass = ( ! isClone) ?
+                    'priority-radio' :
+                    'priority-radio-clone',
+                valueClass = knowledge.id + '-' + priority.name,
+                name = ( ! isClone) ?
+                    knowledge.id :
+                    knowledge.id + '-clone';
+
             htmlArray.push([
                 '<label class="radio-inline">',
-                    '<input class="knowledge-priority-radio" type="radio" ',
-                        'value="' + priority.name + '" name="' + knowledge.id + '"' + checked + '>',
+                    '<input type="radio" ' + checked,
+                        'class="' + radioClass + ' ' + valueClass + '" ',
+                        'value="' + priority.name + '" ',
+                        'name="' + name + '">',
                     priority.name,
                 '</label>'
             ].join(''));

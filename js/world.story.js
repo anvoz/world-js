@@ -45,9 +45,12 @@
             messageArray.push('<hr>');
             messageArray.push('<div><b>New trending knowledge appeared:</b></div>');
             for (var i = 0; i < knowledge.following.length; i++) {
+                var newKnowledge = Knowledge.list[knowledge.following[i]];
                 messageArray.push([
                     '<div>',
-                        Knowledge.list[knowledge.following[i]].name,
+                        newKnowledge.name,
+                        ' &bull; Priority: ',
+                        Interface.knowledgePriorityHTML(newKnowledge, true),
                     '</div>'
                 ].join(''));
             }
@@ -115,20 +118,25 @@
                 }
             ];
         for (var i = 0; i < listKnowledge.length; i++) {
-            var knowledgeId = listKnowledge[i].id;
+            var knowledgeId = listKnowledge[i].id,
+                newKnowledge = worldKnowledge.list[knowledgeId];
 
             // Add new knowledge when the population reached its limit
             if (world.Statistic.population >= listKnowledge[i].population
-                    && !worldKnowledge.list[knowledgeId].added) {
-                worldKnowledge.list[knowledgeId].added = true;
+                    && !newKnowledge.added) {
+                newKnowledge.added = true;
                 worldKnowledge.trending.push(knowledgeId);
-                Interface.trendingAdded(worldKnowledge.list[knowledgeId]);
+                Interface.trendingAdded(newKnowledge);
 
                 world.Guide.show([
-                    '<div>', listKnowledge[i].message, '</div>',
+                    '<div>', newKnowledge.message, '</div>',
                     '<hr>',
                     '<div><b>New trending knowledge appeared:</b></div>',
-                    '<div>', worldKnowledge.list[knowledgeId].name, '</div>'
+                    '<div>',
+                        newKnowledge.name,
+                        ' &bull; Priority: ',
+                        Interface.knowledgePriorityHTML(newKnowledge, true),
+                    '</div>'
                 ].join(''), 15);
 
                 if (knowledgeId == 'spir') {
@@ -256,16 +264,17 @@
             $next.removeClass('disabled');
         }
     });
-    $(document).on('change', '.knowledge-priority-radio', function() {
+    $(document).on('change', '.priority-radio', function() {
         var $this = $(this),
             knowledgeId = $this.attr('name'),
+            priority = $this.val(),
 
             // Default priority:
             // value = normal, rawValue = 1, progressBarClass = info
             priorityValue = 1,
             progressBarClass = 'progress-bar progress-bar-info';
 
-        switch ($this.val()) {
+        switch (priority) {
             case 'high':
                 priorityValue = 2;
                 progressBarClass = 'progress-bar';
@@ -276,10 +285,26 @@
                 break;
         }
 
-        $this.closest('.knowledge')
-            .find('.progress-bar').attr('class', progressBarClass);
+        // Change progress bar class base on knowledge priority
+        $this
+            .closest('.knowledge')
+            .find('.progress-bar')
+            .attr('class', progressBarClass);
+        // Sync to clone control
+        $('.priority-radio-clone.' + knowledgeId + '-' + priority)
+            .prop('checked', true);
 
+        // Change knowledge priority
         world.Knowledge.list[knowledgeId].IQ.priority = priorityValue;
+    });
+    $(document).on('change', '.priority-radio-clone', function() {
+        var $this = $(this),
+            knowledgeId = $this.attr('name').split('-').shift(),
+            priority = $this.val();
+
+        // Trigger action of the original control
+        $('.priority-radio.' + knowledgeId + '-' + priority)
+            .click();
     });
 
     // Initialize the world
