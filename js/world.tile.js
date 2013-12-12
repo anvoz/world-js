@@ -17,6 +17,7 @@
 
     /**
      * Tile constructor
+     * world: instance of world
      */
     Tile = WorldJS.Tile = function(world) {
         var worldTile = this;
@@ -27,23 +28,32 @@
         /*
          * Old storage structure:
          * An array contains tiles, each tile is a hashmap
-         * list = [ { seedId1: seedData1, seedId2: seedData2, ... }, {}, ... ]
-         * - Pros: Simple set / remove operations
-         * - Cons: Iterating large hashmap is really slow compared to array
+         * list = [
+         *      { seedId1: seed1, seedId2: seed2, ... },
+         *      { ... }, { ... }, ...
+         * ]
+         * - Pros: Simple add & remove operations
+         * - Cons: Iterating large hashmap is much slower than large array
          * http://jsperf.com/fetch-array-vs-object
          *
          * New storage structure:
          * An array contains tiles, each tile is also an array
-         * list = [ [ 0: seedData1, 1: seedData2, ... ], [], ... ]
-         * Need a new property (seed.tileArrayIndex) to store the array index
-         * Ex: seedData1.tileArrayIndex = 0, seedData2.tileArrayIndex = 1...
+         * list = [
+         *      0: [ 0: seed1, 1: seed2, ... ],
+         *      1: [ ... ], 2: [ ... ], ... 
+         * ]
+         * Require a new property (seed.tileArrayIndex) to store
+         * the location (array index) of the seed in a tile array
+         *
+         * For example, base on the list above:
+         * seed1.tileArrayIndex = 0, seed2.tileArrayIndex = 1, ...
          * If a seed is removed from a tile, that array index is available for a new seed
-         * Ex: 1: remove seedData1
-         * list = [ [ undefined, 1: seedData2, ... ], [], ... ]
-         * availableArrayIndexes = [[0], [], ...] // can insert a new seed into index 0
-         * 2: add seedData3
-         * list = [ [ 0: seedData3, 1: seedData2, ... ], [], ... ]
-         * availableArrayIndexes = [[], [], ...] // all index are used, must push (insert into new index) instead of insert
+         * Tile.rem(seed1);
+         * => list = [ 0: [ 0: false, 1: seed2, ... ], 1: [ ... ], 2: [ ... ], ... ]
+         * => availableArrayIndexes = [0: [0], 1: [], ...] // can insert a new seed into index 0
+         * Tile.add(seed3);
+         * => list = [ 0: [ 0: seed3, 1: seed2, ... ], 1: [ ... ], 2: [ ... ], ... ]
+         * => availableArrayIndexes = [ 0: [], 1: [], ...] // all index are used, must push (insert into new index) instead of insert
          */
 
         // List of tiles
@@ -87,40 +97,57 @@
 
     /**
      * Get tile index
+     * seed: instance of seed
      */
     Tile.prototype.getIndex = function(seed) {
         return Math.floor(seed.x / this.size) + (Math.floor(seed.y / this.size) * this.tilesPerRow);
     };
 
     /**
-     * Add seed to tile list
+     * Add seed to a tile based on seed.tileIndex
+     * A new tileIndex value of the seed must be calculated
+     * before call this function
+     * seed: instance of seed
      */
     Tile.prototype.set = function(seed) {
         var worldTile = this,
-            tile = worldTile.list[seed.tileIndex],
-            availableArrayIndexes = worldTile.availableArrayIndexes[seed.tileIndex];
+            tileIndex = seed.tileIndex,
+            tile = worldTile.list[tileIndex],
+            availableArrayIndexes = worldTile.availableArrayIndexes[tileIndex];
 
         if (availableArrayIndexes.length > 0) {
+            // Add seed to tile by
+            // inserting it into the available array index
             seed.tileArrayIndex = availableArrayIndexes.pop();
             tile[seed.tileArrayIndex] = seed;
         } else {
+            // Add seed to tile
             seed.tileArrayIndex = tile.length;
             tile.push(seed);
         }
     };
 
     /**
-     * Remove seed from tile list
+     * Remove seed from the tile where it is currently in
+     * seed: instance of seed
      */
     Tile.prototype.rem = function(seed) {
-        var worldTile = this;
+        var worldTile = this,
+            tileIndex = seed.tileIndex,
+            tileArrayIndex = seed.tileArrayIndex;
 
         /*
-         * Set false instead of delete the array element
-         * to avoid holey array which is much slower to access than packed array
+         * Set to false instead of delete an array element
+         * to avoid holey array which is much slower to access
+         * than packed array
          * http://jsperf.com/packed-vs-holey-arrays/10
          */
-        worldTile.list[seed.tileIndex][seed.tileArrayIndex] = false;
-        worldTile.availableArrayIndexes[seed.tileIndex].push(seed.tileArrayIndex);
+        worldTile.list[tileIndex][tileArrayIndex] = false;
+
+        /*
+         * Store new available array index
+         * to indicate that it can be inserted later
+         */
+        worldTile.availableArrayIndexes[tileIndex].push(tileArrayIndex);
     };
 })(window);
