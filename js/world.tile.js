@@ -17,7 +17,7 @@
 
     /**
      * Tile constructor
-     * world: instance of world
+     * world: instance of WorldJS
      */
     Tile = WorldJS.Tile = function(world) {
         var worldTile = this;
@@ -27,38 +27,44 @@
 
         /*
          * Old storage structure:
-         * An array contains tiles, each tile is a hashmap
+         * An array contains tiles, each tile is a hashmap:
          * list = [
-         *      { seedId1: seed1, seedId2: seed2, ... },
-         *      { ... }, { ... }, ...
+         *      0: { seedId1: seed1, seedId2: seed2 },  // 1st tile
+         *      1: { ... }                              // 2nd tile
          * ]
          * - Pros: Simple add & remove operations
          * - Cons: Iterating large hashmap is much slower than large array
          * http://jsperf.com/fetch-array-vs-object
          *
          * New storage structure:
-         * An array contains tiles, each tile is also an array
+         * An array contains tiles, each tile is also an array:
          * list = [
-         *      0: [ 0: seed1, 1: seed2, ... ],
-         *      1: [ ... ], 2: [ ... ], ... 
+         *      0: [ 0: seed1, 1: seed2 ],              // 1st tile
+         *      1: [ ... ]                              // 2nd tile
          * ]
-         * Require a new property (seed.tileArrayIndex) to store
-         * the location (array index) of the seed in a tile array
+         * Retrieve seed by array index.
+         * Require new property - seed.tileArrayIndex - to store
+         * the location (array index) of the seed in a tile array.
          *
          * For example, base on the list above:
-         * seed1.tileArrayIndex = 0, seed2.tileArrayIndex = 1, ...
-         * If a seed is removed from a tile, that array index is available for a new seed
+         * seed1.tileArrayIndex = 0, seed2.tileArrayIndex = 1
+         * When a seed is removed from tile, that tile's array index is
+         * available for inserting a new seed:
          * Tile.rem(seed1);
-         * => list = [ 0: [ 0: false, 1: seed2, ... ], 1: [ ... ], 2: [ ... ], ... ]
-         * => availableArrayIndexes = [0: [0], 1: [], ...] // can insert a new seed into index 0
+         * => list = [ 0: [ 0: false, 1: seed2 ], 1: [ ... ] ]
+         * The first tile has 1 available array index which is at 0 index.
+         * => availableArrayIndexes = [ 0: [0], 1: [] ]
          * Tile.add(seed3);
-         * => list = [ 0: [ 0: seed3, 1: seed2, ... ], 1: [ ... ], 2: [ ... ], ... ]
-         * => availableArrayIndexes = [ 0: [], 1: [], ...] // all index are used, must push (insert into new index) instead of insert
+         * => list = [ 0: [ 0: seed3, 1: seed2 ], 1: [ ... ] ]
+         * The first tile doesn't have any available array index
+         * => availableArrayIndexes = [ 0: [], 1: [] ]
          */
 
-        // List of tiles
+        // List of tiles,
+        // each tile is an array of seeds
         worldTile.list = [];
-        // List of available indexes to insert
+        // List of available indexes
+        // where a new seed can be inserted into
         worldTile.availableArrayIndexes = [];
 
         // 20 x 20 pixels per tile
@@ -67,26 +73,30 @@
         // Only draw 7 seeds each tile
         worldTile.maxDisplayedSeeds = 7;
 
-        // Need to calculate base on size of the world
+        // Need to be calculated base on the size of the world
         worldTile.totalTiles = false;
         worldTile.tilesPerRow = false;
         worldTile.tilesPerCol = false;
     };
 
     /**
-     * Divide the world into smaller tiles
-     * Each tile contains a list of seeds that are currently inside the tile
+     * Divide the world into smaller tiles.
+     * Each tile contains a list of seeds that are currently inside.
+     * width: width of the world in pixel
+     * height: height of the world in pixel
      */
     Tile.prototype.init = function(width, height) {
         var worldTile = this,
             tileSize = worldTile.size,
-            totalTiles = Math.ceil(width / tileSize) * Math.ceil(height / tileSize);
+            tilesPerRow = Math.ceil(width / tileSize),
+            tilesPerCol = Math.ceil(height / tileSize),
+            totalTiles = tilesPerRow * tilesPerCol;
 
+        worldTile.tilesPerRow = tilesPerRow;
+        worldTile.tilesPerCol = tilesPerCol;
         worldTile.totalTiles = totalTiles;
-        worldTile.tilesPerRow = Math.ceil(width / tileSize);
-        worldTile.tilesPerCol = Math.ceil(height / tileSize);
 
-        // Initialize tiles with an array of empty objects
+        // Initialize tiles with an array of empty arrays
         var listTiles = worldTile.list,
             availableArrayIndexes = worldTile.availableArrayIndexes;
         for (var i = 0; i < totalTiles; i++) {
@@ -97,17 +107,20 @@
 
     /**
      * Get tile index
-     * seed: instance of seed
+     * seed: instance of Seed
      */
     Tile.prototype.getIndex = function(seed) {
-        return Math.floor(seed.x / this.size) + (Math.floor(seed.y / this.size) * this.tilesPerRow);
+        var size = this.size,
+            x = Math.floor(seed.x / size),
+            y = Math.floor(seed.y / size);
+        return x + (y * this.tilesPerRow);
     };
 
     /**
-     * Add seed to a tile based on seed.tileIndex
+     * Add seed to a tile based on seed.tileIndex.
      * A new tileIndex value of the seed must be calculated
-     * before call this function
-     * seed: instance of seed
+     * before call this function.
+     * seed: instance of Seed
      */
     Tile.prototype.set = function(seed) {
         var worldTile = this,
@@ -116,12 +129,12 @@
             availableArrayIndexes = worldTile.availableArrayIndexes[tileIndex];
 
         if (availableArrayIndexes.length > 0) {
-            // Add seed to tile by
+            // Add seed to the tile by
             // inserting it into the available array index
             seed.tileArrayIndex = availableArrayIndexes.pop();
             tile[seed.tileArrayIndex] = seed;
         } else {
-            // Add seed to tile
+            // Add seed to the tail of tile array
             seed.tileArrayIndex = tile.length;
             tile.push(seed);
         }
@@ -129,7 +142,7 @@
 
     /**
      * Remove seed from the tile where it is currently in
-     * seed: instance of seed
+     * seed: instance of Seed
      */
     Tile.prototype.rem = function(seed) {
         var worldTile = this,
@@ -146,7 +159,7 @@
 
         /*
          * Store new available array index
-         * to indicate that it can be inserted later
+         * to indicate where new seed can be inserted into later
          */
         worldTile.availableArrayIndexes[tileIndex].push(tileArrayIndex);
     };
