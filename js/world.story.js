@@ -23,7 +23,7 @@
         Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
         Rules = world.Rules,
         Event = world.Event,
-        Guide = world.Guide;
+        Guide = world.Guide = new WorldJS.Guide(world);
 
     /** Knowledge setup */
     // Load all knowledge list

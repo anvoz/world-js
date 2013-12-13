@@ -129,7 +129,6 @@
         world.Statistic = new WorldJS.Statistic(world);
         world.Rules     = new WorldJS.Rules(world);
         world.Event     = new WorldJS.Event(world);
-        world.Guide     = new WorldJS.Guide(world);
     };
 
     /**
