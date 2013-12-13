@@ -126,7 +126,6 @@
         world.fps = 0;
 
         world.Tile      = new WorldJS.Tile(world);
-        world.Knowledge = new WorldJS.Knowledge(world);
         world.Statistic = new WorldJS.Statistic(world);
         world.Rules     = new WorldJS.Rules(world);
         world.Event     = new WorldJS.Event(world);
@@ -435,7 +434,6 @@
             });
 
             world.Rules.change();
-            world.Knowledge.gain();
             world.Event.trigger('yearPassed');
 
             if (sPopulation === 0) {

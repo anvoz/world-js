@@ -1,6 +1,6 @@
 /*!
- * world.story.js
- * Initialize a world and define its main plot.
+ * world.story.js (require jQuery)
+ * Initialize a world and define the 'History Simulation' story.
  *
  * World JS
  * https://github.com/anvoz/world-js
@@ -20,7 +20,7 @@
         // Create a new world
         world = new WorldJS(),
 
-        Knowledge = world.Knowledge,
+        Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
         Rules = world.Rules,
         Event = world.Event,
         Guide = world.Guide;
@@ -161,6 +161,8 @@
         var world = this,
             worldKnowledge = world.Knowledge,
             worldStatistic = world.Statistic;
+
+        worldKnowledge.gain();
 
         // Add coming soon message
         if (worldKnowledge.completed.length == 8) {
