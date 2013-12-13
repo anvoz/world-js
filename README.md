@@ -3,21 +3,7 @@ World JS: History Simulation
 
 `World JS` is an attempt to show you a brief history of humankind via a game in 4 parts: the cognitive revolution, the agricultural revolution, the scientific revolution and the future.
 
-![Version 2.1 screenshot on medium screen size](https://f.cloud.github.com/assets/4688035/1219134/f2a1be04-26c5-11e3-8a8b-84505d67ce3d.png "Version 2.1 screenshot on medium screen size")
-
-## TODO (version 3.0)
-
-* ~~Change the project name: possibly replace "evolution" with "history".~~
-* ~~Not start the game on page loaded: the main screen displays a short introduction of history (from the Big Bang to the time when the game start) and a "Start" button.~~
-* ~~Food resource re-fills with a fixed number every Y years, enough to maintain a low population.~~
-* Be able to manually adjust the population limit (still need to complete a knowledge to increase the max value).
-* Be able to forbid a knowledge if the population is lower than X number: knowledge that has been forbidden for Y years will be completely removed.
-* Simulate the agricultural revolution with 4 core knowledge: "domesticating plants and animals", "settling down", "imaginary order" and "writing".
-
-## Links
-* [Wiki](https://github.com/anvoz/world-js/wiki)
-* [Discussion in r/codetogether](http://www.reddit.com/r/codetogether/comments/1in075/game_project_world_js_evolution_simulator_looking/)
-* [Discussion in r/webgames](http://www.reddit.com/r/WebGames/comments/1mfl6t/world_js_evolution_simulator/)
+![Screenshot of version 2.4 on medium screen size](https://f.cloud.github.com/assets/4688035/1744790/b787836c-6423-11e3-8762-4b4f6f482324.PNG "Screenshot of version 2.4 on medium screen size")
 
 ## Developer Guidelines
 
