@@ -51,6 +51,17 @@
         // Used for calculating average children of each family
         worldStatistic.dieMarriedFemale = 0;     // Number of dead married female
         worldStatistic.sumChildren = 0;          // and total children of them
+
+        var worldEvent = world.Event;
+        worldEvent.add('yearPassed', 'statistic', function(data) {
+            this.Statistic.yearPassed(data.statistic);
+        });
+        worldEvent.add('seedAdded', 'statistic', function(data) {
+            this.Statistic.seedAdded(data.seed);
+        });
+        worldEvent.add('seedRemoved', 'statistic', function(data) {
+            this.Statistic.seedRemoved(data.seed);
+        });
     };
 
     /**

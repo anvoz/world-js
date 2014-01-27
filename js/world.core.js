@@ -127,7 +127,6 @@
 
         world.Tile      = new WorldJS.Tile(world);
         world.Event     = new WorldJS.Event(world);
-        world.Statistic = new WorldJS.Statistic(world);
     };
 
     /**
@@ -220,7 +219,6 @@
         world.Event.trigger('seedAdded', {
             seed: seed
         });
-        world.Statistic.seedAdded(seed);
 
         return world;
     };
@@ -232,7 +230,9 @@
     WorldJS.prototype.remove = function(seed) {
         var world = this;
 
-        world.Statistic.seedRemoved(seed);
+        world.Event.trigger('seedRemoved', {
+            seed: seed
+        });
 
         if (seed.married) {
             seed.married = false;
@@ -422,17 +422,17 @@
         }
 
         if (yearPassed) {
-            Statistic.yearPassed({
-                population: sPopulation,
-                IQ: sIQ,
-                men: sMen,
-                women: sWomen,
-                boys: sBoys,
-                girls: sGirls,
-                families: sFamilies
+            world.Event.trigger('yearPassed', {
+                statistic: {
+                    population: sPopulation,
+                    IQ: sIQ,
+                    men: sMen,
+                    women: sWomen,
+                    boys: sBoys,
+                    girls: sGirls,
+                    families: sFamilies
+                }
             });
-
-            world.Event.trigger('yearPassed');
 
             if (sPopulation === 0) {
                 // Stop the world

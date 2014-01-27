@@ -23,6 +23,7 @@
         Event = world.Event,
         Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
         Rules = world.Rules = new WorldJS.Rules(world),
+        Statistic = world.Statistic = new WorldJS.Statistic(world),
         Guide = world.Guide = new WorldJS.Guide(world);
 
     /** Knowledge setup */
