@@ -20,9 +20,9 @@
         // Create a new world
         world = new WorldJS(),
 
-        Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
-        Rules = world.Rules,
         Event = world.Event,
+        Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
+        Rules = world.Rules = new WorldJS.Rules(world),
         Guide = world.Guide = new WorldJS.Guide(world);
 
     /** Knowledge setup */
@@ -160,6 +160,7 @@
     Event.add('yearPassed', 'default', function() {
         var world = this,
             worldKnowledge = world.Knowledge,
+            worldRules = world.Rules,
             worldStatistic = world.Statistic;
 
         worldKnowledge.gain();

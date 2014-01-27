@@ -30,7 +30,9 @@
             // Unused actions must be removed manually
             yearPassed: {
                 // action: handler
-            }
+            },
+            seedAdded: {},
+            seedRemoved: {}
         };
     };
 
@@ -58,14 +60,14 @@
      * world: the world that takes effects
      * event: event name
      */
-    Event.prototype.trigger = function(event) {
+    Event.prototype.trigger = function(event, data) {
         var worldEvent = this,
             world = worldEvent.world,
 
             actions = worldEvent.list[event];
         for (var actionName in actions) {
             if (actions.hasOwnProperty(actionName)) {
-                actions[actionName].call(world);
+                actions[actionName].call(world, data);
             }
         }
     };

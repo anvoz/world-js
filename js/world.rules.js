@@ -71,6 +71,16 @@
             deathChanceIncr: 0.1,
             unit: 1
         };
+
+        var worldEvent = world.Event;
+        worldEvent.add('yearPassed', 'rules', function() {
+            var world = this;
+            world.Rules.change();
+        });
+        worldEvent.add('seedAdded', 'rules', function(data) {
+            var world = this;
+            data.seed.IQ += world.Rules.baseIQ;
+        });
     };
 
     /**

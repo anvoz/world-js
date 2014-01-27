@@ -126,9 +126,8 @@
         world.fps = 0;
 
         world.Tile      = new WorldJS.Tile(world);
-        world.Statistic = new WorldJS.Statistic(world);
-        world.Rules     = new WorldJS.Rules(world);
         world.Event     = new WorldJS.Event(world);
+        world.Statistic = new WorldJS.Statistic(world);
     };
 
     /**
@@ -180,8 +179,6 @@
 
         seed.tickMod = world.tickMod;
 
-        seed.IQ += world.Rules.baseIQ;
-
         // Randomly set coordinate of the seed
         var random = function(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
@@ -220,6 +217,9 @@
         // among all seeds that appeared in the same time
         seed.stepCount = seed.tickCount;
 
+        world.Event.trigger('seedAdded', {
+            seed: seed
+        });
         world.Statistic.seedAdded(seed);
 
         return world;
@@ -432,7 +432,6 @@
                 families: sFamilies
             });
 
-            world.Rules.change();
             world.Event.trigger('yearPassed');
 
             if (sPopulation === 0) {

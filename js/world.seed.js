@@ -241,10 +241,11 @@
         }
 
         var chance = fromChance + (age - fromAge) * delta;
-        if (world.Rules.Chance[type] != 0) {
+        // TODO: Move these chances to Seed
+        /* if (world.Rules.Chance[type] != 0) {
             // Modify chance based on rule of the world
             chance += chance * world.Rules.Chance[type];
-        }
+        } */
         return chance;
     };
 })(window);
