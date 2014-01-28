@@ -106,9 +106,9 @@
                         };
 
                     if (Math.random() < 0.5) {
-                        world.add(world.Male, data);
+                        world.addSeed(world.Male, data);
                     } else {
-                        world.add(world.Female, data);
+                        world.addSeed(world.Female, data);
                     }
                 }
             }

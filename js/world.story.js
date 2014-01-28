@@ -330,7 +330,7 @@
      * then die at the intended age.
      */
     var firstMenMaxAge = 30;
-    world.add(world.Male, {
+    world.addSeed(world.Male, {
         x: 10,
         y: 10,
         moveTo: { x: 320, y: 180 },
@@ -350,7 +350,7 @@
             ]
         }
     });
-    world.add(world.Female, {
+    world.addSeed(world.Female, {
         x: 630,
         y: 350,
         moveTo: { x: 320, y: 180 },
