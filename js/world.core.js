@@ -176,8 +176,6 @@
             seed.tickCount = seed.age * world.tickPerYear;
         }
 
-        seed.tickMod = world.tickMod;
-
         // Randomly set coordinate of the seed
         var random = function(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
@@ -208,6 +206,7 @@
         distributedTicks[minIndex]++;
         seed.tickIndex = minIndex;
 
+        seed.tickMod = world.tickMod;
         // By modulusing actionInterval which is as half as tickPerYear by default
         // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
         // TODO: review the distributed ticks mechanic with different speed
@@ -312,19 +311,16 @@
      */
     WorldJS.prototype.run = function(time) {
         var world = this,
-            Statistic = world.Statistic,
             context = world.canvas.context,
-            spriteImage = world.sprite.image,
-            yearPassed = false,
-            reDraw = false;
+            spriteImage = world.sprite.image;
 
         // Modulus tickMod by tickPerYear to avoid its value grows too large
         world.tickMod = (++world.tickMod) % world.tickPerYear;
-
-        yearPassed = (world.tickMod === 0);
+        var yearPassed = (world.tickMod === 0);
 
         // Only draw the world every year instead of every frame if total seeds is too large
-        reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
+        // var reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
+        var reDraw = true;
         if (reDraw) {
             // Clear canvas
             context.clearRect(0, 0, world.width, world.height);
@@ -332,14 +328,6 @@
 
         var listTile = world.Tile.list,
             maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
-
-            // Statistic: re-calculate every frame (tick)
-            sPopulation = 0,
-            sIQ = 0,
-            sMen = 0, sWomen = 0,
-            sBoys = 0, sGirls = 0,
-            sFamilies = 0,
-
             speed = world.speed;
 
         for (var i = 0, len = listTile.length; i < len; i++) {
@@ -365,26 +353,6 @@
 
                     if (yearPassed) {
                         seed.age++;
-
-                        // Statistic
-                        sPopulation++;
-                        sIQ += seed.IQ;
-                        if (seed instanceof world.Male) {
-                            if (seed.age <= seed.maxChildAge) {
-                                sBoys++;
-                            } else {
-                                sMen++;
-                                if (seed.married) {
-                                    sFamilies++;
-                                }
-                            }
-                        } else {
-                            if (seed.age <= seed.maxChildAge) {
-                                sGirls++;
-                            } else {
-                                sWomen++;
-                            }
-                        }
                     }
 
                     if (reDraw) {
@@ -422,23 +390,13 @@
         }
 
         if (yearPassed) {
-            world.Event.trigger('yearPassed', {
-                statistic: {
-                    population: sPopulation,
-                    IQ: sIQ,
-                    men: sMen,
-                    women: sWomen,
-                    boys: sBoys,
-                    girls: sGirls,
-                    families: sFamilies
-                }
-            });
+            world.Event.trigger('yearPassed');
 
-            if (sPopulation === 0) {
+            /* if (sPopulation === 0) {
                 // Stop the world
                 world.running = false;
                 return;
-            }
+            } */
         }
 
         // Loop animation

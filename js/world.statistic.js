@@ -53,8 +53,8 @@
         worldStatistic.sumChildren = 0;          // and total children of them
 
         var worldEvent = world.Event;
-        worldEvent.add('yearPassed', 'statistic', function(data) {
-            this.Statistic.yearPassed(data.statistic);
+        worldEvent.add('yearPassed', 'statistic', function() {
+            this.Statistic.yearPassed();
         });
         worldEvent.add('seedAdded', 'statistic', function(data) {
             this.Statistic.seedAdded(data.seed);
@@ -103,20 +103,56 @@
     /**
      * Calculate when a year is passed
      */
-    Statistic.prototype.yearPassed = function(data) {
-        var worldStatistic = this;
+    Statistic.prototype.yearPassed = function() {
+        var worldStatistic = this,
+            world = worldStatistic.world,
+            listTile = world.Tile.list,
+
+            population = 0,
+            totalIQ = 0,
+            men = 0, women = 0,
+            boys = 0, girls = 0,
+            families = 0;
+
+        for (var i = 0, len = listTile.length; i < len; i++) {
+            var seeds = listTile[i];
+            for (var j = 0, len2 = seeds.length; j < len2; j++) {
+                if (seeds[j]) {
+                    var seed = seeds[j];
+
+                    population++;
+                    totalIQ += seed.IQ;
+                    if (seed instanceof world.Male) {
+                        if (seed.age <= seed.maxChildAge) {
+                            boys++;
+                        } else {
+                            men++;
+                            if (seed.married) {
+                                families++;
+                            }
+                        }
+                    } else {
+                        if (seed.age <= seed.maxChildAge) {
+                            girls++;
+                        } else {
+                            women++;
+                        }
+                    }
+                }
+            }
+        }
 
         worldStatistic.year++;
 
-        worldStatistic.population = data.population;
+        worldStatistic.population = population;
 
-        worldStatistic.IQ = data.IQ;
+        worldStatistic.IQ = totalIQ;
 
-        worldStatistic.men = data.men;
-        worldStatistic.women = data.women;
-        worldStatistic.boys = data.boys;
-        worldStatistic.girls = data.girls;
+        worldStatistic.men = men;
+        worldStatistic.women = women;
+        worldStatistic.boys = boys;
+        worldStatistic.girls = girls;
 
-        worldStatistic.families = data.families;
+        worldStatistic.families = families;
     };
 })(window);
