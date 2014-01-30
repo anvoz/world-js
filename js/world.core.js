@@ -202,10 +202,8 @@
         // among all seeds that appeared in the same time
         seed.stepCount = seed.tickCount;
 
-        if (seed.x === false || seed.y === false) {
-            // Set random position
-            seed = world.setPosition(seed);
-        }
+        // Set random position
+        seed = world.setPosition(seed);
 
         // Calculate tile index
         seed.tileIndex = world.Tile.getIndex(seed);
@@ -226,13 +224,18 @@
     WorldJS.prototype.setPosition = function(seed) {
         var world = this,
             width = world.width - 1,
-            height = world.height - 1,
+            height = world.height - 1;
 
-            maxX = width - Math.max(seed.appearance.width, world.padding),
-            maxY = height - Math.max(seed.appearance.height, world.padding);
-
-        seed.x = world.random(0, maxX);
-        seed.y = world.random(0, maxY);
+        if (seed.x === false) {
+            seed.x = world.random(
+                0, width - Math.max(seed.appearance.width, world.padding)
+            );
+        }
+        if (seed.y === false) {
+            seed.y = world.random(
+                world.padding, height - seed.appearance.height - world.padding
+            );
+        }
         return seed;
     };
 
@@ -290,57 +293,63 @@
     };
 
     /**
-     * Add random people to the world
-     * count: number of people to add
-     * minAge, maxAge (optional)
-     * fromBorder: determine people randomly appear or come from border
-     *      0: random, 1: top, 2: bottom, 3: left, 4: right, 5: random border
+     * Add random seeds to the world
+     * count: number of seeds to add
+     * data:
+     *  minAge, maxAge
+     *  types: array of world.Seed, world.Male, world.Female...
+     *  fromBorder: determine which border seeds will appear
      */
-    WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge, fromBorder) {
+    WorldJS.prototype.addSeeds = function(count, data) {
         var world = this,
             tickPerYear = world.tickPerYear,
-            random = function(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            };
+            data = data || {},
 
-        minAge = (typeof minAge === 'undefined') ? 15 : minAge,
-        maxAge = (typeof maxAge === 'undefined') ? 20 : maxAge,
-        fromBorder = (typeof fromBorder === 'undefined') ? 0 : fromBorder;
+            types = (typeof data.types !== 'undefined') ?
+                data.types : [world.Seed],
 
-        // Add people to the world
+            minAge = (typeof data.minAge !== 'undefined') ?
+                data.minAge : 15,
+            maxAge = (typeof data.maxAge !== 'undefined') ?
+                data.maxAge : 20;
+
+        // Add seeds to the world
         for (var i = 0; i < count; i++) {
             // Random age
-            var age = random(minAge, maxAge),
-                data = {
+            var age = world.random(minAge, maxAge),
+                seedData = {
+                    x: false, y: false,
                     age: age,
                     tickCount: age * tickPerYear
                 };
 
-            if (fromBorder > 0) {
-                var border = (fromBorder === 5) ? random(1, 4) : fromBorder,
-                    padding = 10;
+            if (typeof data.fromBorder !== 'undefined') {
+                var borders = ['top', 'bottom', 'lfet', 'right'],
+                    border = (data.fromBorder === 'random') ?
+                        borders[world.random(0, 3)] : data.fromBorder;
                 // Used random number to avoid people appeared in the same edge
                 switch (border) {
-                    case 1: // top
-                        data.y = random(0, padding);
+                    case 'top':
+                        seedData.y = world.random(0, world.padding);
                         break;
-                    case 2: // bottom
-                        data.y = random(world.height - padding - 1, world.height - 1);
+                    case 'bottom':
+                        seedData.y = world.random(
+                            world.height - world.padding - 1,
+                            world.height - 1
+                        );
                         break;
-                    case 3: // left
-                        data.x = random(0, padding);
+                    case 'left':
+                        seedData.x = world.random(0, world.padding);
                         break;
-                    case 4: // right
-                        data.x = random(world.width - padding - 1, world.width - 1);
+                    case 'right':
+                        seedData.x = world.random(
+                            world.width - world.padding - 1,
+                            world.width - 1
+                        );
                         break;
                 }
             }
-
-            if (i < count / 2) {
-                world.addSeed(world.Male, data);
-            } else {
-                world.addSeed(world.Female, data);
-            }
+            world.addSeed(types[i % types.length], seedData);
         }
 
         return world;

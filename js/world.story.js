@@ -86,7 +86,12 @@
         if (year <= 30) {
             if (year == 20) {
                 // Based on the story
-                world.addRandomPeople(10, 20, 30, 5);
+                world.addSeeds(10, {
+                    minAge: 20,
+                    maxAge: 30,
+                    fromBorder: 'random',
+                    types: [world.Male, world.Female]
+                });
             }
         } else {
             var worldStatistic = world.Statistic,
@@ -94,7 +99,12 @@
 
             // Keep the population stable if there is enough food
             if (worldStatistic.population < 30 && worldStatistic.food > worldRules.Famine.unit) {
-                world.addRandomPeople(10, 20, 30, 5);
+                world.addSeeds(10, {
+                    minAge: 20,
+                    maxAge: 30,
+                    fromBorder: 'random',
+                    types: [world.Male, world.Female]
+                });
             }
 
             if (year > 300) {

@@ -36,7 +36,9 @@
         seed.y = (typeof data.y === 'undefined') ? false : data.y;
 
         // Define how to draw the seed
-        seed.appearance = data.appearance || false;
+        seed.appearance = data.appearance || {
+            width: 1, height: 1
+        };
         // Relationship of the seed
         seed.relationSeed = data.relationSeed || false;
 
@@ -73,13 +75,15 @@
     Seed.prototype.draw = function(context, spriteImage) {
         var seed = this;
 
-        if (spriteImage === false || seed.appearance === false) {
-            context.fillRect(seed.x, seed.y, 1, 1);
+        if (spriteImage === false || seed.appearance.width === 1) {
+            context.fillRect(
+                seed.x, seed.y, seed.appearance.width, seed.appearance.height
+            );
         } else {
             // Handle child-state of the seed
             var appearance = (seed.age <= seed.maxChildAge) ?
-                    seed.appearance.child :
-                    seed.appearance;
+                seed.appearance.child :
+                seed.appearance;
 
             /*
              * Jump instead of slide when seed moves
@@ -91,8 +95,8 @@
                 halfInterval = 10,
                 jumpIndex = seed.stepCount % jumpInterval,
                 jumpY = (jumpIndex < halfInterval) ?
-                        jumpIndex + 1 :
-                        halfInterval - (jumpIndex % halfInterval) - 1;
+                    jumpIndex + 1 :
+                    halfInterval - (jumpIndex % halfInterval) - 1;
 
             context.drawImage(
                 spriteImage,
@@ -210,11 +214,12 @@
 
     /**
      * Move around every frame (tick)
+     * speed: speed of the world
      */
-    Seed.prototype.tick = function() {
+    Seed.prototype.tick = function(speed) {
         var seed = this;
         seed.tickCount++;
-        seed.move();
+        seed.move(speed);
     };
 
     /**

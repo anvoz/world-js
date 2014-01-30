@@ -18,7 +18,10 @@
         <script>
             var world = new WorldJS();
             world.init('world');
-            world.addRandomPeople(50);
+            world.addSeeds(50, {
+                fromBorder: 'random',
+                types: [world.Male, world.Female]
+            });
             world.start();
         </script>
     </body>

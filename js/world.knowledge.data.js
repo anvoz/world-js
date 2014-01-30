@@ -234,7 +234,12 @@
 
                 // More people come
                 world.padding = 10;
-                world.addRandomPeople(50, 20, 30, 5);
+                world.addSeeds(50, {
+                    minAge: 20,
+                    maxAge: 30,
+                    fromBorder: 'random',
+                    types: [world.Male, world.Female]
+                });
             }
         },
         spir: {
