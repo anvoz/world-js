@@ -76,9 +76,9 @@
         var seed = this;
 
         if (spriteImage === false || seed.appearance.width === 1) {
-            context.fillRect(
-                seed.x, seed.y, seed.appearance.width, seed.appearance.height
-            );
+            var width = (spriteImage !== false) ? seed.appearance.width : 1,
+                height = (spriteImage !== false) ? seed.appearance.height : 1;
+            context.fillRect(seed.x, seed.y, width, height);
         } else {
             // Handle child-state of the seed
             var appearance = (seed.age <= seed.maxChildAge) ?
