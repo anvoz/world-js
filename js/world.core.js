@@ -203,7 +203,9 @@
         seed.stepCount = seed.tickCount;
 
         // Set random position
-        seed = world.setPosition(seed);
+        var position = world.getRandomPosition(seed);
+        seed.x = position.x;
+        seed.y = position.y;
 
         // Calculate tile index
         seed.tileIndex = world.Tile.getIndex(seed);
@@ -218,25 +220,25 @@
     };
 
     /**
-     * Set random position for the seed
+     * Get random position in the world
      * seed: seed-based instance
+     * return {x, y}
      */
-    WorldJS.prototype.setPosition = function(seed) {
+    WorldJS.prototype.getRandomPosition = function(seed) {
         var world = this,
             width = world.width - 1,
-            height = world.height - 1;
+            height = world.height - 1,
 
-        if (seed.x === false) {
-            seed.x = world.random(
-                0, width - Math.max(seed.appearance.width, world.padding)
-            );
-        }
-        if (seed.y === false) {
-            seed.y = world.random(
-                world.padding, height - seed.appearance.height - world.padding
-            );
-        }
-        return seed;
+            x = (seed.x === false) ?
+                world.random(
+                    0, width - Math.max(seed.appearance.width, world.padding)
+                ) : seed.x,
+            y = (seed.y === false) ?
+                world.random(
+                    world.padding, height - seed.appearance.height - world.padding
+                ) : seed.y;
+
+        return { x: x, y: y };
     };
 
     /**
