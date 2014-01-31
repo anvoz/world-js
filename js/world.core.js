@@ -190,8 +190,11 @@
         seed.tickCount = (seed.age > 0) ?
             seed.age * world.tickPerYear : seed.tickCount;
 
-        // Find the best tick index for this seed
-        seed = world.setTickIndex(seed);
+        // Put this seed in a frame which has the lowest number of occupied seeds
+        // to avoid a single frame that needs to trigger too many main actions
+        var tickIndex = world.getTickIndex(seed);
+        world.distributedTicks[tickIndex]++;
+        seed.tickIndex = tickIndex;
 
         seed.tickMod = world.tickMod;
         // By modulusing actionInterval which is as half as tickPerYear by default
@@ -220,6 +223,27 @@
     };
 
     /**
+     * Find the best tick index for this seed
+     * seed: seed-based instance
+     * return tick index
+     */
+    WorldJS.prototype.getTickIndex = function(seed) {
+        var world = this,
+
+            distributedTicks = world.distributedTicks,
+            minIndex = 0,
+            minValue = distributedTicks[minIndex];
+        for (var i = 0, len = distributedTicks.length; i < len; i++) {
+            if (distributedTicks[i] < minValue) {
+                minIndex = i;
+                minValue = distributedTicks[i];
+            }
+        }
+
+        return minIndex;
+    };
+
+    /**
      * Get random position in the world
      * seed: seed-based instance
      * return {x, y}
@@ -239,30 +263,6 @@
                 ) : seed.y;
 
         return { x: x, y: y };
-    };
-
-    /**
-     * Put the seed in a frame which has lowest number of seeds occupied
-     * to avoid a single frame that needs to trigger too many main actions
-     * seed: seed-based instance
-     */
-    WorldJS.prototype.setTickIndex = function(seed) {
-        var world = this;
-
-        var distributedTicks = world.distributedTicks,
-            minIndex = 0,
-            minValue = distributedTicks[minIndex];
-        for (var i = 0, len = distributedTicks.length; i < len; i++) {
-            if (distributedTicks[i] < minValue) {
-                minIndex = i;
-                minValue = distributedTicks[i];
-            }
-        }
-
-        world.distributedTicks[minIndex]++;
-        seed.tickIndex = minIndex;
-
-        return seed;
     };
 
     /**
