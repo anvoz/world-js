@@ -302,7 +302,6 @@
      */
     WorldJS.prototype.addSeeds = function(count, data) {
         var world = this,
-            tickPerYear = world.tickPerYear,
             data = data || {},
 
             types = (typeof data.types !== 'undefined') ?
@@ -319,8 +318,7 @@
             var age = world.random(minAge, maxAge),
                 seedData = {
                     x: false, y: false,
-                    age: age,
-                    tickCount: age * tickPerYear
+                    age: age
                 };
 
             if (typeof data.fromBorder !== 'undefined') {

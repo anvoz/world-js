@@ -145,3 +145,48 @@ test('world.removeSeed', function() {
     deepEqual(world.totalSeeds, 2, 'totalSeeds after removed 1 seed');
     deepEqual(seed1.relationSeed, false, 'seed1 is no longer in a relationship');
 });
+
+test('world.addSeeds', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+
+    // Add 10 seeds
+    world.addSeeds(10);
+    deepEqual(world.totalSeeds, 10, 'totalSeeds after added 10 seeds');
+
+    // TODO: add more tests
+});
+
+asyncTest('world.run', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+
+    // Add seed
+    var seed = world.addSeed(world.Seed);
+    deepEqual(seed.age, 0, '0 year old');
+
+    world.Event.add('yearPassed', 'stopTheWorld', function() {
+        // Check with different speeds
+        switch (seed.age) {
+            case 1:
+                deepEqual(seed.age, 1, '1 year old');
+                deepEqual(seed.tickCount, 60, 'tickCount in 1 year');
+                world.tickPerYear = 30;
+                world.speed = 2;
+                break;
+            case 2:
+                deepEqual(seed.age, 2, '2 years old');
+                deepEqual(seed.tickCount, 90, 'tickCount in 2 years');
+                world.tickPerYear = 12;
+                world.speed = 5;
+                break;
+            case 3:
+                deepEqual(seed.age, 3, '3 years old');
+                deepEqual(seed.tickCount, 102, 'tickCount in 3 years');
+                this.stop();
+                start();
+                break;
+        }
+    });
+    world.start();
+});
