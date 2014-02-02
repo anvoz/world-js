@@ -62,7 +62,7 @@
         seed.stepCount = seed.tickCount;
         seed.jumpInterval = 20;
         seed.moveUntilStep = data.moveUntilStep ||
-                seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
+            seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
         seed.ageToMoveAgain = 0;
 
         // Destination coordinate for seed to move to

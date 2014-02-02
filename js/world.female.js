@@ -41,7 +41,6 @@
 
         female.maxChildAge = 15;
 
-        female.married = false;
         // Total children that she gave birth
         // Need to be set from undefined to 0 right after her first marriage
         female.totalChildren = undefined;
@@ -82,11 +81,11 @@
 
             var deathChance = female.getChance(female, 'death');
             if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(female);
+                world.removeSeed(female);
                 return;
             }
 
-            if (female.married &&                                       // Is married
+            if (female.relationSeed !== false &&                        // Is married
                     age >= female.chances.childbirth[0].range[0] &&     // Enough age to give birth
                     age > female.ageLastBear) {                         // Not give birth in the same year
                 var childBirthChance = female.getChance(female, 'childbirth');

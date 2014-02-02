@@ -40,7 +40,6 @@
         male.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         male.maxChildAge = 15;
-        male.married = false;
 
         male.chances = data.chances || {
             death: [
@@ -75,11 +74,13 @@
 
             var deathChance = male.getChance(male, 'death');
             if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(male);
+                world.removeSeed(male);
                 return;
             }
 
-            if (!male.married && male.age >= male.chances.marriage[0].range[0]) {
+            if (male.relationSeed === false &&
+                male.age >= male.chances.marriage[0].range[0]
+            ) {
                 // Seeking for female
                 var marriageChance = male.getChance(male, 'marriage');
                 if (marriageChance > 0) {
@@ -90,7 +91,7 @@
                                 world = male.world;
                             return (
                                 candidate instanceof world.Female &&
-                                !candidate.married &&
+                                candidate.relationSeed === false &&
                                 // Enough age to give birth
                                 candidate.age >= candidate.chances.childbirth[0].range[0] &&
                                 // Failure chance increase (every 10 age difference) if male is younger than female
@@ -99,9 +100,6 @@
                             );
                         });
                         if (female !== false) {
-                            male.married = true;
-                            female.married = true;
-
                             male.relationSeed = female;
                             female.relationSeed = male;
 
@@ -118,7 +116,7 @@
             }
         }
 
-        if (male.married) {
+        if (male.relationSeed !== false) {
             if (male.x === Math.max(0, male.relationSeed.x - 10) &&
                     male.y === male.relationSeed.y) {
                 return;

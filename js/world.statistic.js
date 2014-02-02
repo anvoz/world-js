@@ -127,7 +127,7 @@
                             boys++;
                         } else {
                             men++;
-                            if (seed.married) {
+                            if (seed.relationSeed !== false) {
                                 families++;
                             }
                         }

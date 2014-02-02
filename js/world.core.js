@@ -113,7 +113,7 @@
         /*
          * Seeds don't trigger their main actions every frame.
          * Example: In 60 frames, a male only seeks for female twice
-         * in 30th frame and 60th frame.
+         * in 30th frame and 60th frame (actionInterval = 30).
          * To make it's more efficient,
          * main actions of all seeds will be distributed over all frames.
          * Example: male_1 will seek for female in 30th frame, 60th frame...
@@ -174,9 +174,11 @@
      * Add a seed to the world
      * Seed: seed-based class
      * data: properties of seed
+     * return seed
      */
     WorldJS.prototype.addSeed = function(Seed, data) {
         var world = this,
+            data = data || {},
             seed = new Seed(data);
 
         world.totalSeeds++;
@@ -192,7 +194,7 @@
 
         // Put this seed in a frame which has the lowest number of occupied seeds
         // to avoid a single frame that needs to trigger too many main actions
-        var tickIndex = world.getTickIndex(seed);
+        var tickIndex = world.getTickIndex();
         world.distributedTicks[tickIndex]++;
         seed.tickIndex = tickIndex;
 
@@ -219,15 +221,14 @@
             seed: seed
         });
 
-        return world;
+        return seed;
     };
 
     /**
      * Find the best tick index for this seed
-     * seed: seed-based instance
      * return tick index
      */
-    WorldJS.prototype.getTickIndex = function(seed) {
+    WorldJS.prototype.getTickIndex = function() {
         var world = this,
 
             distributedTicks = world.distributedTicks,
@@ -250,16 +251,16 @@
      */
     WorldJS.prototype.getRandomPosition = function(seed) {
         var world = this,
-            width = world.width - 1,
-            height = world.height - 1,
 
             x = (seed.x === false) ?
                 world.random(
-                    0, width - Math.max(seed.appearance.width, world.padding)
+                    world.padding,
+                    world.width - seed.appearance.width - world.padding
                 ) : seed.x,
             y = (seed.y === false) ?
                 world.random(
-                    world.padding, height - seed.appearance.height - world.padding
+                    world.padding,
+                    world.height - seed.appearance.height - world.padding
                 ) : seed.y;
 
         return { x: x, y: y };
@@ -269,7 +270,7 @@
      * Remove a seed from the world
      * seed: seed-based instance
      */
-    WorldJS.prototype.remove = function(seed) {
+    WorldJS.prototype.removeSeed = function(seed) {
         var world = this;
 
         world.totalSeeds--;
@@ -278,10 +279,7 @@
             seed: seed
         });
 
-        if (seed.married) {
-            seed.married = false;
-            seed.relationSeed.married = false;
-
+        if (seed.relationSeed !== false) {
             // Remove the references
             seed.relationSeed.relationSeed = false;
             seed.relationSeed = false;
@@ -467,8 +465,12 @@
      * Start the world
      */
     WorldJS.prototype.start = function() {
-        this.running = true;
-        this.run();
+        var world = this;
+
+        world.running = true;
+        world.run();
+
+        return world;
     };
 
     /**
@@ -476,10 +478,14 @@
      * callback (optional): callback trigger after the world stopped
      */
     WorldJS.prototype.stop = function(callback) {
-        this.running = false;
+        var world = this;
+
+        world.running = false;
         if (typeof callback === 'function') {
-            this.stopCallback = callback;
+            world.stopCallback = callback;
         }
+
+        return world;
     };
 
     /**
