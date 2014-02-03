@@ -54,15 +54,15 @@
             // Show first message in queue
             if (worldGuide.queue.length > 0) {
                 var item = worldGuide.queue[0],
-                    hiddenYear = world.Statistic.year + item.ytl;
+                    hiddenYear = world.statistic.year + item.ytl;
 
                 worldGuide.$container.html(item.message).animate({ bottom: 0 }, 400);
 
-                world.Event.add('yearPassed', 'guide', function() {
+                world.event.add('yearPassed', 'guide', function() {
                     var world = this;
-                    if (world.Statistic.year >= hiddenYear) {
-                        world.Guide.hide();
-                        world.Event.remove('yearPassed', 'guide');
+                    if (world.statistic.year >= hiddenYear) {
+                        world.guide.hide();
+                        world.event.remove('yearPassed', 'guide');
                     }
                 });
             }

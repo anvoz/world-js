@@ -31,7 +31,7 @@
              *    id: 'samp',                         // Knowledge id
              *    name: 'Sample knowledge',           // Display name
              *    description: '',
-             *    IQ: {
+             *    iq: {
              *        priority: 1,                    // Priority factor: 0.1 (low), 1 (normal), 2 (high)
              *        gained: 0,                      // Gained IQ
              *        required: 1000                  // Need 1000 IQ to start to affect the world
@@ -60,8 +60,8 @@
         var worldKnowledge = this,
             world = worldKnowledge.world,
 
-            year = world.Statistic.year,
-            totalIQ = world.Statistic.IQ,
+            year = world.statistic.year,
+            totalIQ = world.statistic.iq,
             distributedIQList = [],
             totalDistributedUnit = 0;
 
@@ -74,8 +74,8 @@
             distributedIQList[i] = Math.floor(Math.random() * 101); // Random [0, 100]
             if (i < len) {
                 var knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
-                if (knowledge.IQ.priority != 1) {
-                    distributedIQList[i] *= knowledge.IQ.priority;
+                if (knowledge.iq.priority != 1) {
+                    distributedIQList[i] *= knowledge.iq.priority;
                 }
             }
             // Store the total to calculate percent later
@@ -89,20 +89,20 @@
         for (var i = 0, len = worldKnowledge.trending.length; i < len; i++) {
             var knowledge = worldKnowledge.list[worldKnowledge.trending[i]],
                 distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
-                gainedIQ = knowledge.IQ.gained;
+                gainedIQ = knowledge.iq.gained;
 
             // Prevent to gain too much IQ a year
             gainedIQ += Math.floor(Math.min(
-                knowledge.IQ.required * maxDistributedValues[knowledge.IQ.priority],
+                knowledge.iq.required * maxDistributedValues[knowledge.iq.priority],
                 distributedIQ
             ));
             if (isNaN(gainedIQ)) {
-                gainedIQ = knowledge.IQ.gained;
+                gainedIQ = knowledge.iq.gained;
             }
 
-            if (gainedIQ >= knowledge.IQ.required) {
+            if (gainedIQ >= knowledge.iq.required) {
                 // Completed knowledge
-                knowledge.IQ.gained = knowledge.IQ.required;
+                knowledge.iq.gained = knowledge.iq.required;
 
                 // Merge 2 arrays
                 tmpFollowing.push.apply(tmpFollowing, knowledge.following);
@@ -113,7 +113,7 @@
 
                 tmpCompleted.push(knowledge);
             } else {
-                knowledge.IQ.gained = gainedIQ;
+                knowledge.iq.gained = gainedIQ;
                 tmpTrending.push(knowledge.id);
             }
         }

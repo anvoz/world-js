@@ -134,8 +134,8 @@
         world.lastTickTime = 0;
         world.fps = 0;
 
-        world.Tile  = new WorldJS.Tile(world);
-        world.Event = new WorldJS.Event(world);
+        world.tile  = new WorldJS.Tile(world);
+        world.event = new WorldJS.Event(world);
     };
 
     /**
@@ -165,7 +165,7 @@
         sprite.src = world.sprite.src;
         world.sprite.image = sprite;
 
-        world.Tile.init(width, height);
+        world.tile.init(width, height);
 
         return world;
     };
@@ -213,11 +213,11 @@
         seed.y = position.y;
 
         // Calculate tile index
-        seed.tileIndex = world.Tile.getIndex(seed);
+        seed.tileIndex = world.tile.getIndex(seed);
         // and cache data of this seed
-        world.Tile.set(seed);
+        world.tile.set(seed);
 
-        world.Event.trigger('seedAdded', {
+        world.event.trigger('seedAdded', {
             seed: seed
         });
 
@@ -275,7 +275,7 @@
 
         world.totalSeeds--;
 
-        world.Event.trigger('seedRemoved', {
+        world.event.trigger('seedRemoved', {
             seed: seed
         });
 
@@ -285,7 +285,7 @@
             seed.relationSeed = false;
         }
 
-        world.Tile.rem(seed);
+        world.tile.rem(seed);
 
         world.distributedTicks[seed.tickIndex]--;
 
@@ -372,8 +372,8 @@
             context.clearRect(0, 0, world.width, world.height);
         }
 
-        var listTile = world.Tile.list,
-            maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
+        var listTile = world.tile.list,
+            maxDisplayedSeeds = world.tile.maxDisplayedSeeds,
             speed = world.speed;
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
@@ -421,21 +421,21 @@
                     seed.tick(speed);
 
                     // Update tiles if seed moves
-                    var newTileIndex = world.Tile.getIndex(seed);
+                    var newTileIndex = world.tile.getIndex(seed);
                     if (newTileIndex !== oldTileIndex) {
                         // Remove seed reference from old tile
-                        world.Tile.rem(seed);
+                        world.tile.rem(seed);
 
                         // Add seed reference to new tile
                         seed.tileIndex = newTileIndex;
-                        world.Tile.set(seed);
+                        world.tile.set(seed);
                     }
                 }
             }
         }
 
         if (yearPassed) {
-            world.Event.trigger('yearPassed');
+            world.event.trigger('yearPassed');
 
             if (world.totalSeeds === 0) {
                 // Stop the world

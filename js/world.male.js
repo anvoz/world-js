@@ -37,7 +37,7 @@
 
         Seed.call(male, data);
 
-        male.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
+        male.iq = (data.iq || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         male.maxChildAge = 15;
 

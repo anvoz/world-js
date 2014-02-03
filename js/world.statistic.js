@@ -29,7 +29,7 @@
 
         // Re-calculate every year
         worldStatistic.population = 0;
-        worldStatistic.IQ = 0;
+        worldStatistic.iq = 0;
         worldStatistic.men = 0;          // adult male
         worldStatistic.women = 0;        // adult female
         worldStatistic.boys = 0;         // young male
@@ -52,15 +52,15 @@
         worldStatistic.dieMarriedFemale = 0;     // Number of dead married female
         worldStatistic.sumChildren = 0;          // and total children of them
 
-        var worldEvent = world.Event;
+        var worldEvent = world.event;
         worldEvent.add('yearPassed', 'statistic', function() {
-            this.Statistic.yearPassed();
+            this.statistic.yearPassed();
         });
         worldEvent.add('seedAdded', 'statistic', function(data) {
-            this.Statistic.seedAdded(data.seed);
+            this.statistic.seedAdded(data.seed);
         });
         worldEvent.add('seedRemoved', 'statistic', function(data) {
-            this.Statistic.seedRemoved(data.seed);
+            this.statistic.seedRemoved(data.seed);
         });
     };
 
@@ -71,8 +71,8 @@
         var worldStatistic = this;
 
         // Max IQ of a person and the year when he/she was born
-        if (seed.IQ > worldStatistic.maxIQ) {
-            worldStatistic.maxIQ = seed.IQ;
+        if (seed.iq > worldStatistic.maxIQ) {
+            worldStatistic.maxIQ = seed.iq;
             worldStatistic.yearMaxIQ = worldStatistic.year;
         }
     };
@@ -106,7 +106,7 @@
     Statistic.prototype.yearPassed = function() {
         var worldStatistic = this,
             world = worldStatistic.world,
-            listTile = world.Tile.list,
+            listTile = world.tile.list,
 
             population = 0,
             totalIQ = 0,
@@ -121,7 +121,7 @@
                     var seed = seeds[j];
 
                     population++;
-                    totalIQ += seed.IQ;
+                    totalIQ += seed.iq;
                     if (seed instanceof world.Male) {
                         if (seed.age <= seed.maxChildAge) {
                             boys++;
@@ -146,7 +146,7 @@
 
         worldStatistic.population = population;
 
-        worldStatistic.IQ = totalIQ;
+        worldStatistic.iq = totalIQ;
 
         worldStatistic.men = men;
         worldStatistic.women = women;

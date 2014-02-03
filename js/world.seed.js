@@ -167,7 +167,7 @@
      */
     Seed.prototype.seek = function(condition) {
         var seed = this,
-            Tile = seed.world.Tile,
+            tile = seed.world.tile,
             direction = [
                 [0, 0],                                 // current tile
                 [-1, 0], [1, 0], [0, -1], [0, 1],       // w, e, n, s tile
@@ -181,8 +181,8 @@
             };
         }
 
-        var tilesPerRow = Tile.tilesPerRow,
-            tilesPerCol = Tile.tilesPerCol;
+        var tilesPerRow = tile.tilesPerRow,
+            tilesPerCol = tile.tilesPerCol;
         for (var i = 0, len = direction.length; i < len; i++) {
             var thisTileIndex;
             if (i === 0) {
@@ -198,7 +198,7 @@
                     continue;
                 }
             }
-            var seeds = Tile.list[thisTileIndex];
+            var seeds = tile.list[thisTileIndex];
             for (var j = 0, len2 = seeds.length; j < len2; j++) {
                 if (seeds[j] && seed.id != seeds[j].id) {
                     var candidateSeed = seeds[j];
@@ -247,9 +247,9 @@
 
         var chance = fromChance + (age - fromAge) * delta;
         // TODO: Move these chances to Seed
-        /* if (world.Rules.Chance[type] != 0) {
+        /* if (world.rules.chance[type] != 0) {
             // Modify chance based on rule of the world
-            chance += chance * world.Rules.Chance[type];
+            chance += chance * world.rules.chance[type];
         } */
         return chance;
     };

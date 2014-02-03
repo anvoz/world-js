@@ -37,7 +37,7 @@
 
         Seed.call(female, data);
 
-        female.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
+        female.iq = (data.iq || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         female.maxChildAge = 15;
 
@@ -101,7 +101,7 @@
                                 world.height - 1 - world.padding,
                                 female.y + Math.floor(female.appearance.height / 2)
                             ),
-                            IQ: Math.round((female.relationSeed.IQ + female.IQ) / 2) // inherit IQ from parent
+                            iq: Math.round((female.relationSeed.iq + female.iq) / 2) // inherit IQ from parent
                         };
 
                     if (Math.random() < 0.5) {

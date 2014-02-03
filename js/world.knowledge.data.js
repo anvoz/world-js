@@ -27,13 +27,13 @@
                     code: ['Adult +1 food / year', 'Food resource +10k']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 500 },
+            iq: { priority: 1, gained: 0, required: 500 },
             following: ['fire', 'hula'],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldStatistic = world.Statistic;
+                var worldStatistic = world.statistic;
 
-                world.Rules.Food.adult += 1;
+                world.rules.food.adult += 1;
                 worldStatistic.foodResource += 10000;
                 if (worldStatistic.food < 0) {
                     worldStatistic.foodResource += worldStatistic.food;
@@ -62,22 +62,22 @@
                     code: ['Food resource recovery -5% / century']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 3000 },
+            iq: { priority: 1, gained: 0, required: 3000 },
             following: ['cook', 'noma'],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldRules = world.Rules;
+                var worldRules = world.rules;
 
-                worldRules.ChanceIncr.death -= 0.1;
+                worldRules.chanceIncr.death -= 0.1;
                 worldRules.baseIQ += 1;
 
-                world.Event.add('yearPassed', 'burningForests', function() {
+                world.event.add('yearPassed', 'burningForests', function() {
                     var world = this,
-                        year = world.Statistic.year,
-                        affectedYear = world.Knowledge.list['fire'].affectedYear;
+                        year = world.statistic.year,
+                        affectedYear = world.knowledge.list['fire'].affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
-                        world.Rules.Food.resourceIncr -= 0.05;
+                        world.rules.food.resourceIncr -= 0.05;
                     }
                 });
             }
@@ -102,28 +102,28 @@
                     code: ['Food resource recovery -5% / century']
                 }
             ],
-            IQ: { priority: 0.1, gained: 0, required: 20000 },
+            iq: { priority: 0.1, gained: 0, required: 20000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldRules = world.Rules,
-                    worldStatistic = world.Statistic;
+                var worldRules = world.rules,
+                    worldStatistic = world.statistic;
 
-                worldRules.ChanceIncr.death += 0.1;
-                worldRules.Food.adult += 2;
+                worldRules.chanceIncr.death += 0.1;
+                worldRules.food.adult += 2;
                 worldStatistic.foodResource += 5000;
                 if (worldStatistic.food < 0) {
                     worldStatistic.foodResource += worldStatistic.food;
                     worldStatistic.food = 0;
                 }
 
-                world.Event.add('yearPassed', 'largeAnimalsDisappearing', function() {
+                world.event.add('yearPassed', 'largeAnimalsDisappearing', function() {
                     var world = this,
-                        year = world.Statistic.year,
-                        affectedYear = world.Knowledge.list['hula'].affectedYear;
+                        year = world.statistic.year,
+                        affectedYear = world.knowledge.list['hula'].affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
-                        world.Rules.Food.resourceIncr -= 0.05;
+                        world.rules.food.resourceIncr -= 0.05;
                     }
                 });
             }
@@ -145,26 +145,26 @@
                     code: ['Death rate -10%']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 50000 },
+            iq: { priority: 1, gained: 0, required: 50000 },
             following: ['osea'],
             affectedYear: 0,
             onAffected: function(world) {
-                world.Event.add('yearPassed', 'foodResourceRecovering', function() {
+                world.event.add('yearPassed', 'foodResourceRecovering', function() {
                     var world = this,
-                        year = world.Statistic.year,
-                        affectedYear = world.Knowledge.list['noma'].affectedYear;
+                        year = world.statistic.year,
+                        affectedYear = world.knowledge.list['noma'].affectedYear;
                     if (year % 10 == affectedYear % 10 &&
                             year > affectedYear) {
-                        var worldRules = world.Rules,
+                        var worldRules = world.rules,
                             foodResource = 10 *
-                                worldRules.Population.limit *
-                                worldRules.Food.adult;
-                        foodResource = Math.max(0, foodResource + Math.ceil(foodResource * worldRules.Food.resourceIncr));
-                        world.Statistic.foodResource = foodResource;
+                                worldRules.population.limit *
+                                worldRules.food.adult;
+                        foodResource = Math.max(0, foodResource + Math.ceil(foodResource * worldRules.food.resourceIncr));
+                        world.statistic.foodResource = foodResource;
                     }
                 });
 
-                world.Rules.ChanceIncr.death -= 0.1;
+                world.rules.chanceIncr.death -= 0.1;
             }
         },
         cook: {
@@ -188,22 +188,22 @@
                     code: ['Death rate -10%', 'Food spoilage -10%']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 5000 },
+            iq: { priority: 1, gained: 0, required: 5000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldRules = world.Rules,
-                    worldStatistic = world.Statistic;
+                var worldRules = world.rules,
+                    worldStatistic = world.statistic;
 
-                worldRules.Food.adult += 1;
+                worldRules.food.adult += 1;
                 worldStatistic.foodResource += 20000;
                 if (worldStatistic.food < 0) {
                     worldStatistic.foodResource += worldStatistic.food;
                     worldStatistic.food = 0;
                 }
                 worldRules.baseIQ += 1;
-                worldRules.ChanceIncr.death -= 0.1;
-                worldRules.FoodSpoilage.foodDecr -= 0.1;
+                worldRules.chanceIncr.death -= 0.1;
+                worldRules.foodSpoilage.foodDecr -= 0.1;
             }
         },
         goss: {
@@ -222,15 +222,15 @@
                     code: ['Population limit 150', 'Base IQ +1', 'Child -1 food / year']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 10000 },
+            iq: { priority: 1, gained: 0, required: 10000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldRules = world.Rules;
+                var worldRules = world.rules;
 
-                worldRules.Population.limit = 150;
+                worldRules.population.limit = 150;
                 worldRules.baseIQ += 1;
-                worldRules.Food.child -= 1;
+                worldRules.food.child -= 1;
 
                 // More people come
                 world.padding = 10;
@@ -263,16 +263,16 @@
                     code: ['Death rate +10%']
                 }
             ],
-            IQ: { priority: 1, gained: 0, required: 50000 },
+            iq: { priority: 1, gained: 0, required: 50000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldRules = world.Rules;
+                var worldRules = world.rules;
 
-                worldRules.Population.limit = 500;
+                worldRules.population.limit = 500;
                 worldRules.baseIQ += 1;
-                worldRules.Food.child -= 1;
-                worldRules.ChanceIncr.death += 0.1;
+                worldRules.food.child -= 1;
+                worldRules.chanceIncr.death += 0.1;
             }
         },
         osea: {
@@ -298,18 +298,18 @@
                     code: ['Death rate +0%']
                 }
             ],
-            IQ: { priority: 0.1, gained: 0, required: 200000 },
+            iq: { priority: 0.1, gained: 0, required: 200000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
-                var worldStatistic = world.Statistic;
+                var worldStatistic = world.statistic;
 
                 worldStatistic.foodResource += 10000;
                 if (worldStatistic.food < 0) {
                     worldStatistic.foodResource += worldStatistic.food;
                     worldStatistic.food = 0;
                 }
-                world.Rules.Food.resourceIncr += 0.2;
+                world.rules.food.resourceIncr += 0.2;
             }
         },
         coso: {
@@ -338,7 +338,7 @@
                     code: []
                 }
             ],
-            IQ: { priority: 0.1, gained: 0, required: 1000000000 },
+            iq: { priority: 0.1, gained: 0, required: 1000000000 },
             following: [],
             affectedYear: 0,
             onAffected: function() { }

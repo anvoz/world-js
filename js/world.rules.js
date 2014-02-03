@@ -25,14 +25,14 @@
         // Store reference of a world
         worldRules.world = world;
 
-        worldRules.Population = {
+        worldRules.population = {
             limit: 100
         };
 
         worldRules.baseIQ = 0;
 
         // Base chances
-        worldRules.Chance = {
+        worldRules.chance = {
             death: 0,
             marriage: 0,
             childbirth: 0
@@ -40,13 +40,13 @@
 
         // Chances that increase or decrease temporarily
         // based on some specific value
-        worldRules.ChanceIncr = {
+        worldRules.chanceIncr = {
             death: 0,
             marriage: 0,
             childbirth: 0
         };
 
-        worldRules.Food = {
+        worldRules.food = {
             adult: 1,               // Produce 1 food per year
             child: -1,              // Consume 1 food per year
             resourceIncr: 0,        // Percent of food resource increase per 10 years (if enabled)
@@ -55,31 +55,31 @@
 
         // When famine affected,
         // death chance increase 10% every -100 food
-        worldRules.Famine = {
+        worldRules.famine = {
             deathChanceIncr: 0.1,
             unit: -100
         };
 
         // Food decrease 90% every 100 years
-        worldRules.FoodSpoilage = {
+        worldRules.foodSpoilage = {
             foodDecr: 0.9,
             interval: 1
         };
 
         // Death chance increase for each man surpass the population limit
-        worldRules.LargeCooperation = {
+        worldRules.largeCooperation = {
             deathChanceIncr: 0.1,
             unit: 1
         };
 
-        var worldEvent = world.Event;
+        var worldEvent = world.event;
         worldEvent.add('yearPassed', 'rules', function() {
             var world = this;
-            world.Rules.change();
+            world.rules.change();
         });
         worldEvent.add('seedAdded', 'rules', function(data) {
             var world = this;
-            data.seed.IQ += world.Rules.baseIQ;
+            data.seed.iq += world.rules.baseIQ;
         });
     };
 
@@ -90,50 +90,50 @@
         var worldRules = this,
             world = worldRules.world,
 
-            Statistic = world.Statistic,
+            worldStatistic = world.statistic,
 
-            food = Statistic.food,
-            foodResource = Statistic.foodResource,
-            population = Statistic.population,
+            food = worldStatistic.food,
+            foodResource = worldStatistic.foodResource,
+            population = worldStatistic.population,
 
-            totalAdult = Statistic.men + Statistic.women,
-            totalChildren = Statistic.boys + Statistic.girls;
+            totalAdult = worldStatistic.men + worldStatistic.women,
+            totalChildren = worldStatistic.boys + worldStatistic.girls;
 
-        var foodProduce = Math.min(foodResource, totalAdult * worldRules.Food.adult),
-            foodConsume = totalChildren * worldRules.Food.child,
+        var foodProduce = Math.min(foodResource, totalAdult * worldRules.food.adult),
+            foodConsume = totalChildren * worldRules.food.child,
             foodDelta = foodProduce + foodConsume;
 
         // Obtain food from food resource
         foodResource = Math.max(0, foodResource - foodProduce);
         food += foodDelta;
 
-        if (food < worldRules.Food.min) {
-            food = worldRules.Food.min;
+        if (food < worldRules.food.min) {
+            food = worldRules.food.min;
         }
 
         var deathChance = 0,
             delta = 0;
 
         // Famine: increase death chance
-        if (food <= worldRules.Famine.unit) {
-            delta = Math.floor(food / worldRules.Famine.unit);
-            deathChance += delta * worldRules.Famine.deathChanceIncr;
+        if (food <= worldRules.famine.unit) {
+            delta = Math.floor(food / worldRules.famine.unit);
+            deathChance += delta * worldRules.famine.deathChanceIncr;
         }
 
         // Food spoilage: decrease food
-        if (Statistic.year % worldRules.FoodSpoilage.interval === 0 && food > 0) {
-            food -= Math.floor(food * worldRules.FoodSpoilage.foodDecr);
+        if (worldStatistic.year % worldRules.foodSpoilage.interval === 0 && food > 0) {
+            food -= Math.floor(food * worldRules.foodSpoilage.foodDecr);
         }
 
         // Population limit: increase death chance
-        if (population > worldRules.Population.limit) {
-            delta = population - worldRules.Population.limit;
-            deathChance += delta * worldRules.LargeCooperation.deathChanceIncr;
+        if (population > worldRules.population.limit) {
+            delta = population - worldRules.population.limit;
+            deathChance += delta * worldRules.largeCooperation.deathChanceIncr;
         }
 
         // Apply new changes
-        Statistic.food = food;
-        Statistic.foodResource = foodResource;
-        worldRules.Chance.death = deathChance + worldRules.ChanceIncr.death;
+        worldStatistic.food = food;
+        worldStatistic.foodResource = foodResource;
+        worldRules.chance.death = deathChance + worldRules.chanceIncr.death;
     };
 })(window);

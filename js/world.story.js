@@ -20,23 +20,23 @@
         // Create a new world
         world = new WorldJS(),
 
-        Event = world.Event,
-        Knowledge = world.Knowledge = new WorldJS.Knowledge(world),
-        Rules = world.Rules = new WorldJS.Rules(world),
-        Statistic = world.Statistic = new WorldJS.Statistic(world),
-        Guide = world.Guide = new WorldJS.Guide(world);
+        worldEvent = world.event,
+        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world),
+        worldRules = world.rules = new WorldJS.Rules(world),
+        worldStatistic = world.statistic = new WorldJS.Statistic(world),
+        worldGuide = world.guide = new WorldJS.Guide(world);
 
     /** Knowledge setup */
     // Load all knowledge list
-    Knowledge.list = WorldJS.KnowledgeData;
+    worldKnowledge.list = WorldJS.KnowledgeData;
 
     // Start with 1 knowledge (hunting and gathering)
-    Knowledge.trending = ['huga'];
-    Interface.trendingAdded(Knowledge.list.huga);
+    worldKnowledge.trending = ['huga'];
+    Interface.trendingAdded(worldKnowledge.list.huga);
 
     // Update UI
-    Knowledge.trendingAdded = Interface.trendingAdded;
-    Knowledge.trendingRemoved = function(knowledge) {
+    worldKnowledge.trendingAdded = Interface.trendingAdded;
+    worldKnowledge.trendingRemoved = function(knowledge) {
         Interface.trendingRemoved(knowledge);
 
         // Show message that includes the knowledge's message
@@ -49,7 +49,7 @@
             messageArray.push('<hr>');
             messageArray.push('<div class="knowledge-trending">');
             for (var i = 0; i < knowledge.following.length; i++) {
-                var newKnowledge = Knowledge.list[knowledge.following[i]];
+                var newKnowledge = worldKnowledge.list[knowledge.following[i]];
                 messageArray.push([
                     '<div class="knowledge-clone">',
                         '<div><b>' + newKnowledge.name + '</b></div>',
@@ -62,7 +62,7 @@
             }
             messageArray.push('</div>');
         }
-        Guide.show(messageArray.join(''), 15);
+        worldGuide.show(messageArray.join(''), 15);
 
         switch (knowledge.id) {
             case 'noma':
@@ -72,16 +72,16 @@
     };
 
     /** Rule setup */
-    Rules.Population.limit = 50;
+    worldRules.population.limit = 50;
 
     /** Event setup */
     // Update game UI with new data of each year
-    Event.add('yearPassed', 'updateUI', Interface.yearPassed);
+    worldEvent.add('yearPassed', 'updateUI', Interface.yearPassed);
 
     // Control population in the early stage of the game
-    Event.add('yearPassed', 'populationControl', function() {
+    worldEvent.add('yearPassed', 'populationControl', function() {
         var world = this,
-            year = world.Statistic.year;
+            year = world.statistic.year;
 
         if (year <= 30) {
             if (year == 20) {
@@ -94,11 +94,11 @@
                 });
             }
         } else {
-            var worldStatistic = world.Statistic,
-                worldRules = world.Rules;
+            var worldStatistic = world.statistic,
+                worldRules = world.rules;
 
             // Keep the population stable if there is enough food
-            if (worldStatistic.population < 30 && worldStatistic.food > worldRules.Famine.unit) {
+            if (worldStatistic.population < 30 && worldStatistic.food > worldRules.famine.unit) {
                 world.addSeeds(10, {
                     minAge: 20,
                     maxAge: 30,
@@ -108,15 +108,15 @@
             }
 
             if (year > 300) {
-                world.Event.remove('yearPassed', 'populationControl');
+                world.event.remove('yearPassed', 'populationControl');
             }
         }
     });
 
     // Unlock population limit
-    Event.add('yearPassed', 'populationLimitUnlock', function() {
+    worldEvent.add('yearPassed', 'populationLimitUnlock', function() {
         var world = this,
-            worldKnowledge = world.Knowledge;
+            worldKnowledge = world.knowledge;
 
         if (worldKnowledge.completed.length < 1) {
             return;
@@ -139,13 +139,13 @@
                 newKnowledge = worldKnowledge.list[knowledgeId];
 
             // Add new knowledge when the population reached its limit
-            if (world.Statistic.population >= listKnowledge[i].population
+            if (world.statistic.population >= listKnowledge[i].population
                     && !newKnowledge.added) {
                 newKnowledge.added = true;
                 worldKnowledge.trending.push(knowledgeId);
                 Interface.trendingAdded(newKnowledge);
 
-                world.Guide.show([
+                world.guide.show([
                     '<div class="knowledge-trending">',
                         '<div class="knowledge-clone">',
                             '<div><b>' + newKnowledge.name + '</b></div>',
@@ -159,7 +159,7 @@
                 ].join(''), 15);
 
                 if (knowledgeId == 'spir') {
-                    world.Event.remove('yearPassed', 'populationLimitUnlock');
+                    world.event.remove('yearPassed', 'populationLimitUnlock');
                 }
 
                 break;
@@ -168,11 +168,11 @@
     });
 
     // Default behaviors for every year
-    Event.add('yearPassed', 'default', function() {
+    worldEvent.add('yearPassed', 'default', function() {
         var world = this,
-            worldKnowledge = world.Knowledge,
-            worldRules = world.Rules,
-            worldStatistic = world.Statistic;
+            worldKnowledge = world.knowledge,
+            worldRules = world.rules,
+            worldStatistic = world.statistic;
 
         worldKnowledge.gain();
 
@@ -185,7 +185,7 @@
         }
 
         if (worldStatistic.year == 750) {
-            world.Guide.show([
+            world.guide.show([
                 '<div>Humans simply destroy everything that stands on their paths.</div>',
                 '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
             ].join(''), 500);
@@ -195,7 +195,7 @@
             $('#world-pause-btn').prop('disabled', 'disabled');
             world.stop();
 
-            world.Guide.show([
+            world.guide.show([
                 '<div>When the decline in the availability of wild foods becomes critical, humans could do better than</div>',
                 '<div>what you\'ve just seen. They would gain new knowledge to live in equilibrium or to produce food.</div>'
             ].join(''), 1000);
@@ -203,7 +203,7 @@
     });
 
     /** Guide setup */
-    Guide.setContainer($('#world-container .guide'));
+    worldGuide.setContainer($('#world-container .guide'));
 
     var messages = [
         { year: 5, ytl: 15, html: [
@@ -217,12 +217,12 @@
     ];
     for (var i = 0; i < messages.length; i++) {
         (function(message) {
-            Event.add('yearPassed', 'message-' + message.year, function() {
+            worldEvent.add('yearPassed', 'message-' + message.year, function() {
                 var world = this;
 
-                if (world.Statistic.year == message.year) {
-                    world.Guide.show(message.html, message.ytl);
-                    world.Event.remove('yearPassed', 'message-' + message.year);
+                if (world.statistic.year == message.year) {
+                    world.guide.show(message.html, message.ytl);
+                    world.event.remove('yearPassed', 'message-' + message.year);
                 }
             });
         })(messages[i]);
@@ -317,7 +317,7 @@
             .prop('checked', true);
 
         // Change knowledge priority
-        world.Knowledge.list[knowledgeId].IQ.priority = priorityValue;
+        world.knowledge.list[knowledgeId].iq.priority = priorityValue;
     });
     $(document).on('change', '.priority-radio-clone', function() {
         var $this = $(this),
