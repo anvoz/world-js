@@ -88,8 +88,8 @@
     Tile.prototype.init = function(width, height) {
         var worldTile = this,
             tileSize = worldTile.size,
-            tilesPerRow = Math.ceil(width / tileSize),
-            tilesPerCol = Math.ceil(height / tileSize),
+            tilesPerRow = Math.ceil(height / tileSize),
+            tilesPerCol = Math.ceil(width / tileSize),
             totalTiles = tilesPerRow * tilesPerCol;
 
         worldTile.tilesPerRow = tilesPerRow;
@@ -110,10 +110,10 @@
      * seed: instance of Seed
      */
     Tile.prototype.getIndex = function(seed) {
-        var size = this.size,
-            x = Math.floor(seed.x / size),
-            y = Math.floor(seed.y / size);
-        return x + (y * this.tilesPerRow);
+        var tileSize = this.size,
+            x = Math.floor(seed.x / tileSize),
+            y = Math.floor(seed.y / tileSize);
+        return x + (y * this.tilesPerCol);
     };
 
     /**
