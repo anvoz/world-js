@@ -94,9 +94,10 @@
                                 candidate.relationSeed === false &&
                                 // Enough age to give birth
                                 candidate.age >= candidate.chances.childbirth[0].range[0] &&
-                                // Failure chance increase (every 10 age difference) if male is younger than female
+                                // Failure chance increase (every 10 age difference)
+                                // if male is younger than female
                                 (candidate.age <= male.age ||
-                                        (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
+                                    (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
                             );
                         });
                         if (female !== false) {
@@ -118,7 +119,8 @@
 
         if (male.relationSeed !== false) {
             if (male.x === Math.max(0, male.relationSeed.x - 10) &&
-                    male.y === male.relationSeed.y) {
+                male.y === male.relationSeed.y
+            ) {
                 return;
             }
             male.move(speed, function() {
