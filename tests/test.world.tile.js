@@ -140,8 +140,8 @@ asyncTest('tile.set & tile.rem with world.run', function() {
 
     world.event.add('yearPassed', 'stopTheWorld', function() {
         // The seed should reach to the moveTo position
-        deepEqual(x2, seed.x, 'seed.x after 1 year');
-        deepEqual(y2, seed.y, 'seed.y after 1 year');
+        deepEqual(seed.x, x2, 'seed.x after 1 year');
+        deepEqual(seed.y, y2, 'seed.y after 1 year');
         deepEqual(
             world.tile.list[seed.tileIndex][seed.tileArrayIndex],
             seed,
