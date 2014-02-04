@@ -7,8 +7,8 @@ test('new WorldJS()', function() {
     deepEqual(world.running, false, 'The world is currently not running');
     deepEqual(world.totalSeeds, 0, 'Use totalSeeds to track total seeds');
     deepEqual(world.distributedTicks.length, world.tickPerYear - 1, 'Have an array of distributed ticks');
-    ok(world.Tile instanceof WorldJS.Tile, 'new WorldJS.Tile');
-    ok(world.Event instanceof WorldJS.Event, 'new WorldJS.Event');
+    ok(world.tile instanceof WorldJS.Tile, 'new WorldJS.Tile');
+    ok(world.event instanceof WorldJS.Event, 'new WorldJS.Event');
 });
 
 test('world.init', function() {
@@ -165,7 +165,7 @@ asyncTest('world.run', function() {
     var seed = world.addSeed(world.Seed);
     deepEqual(seed.age, 0, '0 year old');
 
-    world.Event.add('yearPassed', 'stopTheWorld', function() {
+    world.event.add('yearPassed', 'stopTheWorld', function() {
         // Check with different speeds
         switch (seed.age) {
             case 1:
