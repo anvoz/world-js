@@ -72,7 +72,7 @@
             // Trigger every <actionInterval> ticks
             var world = male.world;
 
-            var deathChance = male.getChance(male, 'death');
+            var deathChance = male.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
                 world.removeSeed(male);
                 return;
@@ -82,7 +82,7 @@
                 male.age >= male.chances.marriage[0].range[0]
             ) {
                 // Seeking for female
-                var marriageChance = male.getChance(male, 'marriage');
+                var marriageChance = male.getChance('marriage');
                 if (marriageChance > 0) {
                     var failureChance = Math.random();
                     if (failureChance < marriageChance) {

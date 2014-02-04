@@ -39,6 +39,7 @@
         seed.appearance = data.appearance || {
             width: 1, height: 1
         };
+
         // Relationship of the seed
         seed.relationSeed = data.relationSeed || false;
 
@@ -113,12 +114,11 @@
      */
     Seed.prototype.move = function(speed, beforeMoveCallback) {
         var seed = this,
-            random = function(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            };
+            world = seed.world,
+            random = world.random;
 
         // By default, seed keeps moving around the world
-        if (!beforeMoveCallback) {
+        if ( ! beforeMoveCallback) {
             // Read the comment on seed's constructor for more info
             if (seed.stepCount == seed.moveUntilStep) {
                 if (seed.ageToMoveAgain == 0 ||
@@ -135,11 +135,7 @@
 
             if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
                 // Make another moveTo coordinate
-                var world = seed.world;
-                seed.moveTo = {
-                    x: random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
-                    y: random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
-                };
+                seed.moveTo = world.getRandomPosition(seed, true);
             }
         } else {
             beforeMoveCallback.call(seed);
@@ -174,7 +170,7 @@
                 [-1, -1], [-1, 1], [1, -1], [1, 1]      // nw, sw, ne, se tile
             ];
 
-        if (!condition) {
+        if ( ! condition) {
             // No filter, return first seed of the current tile
             condition = function(candidate) {
                 return (candidate.id != seed.id);
@@ -228,8 +224,9 @@
      * Age:     1   2   3   4   5
      * Chance:  1%  2%  3%  4%  5%
      */
-    Seed.prototype.getChance = function(seed, type) {
-        var world = seed.world,
+    Seed.prototype.getChance = function(type) {
+        var seed = this,
+            // world = seed.world,
             base = seed.chances[type],
             age = seed.age,
 
@@ -237,7 +234,7 @@
             fromAge = 0,
             fromChance = 0,
             delta = 0;
-        while (base[i] && age > base[i].range[0]) {
+        while (base[i] && age >= base[i].range[0]) {
             var thisBase = base[i];
             fromAge = thisBase.range[0];
             fromChance = thisBase.from;

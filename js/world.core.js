@@ -247,17 +247,19 @@
     /**
      * Get random position in the world
      * seed: seed-based instance
+     * forced: always get new value of x and y
      * return {x, y}
      */
-    WorldJS.prototype.getRandomPosition = function(seed) {
+    WorldJS.prototype.getRandomPosition = function(seed, forced) {
         var world = this,
+            forced = forced || false,
 
-            x = (seed.x === false) ?
+            x = (seed.x === false || forced) ?
                 world.random(
                     world.padding,
                     world.width - seed.appearance.width - world.padding
                 ) : seed.x,
-            y = (seed.y === false) ?
+            y = (seed.y === false || forced) ?
                 world.random(
                     world.padding,
                     world.height - seed.appearance.height - world.padding

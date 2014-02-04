@@ -79,7 +79,7 @@
             var world = female.world,
                 age = female.age;
 
-            var deathChance = female.getChance(female, 'death');
+            var deathChance = female.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
                 world.removeSeed(female);
                 return;
@@ -88,7 +88,7 @@
             if (female.relationSeed !== false &&                        // Is married
                     age >= female.chances.childbirth[0].range[0] &&     // Enough age to give birth
                     age > female.ageLastBear) {                         // Not give birth in the same year
-                var childBirthChance = female.getChance(female, 'childbirth');
+                var childBirthChance = female.getChance('childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     // +1 because she has more than 1 chance to give birth every year
                     // depended on actionInterval
