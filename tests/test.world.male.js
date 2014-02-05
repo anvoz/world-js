@@ -105,4 +105,10 @@ test('male.tick', function() {
     male.tickCount += world.speed;
     male.tick(world.speed);
     deepEqual(male.relationSeed, female3, '8th: But not too long - Married again');
+
+    // He dies
+    male.chances.death = [{range: [1, 100], from: 1, to: 1}];
+    male.tickCount += world.speed;
+    male.tick(world.speed);
+    deepEqual(female3.relationSeed, false, '9th: He dies - His wife is single again');
 })
