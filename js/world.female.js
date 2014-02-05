@@ -85,9 +85,12 @@
                 return;
             }
 
-            if (female.relationSeed !== false &&                        // Is married
-                    age >= female.chances.childbirth[0].range[0] &&     // Enough age to give birth
-                    age > female.ageLastBear) {                         // Not give birth in the same year
+            if (female.relationSeed !== false && // Is married
+                // Enough age to give birth
+                age >= female.chances.childbirth[0].range[0] &&
+                // Not give birth in the same year
+                age > female.ageLastBear
+            ) {
                 var childBirthChance = female.getChance('childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     // +1 because she has more than 1 chance to give birth every year
@@ -101,7 +104,8 @@
                                 world.height - 1 - world.padding,
                                 female.y + Math.floor(female.appearance.height / 2)
                             ),
-                            iq: Math.round((female.relationSeed.iq + female.iq) / 2) // inherit IQ from parent
+                            // inherit IQ from parent
+                            iq: Math.round((female.relationSeed.iq + female.iq) / 2)
                         };
 
                     if (Math.random() < 0.5) {
