@@ -21,9 +21,9 @@
         world = new WorldJS(),
 
         worldEvent = world.event,
-        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world),
-        worldRules = world.rules = new WorldJS.Rules(world),
         worldStatistic = world.statistic = new WorldJS.Statistic(world),
+        worldRules = world.rules = new WorldJS.Rules(world),
+        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world),
         worldGuide = world.guide = new WorldJS.Guide(world);
 
     /** Knowledge setup */

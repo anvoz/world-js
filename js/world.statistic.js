@@ -24,8 +24,6 @@
         worldStatistic.world = world;
 
         worldStatistic.year = 0;
-        worldStatistic.food = 0;
-        worldStatistic.foodResource = 500;
 
         // Re-calculate every year
         worldStatistic.population = 0;

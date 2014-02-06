@@ -1,5 +1,5 @@
 /*!
- * world.rules.js
+ * world.rules.js (require Statistic module)
  * Manage rules of a world.
  * Apply new rules to the world every year.
  *
@@ -32,6 +32,7 @@
         worldRules.baseIQ = 0;
 
         // Base chances
+        // TODO: move this to core
         worldRules.chance = {
             death: 0,
             marriage: 0,
@@ -47,10 +48,15 @@
         };
 
         worldRules.food = {
-            adult: 1,               // Produce 1 food per year
-            child: -1,              // Consume 1 food per year
-            resourceIncr: 0,        // Percent of food resource increase per 10 years (if enabled)
-            min: -10000             // Minimum food value
+            // Produce 1 food per year
+            adult: 1,
+            // Consume 1 food per year
+            child: -1,
+            // Percent of food resource increase per 10 years (if enabled)
+            // TODO: this should be handled from here instead of in knowledge.data
+            resourceIncr: 0,
+            // Minimum food value
+            min: -10000
         };
 
         // When famine affected,
@@ -60,7 +66,7 @@
             unit: -100
         };
 
-        // Food decrease 90% every 100 years
+        // Food decrease 90% every year
         worldRules.foodSpoilage = {
             foodDecr: 0.9,
             interval: 1
@@ -71,6 +77,10 @@
             deathChanceIncr: 0.1,
             unit: 1
         };
+
+        var worldStatistic = world.statistic;
+        worldStatistic.food = 0;
+        worldStatistic.foodResource = 500;
 
         var worldEvent = world.event;
         worldEvent.add('yearPassed', 'rules', function() {
@@ -99,7 +109,10 @@
             totalAdult = worldStatistic.men + worldStatistic.women,
             totalChildren = worldStatistic.boys + worldStatistic.girls;
 
-        var foodProduce = Math.min(foodResource, totalAdult * worldRules.food.adult),
+        var foodProduce = Math.min(
+                foodResource,
+                totalAdult * worldRules.food.adult
+            ),
             foodConsume = totalChildren * worldRules.food.child,
             foodDelta = foodProduce + foodConsume;
 
@@ -121,13 +134,16 @@
         }
 
         // Food spoilage: decrease food
-        if (worldStatistic.year % worldRules.foodSpoilage.interval === 0 && food > 0) {
+        if (worldStatistic.year % worldRules.foodSpoilage.interval === 0 &&
+            food > 0
+        ) {
             food -= Math.floor(food * worldRules.foodSpoilage.foodDecr);
         }
 
         // Population limit: increase death chance
         if (population > worldRules.population.limit) {
             delta = population - worldRules.population.limit;
+            delta = Math.floor(delta / worldRules.largeCooperation.unit);
             deathChance += delta * worldRules.largeCooperation.deathChanceIncr;
         }
 
