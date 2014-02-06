@@ -30,10 +30,10 @@
         // Re-calculate every year
         worldStatistic.population = 0;
         worldStatistic.iq = 0;
-        worldStatistic.men = 0;          // adult male
-        worldStatistic.women = 0;        // adult female
-        worldStatistic.boys = 0;         // young male
-        worldStatistic.girls = 0;        // young female
+        worldStatistic.men = 0;         // adult male
+        worldStatistic.women = 0;       // adult female
+        worldStatistic.boys = 0;        // young male
+        worldStatistic.girls = 0;       // young female
         worldStatistic.families = 0;
 
         // Record when someone was born
@@ -66,6 +66,7 @@
 
     /**
      * Calculate when a seed is added to the world
+     * TODO: move this function to Knowledge module
      */
     Statistic.prototype.seedAdded = function(seed) {
         var worldStatistic = this;
@@ -94,6 +95,7 @@
         worldStatistic.sumAge += age;
 
         // Not check married because married will be set to false if her husband die
+        // TODO: Check this in yearPassed event instead of here
         if (typeof seed.totalChildren !== 'undefined') {
             worldStatistic.dieMarriedFemale++;
             worldStatistic.sumChildren += seed.totalChildren;
