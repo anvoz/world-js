@@ -1,5 +1,5 @@
 /*!
- * world.knowledge.js
+ * world.knowledge.js (require Statistic module)
  * Manage knowledge of a world.
  * Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
  *
@@ -28,17 +28,26 @@
         worldKnowledge.list = {
             /*
              * samp: {
-             *    id: 'samp',                         // Knowledge id
-             *    name: 'Sample knowledge',           // Display name
-             *    description: '',
-             *    iq: {
-             *        priority: 1,                    // Priority factor: 0.1 (low), 1 (normal), 2 (high)
-             *        gained: 0,                      // Gained IQ
-             *        required: 1000                  // Need 1000 IQ to start to affect the world
-             *    },
-             *    following: ['samp2', 'samp3'],      // List of following knowledge that will be started after this one completed
-             *    affectedYear: false,                // The year when this knowledge started to affect the world
-             *    onAffected: function(world) { }     // Callback
+             *      // Knowledge id
+             *      id: 'samp',
+             *      // Display name
+             *      name: 'Sample knowledge',
+             *      description: '',
+             *      iq: {
+             *          // Priority factor: 0.1 (low), 1 (normal), 2 (high)
+             *          priority: 1,
+             *          // Gained IQ
+             *          // Need 1000 IQ to start to affect the world
+             *          gained: 0,
+             *          required: 1000
+             *      },
+             *      // List of following knowledge that will be started
+             *      // after this one completed
+             *      following: ['samp2', 'samp3'],
+             *      // The year when this knowledge started to affect the world
+             *      affectedYear: false,
+             *      // Callback
+             *      onAffected: function(world) { }
              * }
              */
         };
@@ -67,11 +76,13 @@
 
         /*
          * Create distributed IQ list.
-         * All IQ will be randomly distributed to trending knowledge and 1 fake knowledge each year.
-         * Distributing to a fake knowledge is represented as wasted IQ every year.
+         * All IQ will be randomly distributed to trending knowledge
+         * and 1 fake knowledge each year.
+         * Distributing to a fake knowledge is represented
+         * as wasted IQ every year.
          */
         for (var i = 0, len = worldKnowledge.trending.length; i <= len; i++) {
-            distributedIQList[i] = Math.floor(Math.random() * 101); // Random [0, 100]
+            distributedIQList[i] = world.random(0, 100);
             if (i < len) {
                 var knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
                 if (knowledge.iq.priority != 1) {
@@ -109,7 +120,9 @@
 
                 // Start to affect the world
                 knowledge.affectedYear = year;
-                knowledge.onAffected(world);
+                if (typeof knowledge.onAffected === 'function') {
+                    knowledge.onAffected(world);
+                }
 
                 tmpCompleted.push(knowledge);
             } else {
