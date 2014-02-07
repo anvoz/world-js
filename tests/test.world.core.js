@@ -154,7 +154,18 @@ test('world.addSeeds', function() {
     world.addSeeds(10);
     deepEqual(world.totalSeeds, 10, 'totalSeeds after added 10 seeds');
 
-    // TODO: add more tests
+    // Add some male and female
+    var worldStatistic = world.statistic = new WorldJS.Statistic(world);
+    world.addSeeds(5, {minAge: 20, maxAge: 30, types: [world.Male]});
+    world.addSeeds(5, {minAge: 20, maxAge: 30, types: [world.Female]});
+    world.addSeeds(10, {minAge: 5, maxAge: 10, types: [world.Male, world.Female]});
+    deepEqual(world.totalSeeds, 30, 'totalSeeds after added 20 more seeds');
+    worldStatistic.yearPassed();
+    deepEqual(worldStatistic.men, 5, 'Total men');
+    deepEqual(worldStatistic.women, 15, 'Total women (5 + 10 seeds)');
+    deepEqual(worldStatistic.boys + worldStatistic.girls, 10, 'Total children');
+
+    // TODO: Add tests to check the fromBorder property
 });
 
 asyncTest('world.run', function() {
