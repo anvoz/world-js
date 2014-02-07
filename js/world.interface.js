@@ -263,11 +263,6 @@
                             0 : Math.round(worldStatistic.sumAge / worldStatistic.die);
                         cached.set(statisticCache.avgAge, avgAge);
                         break;
-                    case 'avgChildren':
-                        var avgChildren = (worldStatistic.dieMarriedFemale == 0) ?
-                            0 : Math.round(worldStatistic.sumChildren / worldStatistic.dieMarriedFemale);
-                        cached.set(statisticCache.avgChildren, avgChildren);
-                        break;
                     default:
                         cached.set(statisticCache[propName], worldStatistic[propName]);
                         if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {

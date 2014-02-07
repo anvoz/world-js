@@ -64,4 +64,13 @@ test('statistic.yearPassed', function() {
     deepEqual(worldStatistic.families, 1, 'families: 1');
     deepEqual(worldStatistic.boys, 1, 'boys: 1');
     deepEqual(worldStatistic.girls, 1, 'girls: 1');
+
+    deepEqual(worldStatistic.avgChildren, 0, 'Average children per family');
+    female.totalChildren = 4;
+    world.statistic.yearPassed();
+    deepEqual(worldStatistic.avgChildren, 4, '4 children 1 woman');
+
+    world.addSeed(world.Female, {age: 18});
+    world.statistic.yearPassed();
+    deepEqual(worldStatistic.avgChildren, 2, '4 children 2 woman');
 });

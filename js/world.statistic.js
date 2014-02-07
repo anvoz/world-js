@@ -40,11 +40,10 @@
 
         // Record when someone died
         // Used for calculating average age
-        worldStatistic.die = 0;                  // Number of dead people
-        worldStatistic.sumAge = 0;               // and total age of them
-        // Used for calculating average children of each family
-        worldStatistic.dieMarriedFemale = 0;     // Number of dead married female
-        worldStatistic.sumChildren = 0;          // and total children of them
+        worldStatistic.die = 0;     // Number of dead people
+        worldStatistic.sumAge = 0;  // and total age of them
+
+        worldStatistic.avgChildren = 0;
 
         var worldEvent = world.event;
         worldEvent.add('yearPassed', 'statistic', function() {
@@ -70,13 +69,6 @@
             worldStatistic.yearMaxAge = worldStatistic.year;
         }
         worldStatistic.sumAge += age;
-
-        // Not check married because married will be set to false if her husband die
-        // TODO: Check this in yearPassed event instead of here
-        if (typeof seed.totalChildren !== 'undefined') {
-            worldStatistic.dieMarriedFemale++;
-            worldStatistic.sumChildren += seed.totalChildren;
-        }
     };
 
     /**
@@ -91,7 +83,8 @@
             totalIQ = 0,
             men = 0, women = 0,
             boys = 0, girls = 0,
-            families = 0;
+            families = 0,
+            children = 0;
 
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i];
@@ -114,6 +107,9 @@
                             girls++;
                         } else {
                             women++;
+                            if (typeof seed.totalChildren !== 'undefined') {
+                                children += seed.totalChildren;
+                            }
                         }
                     }
                 }
@@ -128,5 +124,7 @@
         worldStatistic.boys = boys;
         worldStatistic.girls = girls;
         worldStatistic.families = families;
+
+        worldStatistic.avgChildren = Math.floor(children / women) || 0;
     };
 })(window);
