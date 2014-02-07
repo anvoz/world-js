@@ -226,7 +226,6 @@
      */
     Seed.prototype.getChance = function(type) {
         var seed = this,
-            // world = seed.world,
             base = seed.chances[type],
             age = seed.age,
 
@@ -242,12 +241,6 @@
             i++;
         }
 
-        var chance = fromChance + (age - fromAge) * delta;
-        // TODO: Move these chances to Seed
-        /* if (world.rules.chance[type] != 0) {
-            // Modify chance based on rule of the world
-            chance += chance * world.rules.chance[type];
-        } */
-        return chance;
+        return fromChance + (age - fromAge) * delta;
     };
 })(window);

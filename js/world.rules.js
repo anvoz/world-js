@@ -30,7 +30,6 @@
         };
 
         // Base chances
-        // TODO: move this to core
         worldRules.chance = {
             death: 0,
             marriage: 0,
@@ -85,6 +84,27 @@
             var world = this;
             world.rules.change();
         });
+
+        // Something's wrong with the Seed.prototype when using QUnit
+        if (typeof world.Seed.prototype.getChanceInjected === 'undefined') {
+            world.Seed.prototype.getChanceInjected = function() {};
+
+            var getChance = world.Seed.prototype.getChance;
+            world.Seed.prototype.getChance = function(type) {
+                var seed = this,
+                    world = seed.world,
+                    worldRules = world.rules,
+                    chance = getChance.call(seed, type);
+
+                if (typeof worldRules.chance[type] !== 'undefined' &&
+                    worldRules.chance[type] != 0
+                ) {
+                    // Modify chance based on rule of the world
+                    chance += chance * worldRules.chance[type];
+                }
+                return chance;
+            };
+        }
     };
 
     /**

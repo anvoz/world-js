@@ -199,3 +199,33 @@ test('population limit & famine', function() {
 
     deepEqual(worldRules.chance.death.toFixed(1), '0.4', 'Be affected by both population limit and famine');
 });
+
+test('rule/seed.getChance', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+
+    world.statistic = new WorldJS.Statistic(world);
+    var worldRules = world.rules = new WorldJS.Rules(world),
+        male = world.addSeed(world.Male, {age: 20}),
+        female = world.addSeed(world.Female, {age: 20});
+
+    worldRules.chance = {
+        death: 1,           // 100%
+        marriage: 0,
+        childbirth: -0.5    // -50%
+    };
+    male.chances = {
+        death: [{range: [1, 100], from: 0.1, to: 0.1 }],
+        marriage: [{range: [1, 100], from: 0.1, to: 0.1 }]
+    };
+    female.chances = {
+        death: [{range: [1, 100], from: 0.1, to: 0.1 }],
+        childbirth: [{range: [1, 100], from: 0.1, to: 0.1 }]
+    };
+
+    deepEqual(male.getChance('death'), 0.2, 'Male death chance');
+    deepEqual(male.getChance('marriage'), 0.1, 'Male marriage chance');
+
+    deepEqual(female.getChance('death'), 0.2, 'Female death chance');
+    deepEqual(female.getChance('childbirth'), 0.05, 'Female childbirth chance');
+});
