@@ -17,7 +17,7 @@
 
     /**
      * Male constructor
-     * data (optional): seed data, IQ, age, chances
+     * data (optional): seed data, age, chances
      */
     Male = WorldJS.prototype.Male = function(data) {
         var male = this;
@@ -36,8 +36,6 @@
         };
 
         Seed.call(male, data);
-
-        male.iq = (data.iq || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         male.maxChildAge = 15;
 

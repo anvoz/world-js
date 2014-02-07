@@ -29,8 +29,6 @@
             limit: 100
         };
 
-        worldRules.baseIQ = 0;
-
         // Base chances
         // TODO: move this to core
         worldRules.chance = {
@@ -86,10 +84,6 @@
         worldEvent.add('yearPassed', 'rules', function() {
             var world = this;
             world.rules.change();
-        });
-        worldEvent.add('seedAdded', 'rules', function(data) {
-            var world = this;
-            data.seed.iq += world.rules.baseIQ;
         });
     };
 

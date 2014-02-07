@@ -1,5 +1,5 @@
 /*!
- * world.knowledge.js (require Statistic module)
+ * world.knowledge.js (require Statistic and Rules module)
  * Manage knowledge of a world.
  * Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
  *
@@ -60,6 +60,63 @@
 
         // Completed knowledge list
         worldKnowledge.completed = [];
+
+        var worldStatistic = world.statistic;
+        // Total IQ
+        worldStatistic.iq = 0;
+        // Max IQ of a person and the year when he/she was born
+        worldStatistic.maxIQ = 0;
+        worldStatistic.yearMaxIQ = 0;
+
+        var worldRules = world.rules;
+        worldRules.baseIQ = 0;
+
+        var worldEvent = world.event;
+        worldEvent.add('seedAdded', 'knowledge', function(data) {
+            this.knowledge.seedAdded(data);
+        });
+        worldEvent.add('seedRemoved', 'knowledge', function(data) {
+            this.knowledge.seedRemoved(data);
+        });
+    };
+
+    /**
+     * Seed added event for Knowledge module
+     */
+    Knowledge.prototype.seedAdded = function(data) {
+        var seed = data.seed,
+            world = seed.world;
+
+        // Add IQ to seed
+        if (typeof data.mother !== 'undefined') {
+            // Inherit IQ from its parent
+            seed.iq = Math.round(
+                (data.mother.relationSeed.iq + data.mother.iq) / 2
+            );
+        }
+
+        seed.iq = seed.iq || 0;
+        seed.iq += world.random(0, 3);
+
+        seed.iq += world.rules.baseIQ;
+
+        // Statistic
+        var worldStatistic = world.statistic;
+        worldStatistic.iq += seed.iq;
+        if (seed.iq > worldStatistic.maxIQ) {
+            worldStatistic.maxIQ = seed.iq;
+            worldStatistic.yearMaxIQ = worldStatistic.year;
+        }
+    };
+
+    /**
+     * Seed removed event for Knowledge module
+     */
+    Knowledge.prototype.seedRemoved = function(data) {
+        var seed = data.seed,
+            world = seed.world;
+
+        world.statistic.iq -= seed.iq;
     };
 
     /**

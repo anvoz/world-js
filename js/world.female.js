@@ -17,7 +17,7 @@
 
     /**
      * Female constructor
-     * data (optional): seed data, IQ, age, chances
+     * data (optional): seed data, age, chances
      */
     Female = WorldJS.prototype.Female = function(data) {
         var female = this;
@@ -36,8 +36,6 @@
         };
 
         Seed.call(female, data);
-
-        female.iq = (data.iq || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
 
         female.maxChildAge = 15;
 
@@ -104,8 +102,7 @@
                                 world.height - 1 - world.padding,
                                 female.y + Math.floor(female.appearance.height / 2)
                             ),
-                            // inherit IQ from parent
-                            iq: Math.round((female.relationSeed.iq + female.iq) / 2)
+                            mother: female
                         };
 
                     if (Math.random() < 0.5) {

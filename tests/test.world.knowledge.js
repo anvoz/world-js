@@ -1,5 +1,104 @@
 module('knowledge');
 
+asyncTest('knowledge.seedAdded', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+
+    var worldStatistic = world.statistic = new WorldJS.Statistic(world),
+        worldRules = world.rules = new WorldJS.Rules(world),
+        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world);
+
+    world.random = function(min, max) {
+        return max;
+    };
+    worldStatistic.year = 10;
+    worldRules.baseIQ = 1;
+
+    world.event.add('seedAdded', 'test', function(data) {
+        deepEqual(data.seed.iq, 4, 'Seed has IQ value (3 + 1)');
+        deepEqual(data.seed.world.statistic.maxIQ, 4, 'Max IQ');
+        deepEqual(data.seed.world.statistic.yearMaxIQ, 10, 'Year of max IQ');
+        start();
+    });
+
+    world.addSeed(world.Seed);
+});
+
+asyncTest('knowledge.seedAdded from parent', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+    world.speed = 5;
+
+    var worldStatistic = world.statistic = new WorldJS.Statistic(world),
+        worldRules = world.rules = new WorldJS.Rules(world),
+        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world);
+
+    world.random = function(min, max) {
+        return max;
+    };
+    worldStatistic.year = 10;
+    worldRules.baseIQ = 1;
+
+    // Add a man and a woman (both have IQ 4)
+    var male = world.addSeed(world.Male, {
+            age: 20,
+                chances: {
+                // 0% death rate
+                death: [{range: [1, 100], from: 0, to: 0}],
+                // 100% childbirth success chance
+                marriage: [{range: [1, 100], from: 1, to: 1}]
+            }
+        }),
+        female = world.addSeed(world.Female, {
+            age: 20,
+            chances: {
+                // 0% death rate
+                death: [{range: [1, 100], from: 0, to: 0}],
+                // 100% childbirth success chance
+                childbirth: [{range: [1, 100], from: 1, to: 1}]
+            }
+        });
+    // They get married
+    male.tickCount += world.speed - 1;
+    male.tick(world.speed);
+
+    world.event.add('seedAdded', 'test', function(data) {
+        deepEqual(data.seed.iq, 8, 'Average IQ of parent + random IQ + base IQ');
+        deepEqual(data.seed.world.statistic.maxIQ, 8, 'Max IQ');
+        deepEqual(data.seed.world.statistic.yearMaxIQ, 10, 'Year of max IQ');
+        start();
+    });
+    // And have a child
+    female.age += 2;
+    female.tickCount += world.speed - 2;
+    female.tick(world.speed);
+});
+
+test('total IQ', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+
+    var worldStatistic = world.statistic = new WorldJS.Statistic(world),
+        worldRules = world.rules = new WorldJS.Rules(world),
+        worldKnowledge = world.knowledge = new WorldJS.Knowledge(world);
+
+    world.random = function(min, max) {
+        return max;
+    };
+
+    deepEqual(worldStatistic.iq, 0, 'Total IQ: 0');
+
+    var seed1 = world.addSeed(world.Seed);
+    deepEqual(worldStatistic.iq, 3, 'Total IQ: 3');
+    var seed2 = world.addSeed(world.Seed);
+    deepEqual(worldStatistic.iq, 6, 'Total IQ: 6');
+
+    world.removeSeed(seed1);
+    deepEqual(worldStatistic.iq, 3, 'Total IQ: 3');
+    world.removeSeed(seed2);
+    deepEqual(worldStatistic.iq, 0, 'Total IQ: 0');
+});
+/*
 test('knowledge.gain', function() {
     var world = new WorldJS();
     world.init('qunit-fixture');
@@ -92,4 +191,4 @@ asyncTest('knowledge.gain', function() {
     };
     worldKnowledge.trending.push('know');
     worldKnowledge.gain();
-});
+});*/

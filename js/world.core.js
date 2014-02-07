@@ -218,7 +218,8 @@
         world.tile.set(seed);
 
         world.event.trigger('seedAdded', {
-            seed: seed
+            seed: seed,
+            mother: data.mother || undefined
         });
 
         return seed;

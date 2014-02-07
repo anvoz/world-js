@@ -27,7 +27,6 @@
 
         // Re-calculate every year
         worldStatistic.population = 0;
-        worldStatistic.iq = 0;
         worldStatistic.men = 0;         // adult male
         worldStatistic.women = 0;       // adult female
         worldStatistic.boys = 0;        // young male
@@ -35,9 +34,6 @@
         worldStatistic.families = 0;
 
         // Record when someone was born
-        // Max IQ of a person and the year when he/she was born
-        worldStatistic.maxIQ = 0;
-        worldStatistic.yearMaxIQ = 0;
         // Max age of a person and the year when he/she died
         worldStatistic.maxAge = 0;
         worldStatistic.yearMaxAge = 0;
@@ -54,26 +50,9 @@
         worldEvent.add('yearPassed', 'statistic', function() {
             this.statistic.yearPassed();
         });
-        worldEvent.add('seedAdded', 'statistic', function(data) {
-            this.statistic.seedAdded(data.seed);
-        });
         worldEvent.add('seedRemoved', 'statistic', function(data) {
             this.statistic.seedRemoved(data.seed);
         });
-    };
-
-    /**
-     * Calculate when a seed is added to the world
-     * TODO: move this function to Knowledge module
-     */
-    Statistic.prototype.seedAdded = function(seed) {
-        var worldStatistic = this;
-
-        // Max IQ of a person and the year when he/she was born
-        if (seed.iq > worldStatistic.maxIQ) {
-            worldStatistic.maxIQ = seed.iq;
-            worldStatistic.yearMaxIQ = worldStatistic.year;
-        }
     };
 
     /**
@@ -121,7 +100,6 @@
                     var seed = seeds[j];
 
                     population++;
-                    totalIQ += seed.iq;
                     if (seed instanceof world.Male) {
                         if (seed.age <= seed.maxChildAge) {
                             boys++;
@@ -145,14 +123,10 @@
         worldStatistic.year++;
 
         worldStatistic.population = population;
-
-        worldStatistic.iq = totalIQ;
-
         worldStatistic.men = men;
         worldStatistic.women = women;
         worldStatistic.boys = boys;
         worldStatistic.girls = girls;
-
         worldStatistic.families = families;
     };
 })(window);
