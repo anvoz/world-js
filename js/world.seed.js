@@ -133,13 +133,13 @@
                     seed.moveUntilStep = seed.stepCount + random(2, 10) * seed.jumpInterval;
                 }
             }
-
-            if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
-                // Make another moveTo coordinate
-                seed.moveTo = world.getRandomPosition(seed, true);
-            }
         } else {
             beforeMoveCallback.call(seed);
+        }
+
+        if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
+            // Make another moveTo coordinate
+            seed.moveTo = world.getRandomPosition(seed, true);
         }
 
         seed.stepCount++;

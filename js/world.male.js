@@ -126,7 +126,7 @@
                 var male = this,
                     female = male.relationSeed;
 
-                male.moveTo.x = Math.max(0, female.x - 10);
+                male.moveTo.x = Math.max(male.world.padding, female.x - 10);
                 male.moveTo.y = female.y;
             });
         } else {
