@@ -135,16 +135,12 @@
     /**
      * HTML for knowledge description
      */
-    Interface.knowledgeDescriptionHTML = function(knowledge, showDetail) {
-        var showDetail = showDetail || false,
-            description = knowledge.description,
+    Interface.knowledgeDescriptionHTML = function(knowledge) {
+        var description = knowledge.description,
             htmlArray = [];
         for (var i = 0; i < description.length; i++) {
             var line = description[i];
-            htmlArray.push('<p>&bull;');
-            if (showDetail) {
-                htmlArray.push(' ' + line.text);
-            }
+            htmlArray.push('<p>&bull; ' + line.text);
             if (line.code.length > 0) {
                 htmlArray.push(' <code>' + line.code.join('</code> <code>') + '</code>');
             }
@@ -245,7 +241,7 @@
                     '</div>',
                     '<div class="knowledge-detail">',
                         '<div class="knowledge-description">',
-                            Interface.knowledgeDescriptionHTML(knowledge, true),
+                            Interface.knowledgeDescriptionHTML(knowledge),
                         '</div>',
                     '</div>',
                 '</div>'
