@@ -328,7 +328,7 @@
                 };
 
             if (typeof data.fromBorder !== 'undefined') {
-                var borders = ['top', 'bottom', 'lfet', 'right'],
+                var borders = ['top', 'bottom', 'left', 'right'],
                     border = (data.fromBorder === 'random') ?
                         borders[world.random(0, 3)] : data.fromBorder;
                 // Used random number to avoid people appeared in the same edge
