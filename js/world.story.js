@@ -187,10 +187,10 @@
 
                         // Keep the population stable if there is enough food
                         worldRules.chance.childbirth = 0;
-                        if (worldStatistic.population < 100 &&
+                        if (worldStatistic.population < 150 &&
                             worldStatistic.food > worldRules.famine.unit
                         ) {
-                            var delta = Math.min(100, worldRules.population.limit) -
+                            var delta = Math.min(150, worldRules.population.limit) -
                                 worldStatistic.population;
                             if (delta > 0) {
                                 worldRules.chance.childbirth = Math.ceil(delta / 10);
