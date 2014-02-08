@@ -78,6 +78,9 @@
         worldEvent.add('seedRemoved', 'knowledge', function(data) {
             this.knowledge.seedRemoved(data);
         });
+        worldEvent.add('yearPassed', 'knowledge', function() {
+            this.knowledge.gain();
+        });
     };
 
     /**

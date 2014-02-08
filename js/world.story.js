@@ -20,364 +20,390 @@
         // Create a new world
         world = new WorldJS(),
 
+        // World's components
         worldEvent = world.event,
         worldStatistic = world.statistic = new WorldJS.Statistic(world),
         worldRules = world.rules = new WorldJS.Rules(world),
         worldKnowledge = world.knowledge = new WorldJS.Knowledge(world),
         worldGuide = world.guide = new WorldJS.Guide(world);
 
-    /** Knowledge setup */
-    // Load all knowledge list
-    worldKnowledge.list = WorldJS.KnowledgeData;
-
-    // Start with 1 knowledge (hunting and gathering)
-    worldKnowledge.trending = ['huga'];
-    Interface.trendingAdded(worldKnowledge.list.huga);
-
-    // Update UI
-    worldKnowledge.trendingAdded = Interface.trendingAdded;
-    worldKnowledge.trendingRemoved = function(knowledge) {
-        Interface.trendingRemoved(knowledge);
-
-        // Show message that includes the knowledge's message
-        // and list of new appeared knowledge
-        var messageArray = [
-            '<div><b>✓ ' + knowledge.name + '</b></div>',
-            '<div>' + knowledge.message + '</div>',
-        ];
-        if (knowledge.following.length > 0) {
-            messageArray.push('<hr>');
-            messageArray.push('<div class="knowledge-trending">');
-            for (var i = 0; i < knowledge.following.length; i++) {
-                var newKnowledge = worldKnowledge.list[knowledge.following[i]];
-                messageArray.push([
-                    '<div class="knowledge-clone">',
-                        '<div><b>' + newKnowledge.name + '</b></div>',
-                        '<div class="knowledge-priority">',
-                            '&bull; Priority: ',
-                            Interface.knowledgePriorityHTML(newKnowledge, true),
-                        '</div>',
-                    '</div>'
-                ].join(''));
+    // Define all functions that are needed to be used to setup the world
+    var worldStory = world.story = {
+        knowledge: {
+            addList: function(list) {
+                worldKnowledge.list = list;
+            },
+            addTrending: function(knowledge) {
+                worldKnowledge.trending = [knowledge.id];
+                Interface.trendingAdded(knowledge);
             }
-            messageArray.push('</div>');
-        }
-        worldGuide.show(messageArray.join(''), 15);
+        },
+        ui: {
+            bindKnowledge: function() {
+                worldKnowledge.trendingAdded = Interface.trendingAdded;
+                worldKnowledge.trendingRemoved = function(knowledge) {
+                    Interface.trendingRemoved(knowledge);
 
-        switch (knowledge.id) {
-            case 'noma':
-                $('#world-foodResourceRecovery').parent().removeClass('text-muted');
-                break;
+                    // Show message that includes the knowledge's message
+                    // and list of new appeared knowledge
+                    var messageArray = [
+                        '<div><b>✓ ' + knowledge.name + '</b></div>',
+                        '<div>' + knowledge.message + '</div>',
+                    ];
+                    if (knowledge.following.length > 0) {
+                        messageArray.push('<hr>');
+                        messageArray.push('<div class="knowledge-trending">');
+                        for (var i = 0; i < knowledge.following.length; i++) {
+                            var newKnowledge = worldKnowledge.list[knowledge.following[i]];
+                            messageArray.push([
+                                '<div class="knowledge-clone">',
+                                    '<div><b>' + newKnowledge.name + '</b></div>',
+                                    '<div class="knowledge-priority">',
+                                        '&bull; Priority: ',
+                                        Interface.knowledgePriorityHTML(newKnowledge, true),
+                                    '</div>',
+                                '</div>'
+                            ].join(''));
+                        }
+                        messageArray.push('</div>');
+                    }
+                    worldGuide.show(messageArray.join(''), 15);
+
+                    switch (knowledge.id) {
+                        case 'noma':
+                            $('#world-foodResourceRecovery').parent().removeClass('text-muted');
+                            break;
+                    }
+                };
+            },
+            bindKnowledgePriorityRadio: function() {
+                $(document).on('change', '.priority-radio', function() {
+                    var $this = $(this),
+                        knowledgeId = $this.attr('name'),
+                        priority = $this.val(),
+
+                        // Default priority:
+                        // value = normal, rawValue = 1, progressBarClass = info
+                        priorityValue = 1,
+                        progressBarClass = 'progress-bar progress-bar-info';
+
+                    switch (priority) {
+                        case 'high':
+                            priorityValue = 2;
+                            progressBarClass = 'progress-bar';
+                            break;
+                        case 'low':
+                            priorityValue = 0.1;
+                            progressBarClass = 'progress-bar progress-bar-danger';
+                            break;
+                    }
+
+                    // Change progress bar class base on knowledge priority
+                    $this
+                        .closest('.knowledge')
+                        .find('.progress-bar')
+                        .attr('class', progressBarClass);
+                    // Sync to clone control
+                    $('.priority-radio-clone.' + knowledgeId + '-' + priority)
+                        .prop('checked', true);
+
+                    // Change knowledge priority
+                    world.knowledge.list[knowledgeId].iq.priority = priorityValue;
+                });
+                $(document).on('change', '.priority-radio-clone', function() {
+                    var $this = $(this),
+                        knowledgeId = $this.attr('name').split('-').shift(),
+                        priority = $this.val();
+
+                    // Trigger action of the original control
+                    $('.priority-radio.' + knowledgeId + '-' + priority)
+                        .click();
+                });
+            },
+            bindStartButton: function() {
+                $('#world-start-btn').click(function() {
+                    $('#world-intro').addClass('hide');
+                    $('.opacity').animate({ opacity: 1 }, 'fast');
+                    $('#world-pause-btn').prop('disabled', false).click();
+                });
+                $('#world-pause-btn').click(function() {
+                    if (world.running) {
+                        world.stop();
+                        $(this).html('Play');
+                    } else {
+                        world.start();
+                        $(this).html('Pause');
+                    }
+                });
+            },
+            bindDisplayButton: function() {
+                $('#world-display-btns button').click(function() {
+                    var $this = $(this),
+                        displayMode = $this.data('display');
+
+                    $this.addClass('active').siblings('.active').removeClass('active');
+                    world.displayMode = displayMode;
+                });
+            },
+            bindSpeedButton: function() {
+                $('#world-speed-btns button').click(function() {
+                    var $this = $(this),
+                        speed = $this.data('speed');
+
+                    $this.addClass('active').siblings('.active').removeClass('active');
+                    switch (speed) {
+                        case 2:
+                        case 5:
+                            world.tickPerYear = 60 / speed;
+                            world.speed = speed;
+                            break;
+                        default:
+                            world.tickPerYear = 60;
+                            world.speed = 1;
+                            break;
+                    }
+                });
+            }
+        },
+        event: {
+            populationControl: function() {
+                worldEvent.add('yearPassed', 'populationControl', function() {
+                    var world = this,
+                        year = world.statistic.year;
+
+                    if (year <= 30) {
+                        if (year == 20) {
+                            // Based on the story
+                            world.addSeeds(10, {
+                                minAge: 20,
+                                maxAge: 30,
+                                fromBorder: 'random',
+                                types: [world.Male, world.Female]
+                            });
+                        }
+                    } else {
+                        var worldStatistic = world.statistic,
+                            worldRules = world.rules;
+
+                        // Keep the population stable if there is enough food
+                        if (worldStatistic.population < 30 && worldStatistic.food > worldRules.famine.unit) {
+                            world.addSeeds(10, {
+                                minAge: 20,
+                                maxAge: 30,
+                                fromBorder: 'random',
+                                types: [world.Male, world.Female]
+                            });
+                        }
+
+                        if (year > 300) {
+                            world.event.remove('yearPassed', 'populationControl');
+                        }
+                    }
+                });
+            },
+            populationLimitUnlock: function() {
+                worldEvent.add('yearPassed', 'populationLimitUnlock', function() {
+                    var world = this,
+                        worldKnowledge = world.knowledge;
+
+                    if (worldKnowledge.completed.length < 1) {
+                        return;
+                    }
+
+                    var listKnowledge = [
+                            {
+                                id: 'goss',
+                                population: 50,
+                                message: 'Without gossip, it is very hard to cooperate effectively with other people.'
+                            },
+                            {
+                                id: 'spir',
+                                population: 150,
+                                message: 'The stability of larger band is broken easily, people can not intimately know too many individuals.'
+                            }
+                        ];
+                    for (var i = 0; i < listKnowledge.length; i++) {
+                        var knowledgeId = listKnowledge[i].id,
+                            newKnowledge = worldKnowledge.list[knowledgeId];
+
+                        // Add new knowledge when the population reached its limit
+                        if (world.statistic.population >= listKnowledge[i].population
+                                && !newKnowledge.added) {
+                            newKnowledge.added = true;
+                            worldKnowledge.trending.push(knowledgeId);
+                            Interface.trendingAdded(newKnowledge);
+
+                            world.guide.show([
+                                '<div class="knowledge-trending">',
+                                    '<div class="knowledge-clone">',
+                                        '<div><b>' + newKnowledge.name + '</b></div>',
+                                        '<div class="knowledge-priority">',
+                                            '&bull; Priority: ',
+                                            Interface.knowledgePriorityHTML(newKnowledge, true),
+                                        '</div>',
+                                    '</div>',
+                                '</div>',
+                                '<div>' + listKnowledge[i].message + '</div>'
+                            ].join(''), 15);
+
+                            if (knowledgeId == 'spir') {
+                                world.event.remove('yearPassed', 'populationLimitUnlock');
+                            }
+
+                            break;
+                        }
+                    }
+                });
+            },
+            yearPassed: function() {
+                worldEvent.add('yearPassed', 'default', function() {
+                    var world = this,
+                        worldKnowledge = world.knowledge,
+                        worldStatistic = world.statistic;
+
+                    // Add coming soon message
+                    if (worldKnowledge.completed.length == 8) {
+                        if (worldKnowledge.trending.length == 0) {
+                            worldKnowledge.trending.push('coso');
+                            Interface.trendingAdded(worldKnowledge.list['coso']);
+                        }
+                    }
+
+                    if (worldStatistic.year == 750) {
+                        world.guide.show([
+                            '<div>Humans simply destroy everything that stands on their paths.</div>',
+                            '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
+                        ].join(''), 500);
+                    }
+
+                    if (worldStatistic.population == 0) {
+                        $('#world-pause-btn').prop('disabled', 'disabled');
+                        world.stop();
+
+                        world.guide.show([
+                            '<div>When the decline in the availability of wild foods becomes critical, humans could do better than</div>',
+                            '<div>what you\'ve just seen. They would gain new knowledge to live in equilibrium or to produce food.</div>'
+                        ].join(''), 1000);
+                    }
+                });
+            }
+        },
+        guide: {
+            setup: function() {
+                worldGuide.setContainer($('#world-container .guide'));
+
+                var messages = [
+                    { year: 5, ytl: 15, html: [
+                        '<div>About 250,000 years ago, our ancestors begin their lives in East Africa.</div>',
+                        '<div>They have extraordinary large brains and the ability of walking upright.</div>'
+                    ].join('') },
+                    { year: 20, ytl: 15, html: [
+                        '<div>In trade-off they are less muscular and born prematurely.</div>',
+                        '<div>Thus they evolve stronger social ties and start living in small bands.</div>'
+                    ].join('') }
+                ];
+                for (var i = 0; i < messages.length; i++) {
+                    (function(message) {
+                        worldEvent.add('yearPassed', 'message-' + message.year, function() {
+                            var world = this;
+
+                            if (world.statistic.year == message.year) {
+                                world.guide.show(message.html, message.ytl);
+                                world.event.remove('yearPassed', 'message-' + message.year);
+                            }
+                        });
+                    })(messages[i]);
+                }
+            }
+        },
+        world: {
+            addFirstMen: function() {
+                var firstMenMaxAge = 30;
+                world.addSeed(world.Male, {
+                    x: 10,
+                    y: 10,
+                    moveTo: { x: 320, y: 180 },
+                    age: 13,
+                    moveUntilStep: 9999, // Always move
+                    chances: {
+                        // Guarantee to live at least <firstMenMaxAge> age
+                        death: [
+                            { range: [1, firstMenMaxAge], from: 0, to: 0 },
+                            { range: [firstMenMaxAge, 60], from: 0.01, to: 0.02 },
+                            { range: [60, 80], from: 0.02, to: 0.05 },
+                            { range: [80, 100], from: 0.05, to: 0.5 }
+                        ],
+                        // 100% marriage success chance
+                        marriage: [
+                            { range: [1, firstMenMaxAge], from: 1, to: 1 }
+                        ]
+                    }
+                });
+                world.addSeed(world.Female, {
+                    x: 630,
+                    y: 350,
+                    moveTo: { x: 320, y: 180 },
+                    age: 13,
+                    moveUntilStep: 9999, // Always move
+                    chances: {
+                        // Guarantee to live at least <firstMenMaxAge> age
+                        death: [
+                            { range: [1, firstMenMaxAge], from: 0, to: 0 },
+                            { range: [firstMenMaxAge, 65], from: 0.01, to: 0.02 },
+                            { range: [65, 85], from: 0.02, to: 0.05 },
+                            { range: [85, 105], from: 0.05, to: 0.5 }
+                        ],
+                        // 100% childbirth success chance
+                        childbirth: [
+                            { range: [1, firstMenMaxAge], from: 1, to: 1 }
+                        ]
+                    }
+                });
+            }
         }
     };
 
-    /** Rule setup */
+    /** Event setup */
+    // Display all properties of the world and its components to the UI,
+    // refresh every year
+    worldEvent.add('yearPassed', 'updateUI', Interface.yearPassed);
+    // Control world population in the early stage of the game,
+    // add more people if needed
+    worldStory.event.populationControl();
+    // Increase the population limit
+    // if the condition is met
+    worldStory.event.populationLimitUnlock();
+    // Other functions that will be executed every year
+    worldStory.event.yearPassed();
+
+    /** Rules setup */
     worldRules.population.limit = 50;
 
-    /** Event setup */
-    // Update game UI with new data of each year
-    worldEvent.add('yearPassed', 'updateUI', Interface.yearPassed);
-
-    // Control population in the early stage of the game
-    worldEvent.add('yearPassed', 'populationControl', function() {
-        var world = this,
-            year = world.statistic.year;
-
-        if (year <= 30) {
-            if (year == 20) {
-                // Based on the story
-                world.addSeeds(10, {
-                    minAge: 20,
-                    maxAge: 30,
-                    fromBorder: 'random',
-                    types: [world.Male, world.Female]
-                });
-            }
-        } else {
-            var worldStatistic = world.statistic,
-                worldRules = world.rules;
-
-            // Keep the population stable if there is enough food
-            if (worldStatistic.population < 30 && worldStatistic.food > worldRules.famine.unit) {
-                world.addSeeds(10, {
-                    minAge: 20,
-                    maxAge: 30,
-                    fromBorder: 'random',
-                    types: [world.Male, world.Female]
-                });
-            }
-
-            if (year > 300) {
-                world.event.remove('yearPassed', 'populationControl');
-            }
-        }
-    });
-
-    // Unlock population limit
-    worldEvent.add('yearPassed', 'populationLimitUnlock', function() {
-        var world = this,
-            worldKnowledge = world.knowledge;
-
-        if (worldKnowledge.completed.length < 1) {
-            return;
-        }
-
-        var listKnowledge = [
-                {
-                    id: 'goss',
-                    population: 50,
-                    message: 'Without gossip, it is very hard to cooperate effectively with other people.'
-                },
-                {
-                    id: 'spir',
-                    population: 150,
-                    message: 'The stability of larger band is broken easily, people can not intimately know too many individuals.'
-                }
-            ];
-        for (var i = 0; i < listKnowledge.length; i++) {
-            var knowledgeId = listKnowledge[i].id,
-                newKnowledge = worldKnowledge.list[knowledgeId];
-
-            // Add new knowledge when the population reached its limit
-            if (world.statistic.population >= listKnowledge[i].population
-                    && !newKnowledge.added) {
-                newKnowledge.added = true;
-                worldKnowledge.trending.push(knowledgeId);
-                Interface.trendingAdded(newKnowledge);
-
-                world.guide.show([
-                    '<div class="knowledge-trending">',
-                        '<div class="knowledge-clone">',
-                            '<div><b>' + newKnowledge.name + '</b></div>',
-                            '<div class="knowledge-priority">',
-                                '&bull; Priority: ',
-                                Interface.knowledgePriorityHTML(newKnowledge, true),
-                            '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div>' + listKnowledge[i].message + '</div>'
-                ].join(''), 15);
-
-                if (knowledgeId == 'spir') {
-                    world.event.remove('yearPassed', 'populationLimitUnlock');
-                }
-
-                break;
-            }
-        }
-    });
-
-    // Default behaviors for every year
-    worldEvent.add('yearPassed', 'default', function() {
-        var world = this,
-            worldKnowledge = world.knowledge,
-            worldRules = world.rules,
-            worldStatistic = world.statistic;
-
-        worldKnowledge.gain();
-
-        // Add coming soon message
-        if (worldKnowledge.completed.length == 8) {
-            if (worldKnowledge.trending.length == 0) {
-                worldKnowledge.trending.push('coso');
-                Interface.trendingAdded(worldKnowledge.list['coso']);
-            }
-        }
-
-        if (worldStatistic.year == 750) {
-            world.guide.show([
-                '<div>Humans simply destroy everything that stands on their paths.</div>',
-                '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
-            ].join(''), 500);
-        }
-
-        if (worldStatistic.population == 0) {
-            $('#world-pause-btn').prop('disabled', 'disabled');
-            world.stop();
-
-            world.guide.show([
-                '<div>When the decline in the availability of wild foods becomes critical, humans could do better than</div>',
-                '<div>what you\'ve just seen. They would gain new knowledge to live in equilibrium or to produce food.</div>'
-            ].join(''), 1000);
-        }
-    });
+    /** Knowledge setup */
+    // Load all knowledge list
+    worldStory.knowledge.addList(WorldJS.KnowledgeData);
+    // Start with 1 knowledge (hunting and gathering)
+    worldStory.knowledge.addTrending(worldKnowledge.list.huga);
+    // UI binding
+    worldStory.ui.bindKnowledge();
+    worldStory.ui.bindKnowledgePriorityRadio();
 
     /** Guide setup */
-    worldGuide.setContainer($('#world-container .guide'));
+    worldStory.guide.setup();
 
-    var messages = [
-        { year: 5, ytl: 15, html: [
-            '<div>About 250,000 years ago, our ancestors begin their lives in East Africa.</div>',
-            '<div>They have extraordinary large brains and the ability of walking upright.</div>'
-        ].join('') },
-        { year: 20, ytl: 15, html: [
-            '<div>In trade-off they are less muscular and born prematurely.</div>',
-            '<div>Thus they evolve stronger social ties and start living in small bands.</div>'
-        ].join('') }
-    ];
-    for (var i = 0; i < messages.length; i++) {
-        (function(message) {
-            worldEvent.add('yearPassed', 'message-' + message.year, function() {
-                var world = this;
-
-                if (world.statistic.year == message.year) {
-                    world.guide.show(message.html, message.ytl);
-                    world.event.remove('yearPassed', 'message-' + message.year);
-                }
-            });
-        })(messages[i]);
-    }
-
-    /** UI setup */
-    $('#world-start-btn').click(function() {
-        $('#world-intro').addClass('hide');
-        $('.opacity').animate({ opacity: 1 }, 'fast');
-        $('#world-pause-btn').prop('disabled', false).click();
-    });
-    $('#world-pause-btn').click(function() {
-        if (world.running) {
-            world.stop();
-            $(this).html('Play');
-        } else {
-            world.start();
-            $(this).html('Pause');
-        }
-    });
-    $('#world-display-btns button').click(function() {
-        var $this = $(this),
-            displayMode = $this.data('display');
-
-        $this.addClass('active').siblings('.active').removeClass('active');
-        world.displayMode = displayMode;
-    });
-    $('#world-speed-btns button').click(function() {
-        var $this = $(this),
-            speed = $this.data('speed');
-
-        $this.addClass('active').siblings('.active').removeClass('active');
-        switch (speed) {
-            case 2:
-            case 5:
-                world.tickPerYear = 60 / speed;
-                world.speed = speed;
-                break;
-            default:
-                world.tickPerYear = 60;
-                world.speed = 1;
-                break;
-        }
-    });
-    $('#world-intro').on('slid.bs.carousel', function () {
-        var $carousel = $(this),
-            $content = $carousel.find('.content'),
-            $prev = $carousel.find('.prev'),
-            $next = $carousel.find('.next');
-
-        if ($content.find('.item:first').hasClass('active')) {
-            $prev.addClass('disabled');
-        } else {
-            $prev.removeClass('disabled');
-        }
-
-        if ($content.find('.item:last').hasClass('active')) {
-            $next.addClass('disabled');
-            $('.opacity').animate({ opacity: 1 }, 'fast');
-        } else {
-            $next.removeClass('disabled');
-        }
-    });
-    $(document).on('change', '.priority-radio', function() {
-        var $this = $(this),
-            knowledgeId = $this.attr('name'),
-            priority = $this.val(),
-
-            // Default priority:
-            // value = normal, rawValue = 1, progressBarClass = info
-            priorityValue = 1,
-            progressBarClass = 'progress-bar progress-bar-info';
-
-        switch (priority) {
-            case 'high':
-                priorityValue = 2;
-                progressBarClass = 'progress-bar';
-                break;
-            case 'low':
-                priorityValue = 0.1;
-                progressBarClass = 'progress-bar progress-bar-danger';
-                break;
-        }
-
-        // Change progress bar class base on knowledge priority
-        $this
-            .closest('.knowledge')
-            .find('.progress-bar')
-            .attr('class', progressBarClass);
-        // Sync to clone control
-        $('.priority-radio-clone.' + knowledgeId + '-' + priority)
-            .prop('checked', true);
-
-        // Change knowledge priority
-        world.knowledge.list[knowledgeId].iq.priority = priorityValue;
-    });
-    $(document).on('change', '.priority-radio-clone', function() {
-        var $this = $(this),
-            knowledgeId = $this.attr('name').split('-').shift(),
-            priority = $this.val();
-
-        // Trigger action of the original control
-        $('.priority-radio.' + knowledgeId + '-' + priority)
-            .click();
-    });
-
+    /** World setup */
+    // UI binding
+    worldStory.ui.bindStartButton();
+    worldStory.ui.bindDisplayButton();
+    worldStory.ui.bindSpeedButton();
     // Initialize the world
     world.init('world');
     world.padding = 50;
-
-    /**
+    /*
      * Create the first man and woman of the world.
      * They will move from the corner to the center of the world.
      * They are guaranteed to mate and produce offspring
      * then die at the intended age.
      */
-    var firstMenMaxAge = 30;
-    world.addSeed(world.Male, {
-        x: 10,
-        y: 10,
-        moveTo: { x: 320, y: 180 },
-        age: 13,
-        moveUntilStep: 9999, // Always move
-        chances: {
-            // Guarantee to live at least <firstMenMaxAge> age
-            death: [
-                { range: [1, firstMenMaxAge], from: 0, to: 0 },
-                { range: [firstMenMaxAge, 60], from: 0.01, to: 0.02 },
-                { range: [60, 80], from: 0.02, to: 0.05 },
-                { range: [80, 100], from: 0.05, to: 0.5 }
-            ],
-            // 100% marriage success chance
-            marriage: [
-                { range: [1, firstMenMaxAge], from: 1, to: 1 }
-            ]
-        }
-    });
-    world.addSeed(world.Female, {
-        x: 630,
-        y: 350,
-        moveTo: { x: 320, y: 180 },
-        age: 13,
-        moveUntilStep: 9999, // Always move
-        chances: {
-            // Guarantee to live at least <firstMenMaxAge> age
-            death: [
-                { range: [1, firstMenMaxAge], from: 0, to: 0 },
-                { range: [firstMenMaxAge, 65], from: 0.01, to: 0.02 },
-                { range: [65, 85], from: 0.02, to: 0.05 },
-                { range: [85, 105], from: 0.05, to: 0.5 }
-            ],
-            // 100% childbirth success chance
-            childbirth: [
-                { range: [1, firstMenMaxAge], from: 1, to: 1 }
-            ]
-        }
-    });
+    worldStory.world.addFirstMen();
 })(window);
