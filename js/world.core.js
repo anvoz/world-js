@@ -206,6 +206,9 @@
         // stepCount also need to base on seed.tickCount to avoid synchronized jumping
         // among all seeds that appeared in the same time
         seed.stepCount = seed.tickCount;
+        seed.moveUntilStep = seed.moveUntilStep ||
+            // Move until 2-10 more jumps
+            seed.tickCount + world.random(2, 10) * seed.jumpInterval;
 
         // Set random position
         var position = world.getRandomPosition(seed);

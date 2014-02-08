@@ -62,8 +62,7 @@
          */
         seed.stepCount = seed.tickCount;
         seed.jumpInterval = 20;
-        seed.moveUntilStep = data.moveUntilStep ||
-            seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
+        seed.moveUntilStep = data.moveUntilStep || 0;
         seed.ageToMoveAgain = 0;
 
         // Destination coordinate for seed to move to
@@ -120,16 +119,18 @@
         // By default, seed keeps moving around the world
         if ( ! beforeMoveCallback) {
             // Read the comment on seed's constructor for more info
-            if (seed.stepCount == seed.moveUntilStep) {
+            if (seed.stepCount >= seed.moveUntilStep) {
                 if (seed.ageToMoveAgain == 0 ||
                     seed.ageToMoveAgain > seed.age) {
                     if (seed.ageToMoveAgain == 0) {
-                        seed.ageToMoveAgain = seed.age + random(2, 10);
+                        // Don't move much when getting old
+                        seed.ageToMoveAgain = seed.age + random(2, seed.age);
                     }
                     return;
                 } else {
                     seed.ageToMoveAgain = 0;
-                    seed.moveUntilStep = seed.stepCount + random(10, 50) * seed.jumpInterval;
+                    // Move until 2-10 more jumps
+                    seed.moveUntilStep = seed.stepCount + random(2, 10) * seed.jumpInterval;
                 }
             }
 
