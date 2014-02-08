@@ -174,8 +174,8 @@
                     if (year <= 30) {
                         if (year == 20) {
                             // Based on the story
-                            world.addSeeds(10, {
-                                minAge: 20,
+                            world.addSeeds(30, {
+                                minAge: 10,
                                 maxAge: 30,
                                 fromBorder: 'random',
                                 types: [world.Male, world.Female]
@@ -186,16 +186,18 @@
                             worldRules = world.rules;
 
                         // Keep the population stable if there is enough food
-                        if (worldStatistic.population < 30 && worldStatistic.food > worldRules.famine.unit) {
-                            world.addSeeds(10, {
-                                minAge: 20,
-                                maxAge: 30,
-                                fromBorder: 'random',
-                                types: [world.Male, world.Female]
-                            });
+                        worldRules.chance.childbirth = 0;
+                        if (worldStatistic.population < 100 &&
+                            worldStatistic.food > worldRules.famine.unit
+                        ) {
+                            var delta = Math.min(100, worldRules.population.limit) -
+                                worldStatistic.population;
+                            if (delta > 0) {
+                                worldRules.chance.childbirth = Math.ceil(delta / 10);
+                            }
                         }
 
-                        if (year > 300) {
+                        if (year > 1000) {
                             world.event.remove('yearPassed', 'populationControl');
                         }
                     }

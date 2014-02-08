@@ -232,14 +232,8 @@
                 worldRules.baseIQ += 1;
                 worldRules.food.child -= 1;
 
-                // More people come
+                // Bigger world
                 world.padding = 10;
-                world.addSeeds(50, {
-                    minAge: 20,
-                    maxAge: 30,
-                    fromBorder: 'random',
-                    types: [world.Male, world.Female]
-                });
             }
         },
         spir: {
