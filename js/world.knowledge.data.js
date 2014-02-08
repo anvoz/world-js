@@ -62,7 +62,7 @@
                     code: ['Food resource recovery -5% / century']
                 }
             ],
-            iq: { priority: 1, gained: 0, required: 3000 },
+            iq: { priority: 0.1, gained: 0, required: 3000 },
             following: ['cook', 'noma'],
             affectedYear: 0,
             onAffected: function(world) {
@@ -145,7 +145,7 @@
                     code: ['Death rate -10%']
                 }
             ],
-            iq: { priority: 1, gained: 0, required: 50000 },
+            iq: { priority: 0.1, gained: 0, required: 50000 },
             following: ['osea'],
             affectedYear: 0,
             onAffected: function(world) {
@@ -188,7 +188,7 @@
                     code: ['Death rate -10%', 'Food spoilage -10%']
                 }
             ],
-            iq: { priority: 1, gained: 0, required: 5000 },
+            iq: { priority: 0.1, gained: 0, required: 5000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
@@ -222,7 +222,7 @@
                     code: ['Population limit 150', 'Base IQ +1', 'Child -1 food / year']
                 }
             ],
-            iq: { priority: 1, gained: 0, required: 10000 },
+            iq: { priority: 0.1, gained: 0, required: 10000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
@@ -257,7 +257,7 @@
                     code: ['Death rate +10%']
                 }
             ],
-            iq: { priority: 1, gained: 0, required: 50000 },
+            iq: { priority: 0.1, gained: 0, required: 50000 },
             following: [],
             affectedYear: 0,
             onAffected: function(world) {
