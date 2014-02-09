@@ -16,7 +16,7 @@
 
     /**
      * Seed constructor
-     * data (optional): x, y, appearance, relationSeed, tickCount, actionInterval, moveTo
+     * data (optional): x, y, icon, relationSeed, tickCount, actionInterval, moveTo
      */
     Seed = WorldJS.prototype.Seed = function(data) {
         // The value of this refers to a newly created seed
@@ -36,7 +36,7 @@
         seed.y = (typeof data.y === 'undefined') ? false : data.y;
 
         // Define how to draw the seed
-        seed.appearance = data.appearance || {
+        seed.icon = data.icon || {
             width: 1, height: 1
         };
 
@@ -75,15 +75,15 @@
     Seed.prototype.draw = function(context, spriteImage) {
         var seed = this;
 
-        if (spriteImage === false || seed.appearance.width === 1) {
-            var width = (spriteImage !== false) ? seed.appearance.width : 1,
-                height = (spriteImage !== false) ? seed.appearance.height : 1;
+        if (spriteImage === false || seed.icon.width === 1) {
+            var width = (spriteImage !== false) ? seed.icon.width : 1,
+                height = (spriteImage !== false) ? seed.icon.height : 1;
             context.fillRect(seed.x, seed.y, width, height);
         } else {
             // Handle child-state of the seed
-            var appearance = (seed.age <= seed.maxChildAge) ?
-                seed.appearance.child :
-                seed.appearance;
+            var icon = (seed.age <= seed.maxChildAge) ?
+                seed.icon.child :
+                seed.icon;
 
             /*
              * Jump instead of slide when seed moves
@@ -100,8 +100,8 @@
 
             context.drawImage(
                 spriteImage,
-                appearance.x, appearance.y, appearance.width, appearance.height,
-                seed.x, seed.y - jumpY, appearance.width, appearance.height
+                icon.x, icon.y, icon.width, icon.height,
+                seed.x, seed.y - jumpY, icon.width, icon.height
             );
         }
     };

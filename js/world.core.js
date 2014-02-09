@@ -54,7 +54,7 @@
             context: false  // HTML5 drawing context
         };
         world.sprite = {
-            src: 'images/seeds.png',
+            src: 'images/icons.png',
             image: false    // DOM image object of sprite
         };
 
@@ -261,12 +261,12 @@
             x = (seed.x === false || forced) ?
                 world.random(
                     world.padding,
-                    world.width - seed.appearance.width - world.padding
+                    world.width - seed.icon.width - world.padding
                 ) : seed.x,
             y = (seed.y === false || forced) ?
                 world.random(
                     world.padding,
-                    world.height - seed.appearance.height - world.padding
+                    world.height - seed.icon.height - world.padding
                 ) : seed.y;
 
         return { x: x, y: y };

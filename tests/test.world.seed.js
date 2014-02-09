@@ -20,14 +20,14 @@ test('seed.draw', function() {
     // Draw the second seed (forced dot)
     var seed2 = new world.Seed({
         x: 3, y: 4,
-        appearance: {width: 10, height: 10}
+        icon: {width: 10, height: 10}
     });
     seed2.draw(context, false);
 
     // Draw the third seed - a jump-able seed
     var seed3 = new world.Seed({
         x: 10, y: 10,
-        appearance: {width: 10, height: 10}
+        icon: {width: 10, height: 10}
     });
     for (var i = 0; i < 25; i++) {
         seed3.draw(context, true);

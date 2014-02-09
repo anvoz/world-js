@@ -22,7 +22,7 @@
     Male = WorldJS.prototype.Male = function(data) {
         var male = this;
 
-        data.appearance = {
+        data.icon = {
             x: 0,
             y: 0,
             width: 13,

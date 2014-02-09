@@ -22,7 +22,7 @@
     Female = WorldJS.prototype.Female = function(data) {
         var female = this;
 
-        data.appearance = {
+        data.icon = {
             x: 13,
             y: 0,
             width: 13,
@@ -100,7 +100,7 @@
                             x: female.x,
                             y: Math.min(
                                 world.height - 1 - world.padding,
-                                female.y + Math.floor(female.appearance.height / 2)
+                                female.y + Math.floor(female.icon.height / 2)
                             ),
                             mother: female
                         };

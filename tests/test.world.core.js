@@ -104,7 +104,7 @@ test('world.getRandomPosition', function() {
         return min;
     };
     deepEqual(world.getRandomPosition({
-        x: false, y: false, appearance: {width: 1, height: 1}
+        x: false, y: false, icon: {width: 1, height: 1}
     }), {
         x: padding, y: padding
     }, 'Check min position');
@@ -114,7 +114,7 @@ test('world.getRandomPosition', function() {
         return max;
     };
     deepEqual(world.getRandomPosition({
-        x: false, y: false, appearance: {width: 1, height: 1}
+        x: false, y: false, icon: {width: 1, height: 1}
     }), {
         x: width - 1 - padding,
         y: height - 1 - padding
