@@ -80,7 +80,7 @@
                         affectedYear = world.knowledge.list['fire'].affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
-                        world.rules.food.resourceIncr -= 0.05;
+                        world.rules.food.resourceIncr -= 0.1;
                     }
                 });
 
@@ -128,7 +128,7 @@
                         affectedYear = world.knowledge.list['hula'].affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
-                        world.rules.food.resourceIncr -= 0.05;
+                        world.rules.food.resourceIncr -= 0.1;
                     }
                 });
             }

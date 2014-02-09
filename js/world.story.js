@@ -271,11 +271,11 @@
                         }
                     }
 
-                    if (worldStatistic.year == 750) {
+                    if (worldStatistic.year == 500) {
                         world.guide.show([
                             '<div>Humans simply destroy everything that stands on their paths.</div>',
                             '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
-                        ].join(''), 500);
+                        ].join(''), 250);
                     }
 
                     if (worldStatistic.population == 0) {

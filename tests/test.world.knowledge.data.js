@@ -19,14 +19,14 @@ test('burningForests', function() {
     deepEqual(worldRules.food.resourceIncr, 0, 'About to burn');
 
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.05, 'Burning');
+    deepEqual(worldRules.food.resourceIncr, -0.1, 'Burning');
 
     worldStatistic.year = 208;
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.05, 'About to burn more');
+    deepEqual(worldRules.food.resourceIncr, -0.1, 'About to burn more');
 
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.1, 'Burning more');
+    deepEqual(worldRules.food.resourceIncr, -0.2, 'Burning more');
 });
 
 test('largeAnimalsDisappearing', function() {
@@ -47,14 +47,14 @@ test('largeAnimalsDisappearing', function() {
     deepEqual(worldRules.food.resourceIncr, 0, 'About to decrease');
 
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.05, 'Decreasing');
+    deepEqual(worldRules.food.resourceIncr, -0.1, 'Decreasing');
 
     worldStatistic.year = 208;
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.05, 'About to decrease more');
+    deepEqual(worldRules.food.resourceIncr, -0.1, 'About to decrease more');
 
     worldEvent.trigger('yearPassed');
-    deepEqual(worldRules.food.resourceIncr, -0.1, 'Decreasing more');
+    deepEqual(worldRules.food.resourceIncr, -0.2, 'Decreasing more');
 });
 
 test('foodResourceRecovering', function() {
@@ -80,12 +80,12 @@ test('foodResourceRecovering', function() {
     worldEvent.trigger('yearPassed');
     deepEqual(worldStatistic.foodResource, 2000, 'Recover food resources');
 
-    worldRules.food.resourceIncr = -0.1;
+    worldRules.food.resourceIncr = -0.2;
 
     worldStatistic.year = 28;
     worldEvent.trigger('yearPassed');
     deepEqual(worldStatistic.foodResource, 2000, 'Not in time to recover');
 
     worldEvent.trigger('yearPassed');
-    deepEqual(worldStatistic.foodResource, 1800, 'Recover food resources again');
+    deepEqual(worldStatistic.foodResource, 1600, 'Recover food resources again');
 });
