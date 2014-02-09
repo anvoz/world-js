@@ -16,6 +16,7 @@
 
         WorldJS = window.WorldJS,
         Interface = WorldJS.Interface,
+        Language = WorldJS.Language,
 
         // Create a new world
         world = new WorldJS(),
@@ -216,12 +217,12 @@
                             {
                                 id: 'goss',
                                 population: 50,
-                                message: 'Without gossip, it is very hard to cooperate effectively with other people.'
+                                message: Language.knowledgeGOSSUnlock
                             },
                             {
                                 id: 'spir',
                                 population: 150,
-                                message: 'The stability of larger band is broken easily, people can not intimately know too many individuals.'
+                                message: Language.knowledgeSPIRUnlock
                             }
                         ];
                     for (var i = 0; i < listKnowledge.length; i++) {
@@ -272,20 +273,14 @@
                     }
 
                     if (worldStatistic.year == 500) {
-                        world.guide.show([
-                            '<div>Humans simply destroy everything that stands on their paths.</div>',
-                            '<div>They drive to the extinction of most large species long before the invention of writing.</div>'
-                        ].join(''), 250);
+                        world.guide.show(Language.storyEnd01, 250);
                     }
 
                     if (worldStatistic.population == 0) {
                         $('#world-pause-btn').prop('disabled', 'disabled');
                         world.stop();
 
-                        world.guide.show([
-                            '<div>When the decline in the availability of wild foods becomes critical, humans could do better than</div>',
-                            '<div>what you\'ve just seen. They would gain new knowledge to live in equilibrium or to produce food.</div>'
-                        ].join(''), 1000);
+                        world.guide.show(Language.storyEnd02, 1000);
                     }
                 });
             }
@@ -295,14 +290,8 @@
                 worldGuide.setContainer($('#world-container .guide'));
 
                 var messages = [
-                    { year: 5, ytl: 15, html: [
-                        '<div>About 250,000 years ago, our ancestors begin their lives in East Africa.</div>',
-                        '<div>They have extraordinary large brains and the ability of walking upright.</div>'
-                    ].join('') },
-                    { year: 20, ytl: 15, html: [
-                        '<div>In trade-off they are less muscular and born prematurely.</div>',
-                        '<div>Thus they evolve stronger social ties and start living in small bands.</div>'
-                    ].join('') }
+                    {year: 5, ytl: 15, html: Language.storyBegin01},
+                    {year: 20, ytl: 15, html: Language.storyBegin02}
                 ];
                 for (var i = 0; i < messages.length; i++) {
                     (function(message) {

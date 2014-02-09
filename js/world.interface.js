@@ -319,7 +319,74 @@
         });
     });
     // World history introduction carousel
-    $('#world-intro').on('slid.bs.carousel', function () {
+    var Language = WorldJS.Language;
+    $('#world-intro .item').each(function(index) {
+        var $this = $(this);
+        switch (index) {
+            case 0:
+                $this.find('blockquote').html(
+                    Language.introPhysicsQuote +
+                    '<small>' + Language.introPhysicsAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introPhysics01.replace(
+                    'Big Bang',
+                    '<span class="label label-danger">Big Bang</span>'
+                ));
+                $this.find('p:last').html(Language.introPhysics02.replace(
+                    'Physics',
+                    '<span class="label label-info">Physics</span>'
+                ));
+                break;
+            case 1:
+                $this.find('blockquote').html(
+                    Language.introChemistryQuote +
+                    '<small>' + Language.introChemistryAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introChemistry01);
+                $this.find('p:last').html(Language.introChemistry02.replace(
+                    'Chemistry',
+                    '<span class="label label-info">Chemistry</span>'
+                ));
+                break;
+            case 2:
+                $this.find('blockquote').html(
+                    Language.introBiologyQuote +
+                    '<small>' + Language.introBiologyAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introBiology01);
+                $this.find('p:last').html(Language.introBiology02.replace(
+                    'Biology',
+                    '<span class="label label-info">Biology</span>'
+                ));
+                break;
+            case 3:
+                $this.find('blockquote').html(
+                    Language.introHistoryQuote +
+                    '<small>' + Language.introHistoryAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introHistory01.replace(
+                    'Homo sapiens',
+                    '<span class="label label-danger">Homo sapiens</span>'
+                ));
+                $this.find('p:last').html(Language.introHistory02.replace(
+                    'History',
+                    '<span class="label label-info">History</span>'
+                ));
+                break;
+            case 4:
+                $this.find('p:first').html(Language.introGame01.replace(
+                    'World JS',
+                    '<span class="label label-danger">World JS</span>'
+                ));
+                $this.find('p:first').next().html(Language.introGame02.replace(
+                    'the cognitive revolution',
+                    '<span class="label label-info">the cognitive revolution</span>'
+                ));
+                $this.find('p:last').html(Language.introGame03);
+                break;
+        }
+    });
+    $('#world-intro').removeClass('hide').on('slid.bs.carousel', function () {
         var $carousel = $(this),
             $content = $carousel.find('.content'),
             $prev = $carousel.find('.prev'),
