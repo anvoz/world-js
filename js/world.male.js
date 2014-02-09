@@ -61,15 +61,14 @@
      * speed: speed of the world
      */
     Male.prototype.tick = function(speed) {
-        var male = this;
+        var male = this,
+            world = male.world;
 
         male.tickCount++;
 
         var actionInterval = male.actionInterval / speed;
         if (male.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
-            var world = male.world;
-
             var deathChance = male.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
                 world.removeSeed(male);
@@ -109,6 +108,9 @@
 
                             // Prevent having children right after married
                             female.ageLastBear = female.age + 1;
+
+                            male.carrying = false;
+                            female.carrying = false;
                         }
                     }
                 }
@@ -131,6 +133,20 @@
             });
         } else {
             male.move(speed, false);
+        }
+
+        if (male.carrying === false &&
+            typeof world.items !== 'undefined'
+        ) {
+            if (Math.random() < 0.2) {
+                if (male.age > male.maxChildAge) {
+                    var who = (male.relationSeed === false) ? 'man' : 'husband',
+                        when = (male.isMoving) ? 'moving' : 'standing';
+                    male.carrying = male.getCarryingItem(who, when);
+                }
+            } else {
+                male.carrying = 'none';
+            }
         }
     };
 })(window);

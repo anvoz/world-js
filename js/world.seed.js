@@ -39,6 +39,7 @@
         seed.icon = data.icon || {
             width: 1, height: 1
         };
+        seed.carrying = data.carrying || false;
 
         // Relationship of the seed
         seed.relationSeed = data.relationSeed || false;
@@ -64,6 +65,7 @@
         seed.jumpInterval = 20;
         seed.moveUntilStep = data.moveUntilStep || 0;
         seed.ageToMoveAgain = 0;
+        seed.isMoving = false;
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;
@@ -103,7 +105,46 @@
                 icon.x, icon.y, icon.width, icon.height,
                 seed.x, seed.y - jumpY, icon.width, icon.height
             );
+            if (seed.carrying !== false && seed.carrying !== 'none') {
+                var carrying = seed.carrying;
+                context.drawImage(
+                    spriteImage,
+                    carrying.x, carrying.y, carrying.width, carrying.height,
+                    seed.x + carrying.dx, seed.y - jumpY + carrying.dy, carrying.width, carrying.height
+                );
+            }
         }
+    };
+
+    /**
+     * Get carrying item
+     */
+    Seed.prototype.getCarryingItem = function(who, when) {
+        var seed = this,
+            world = seed.world;
+
+        if (typeof world.items !== 'undefined') {
+            var items = world.items,
+                availableItems = [];
+            for (var type in items) {
+                var item = items[type];
+                if (item.enabled === true &&
+                    item.who === who &&
+                    item.when === when
+                ) {
+                    availableItems.push(item.icon);
+                }
+            }
+
+            var totalAvailableItems = availableItems.length;
+            if (totalAvailableItems === 1) {
+                return availableItems[0];
+            } else if (totalAvailableItems > 1) {
+                return availableItems[world.random(0, totalAvailableItems - 1)];
+            }
+        }
+
+        return false;
     };
 
     /**
@@ -117,34 +158,42 @@
             random = world.random;
 
         // By default, seed keeps moving around the world
+        seed.isMoving = true;
         if ( ! beforeMoveCallback) {
             // Read the comment on seed's constructor for more info
             if (seed.stepCount >= seed.moveUntilStep) {
                 if (seed.ageToMoveAgain == 0 ||
-                    seed.ageToMoveAgain > seed.age) {
+                    seed.ageToMoveAgain > seed.age
+                ) {
                     if (seed.ageToMoveAgain == 0) {
                         // Don't move much when getting old
                         seed.ageToMoveAgain = seed.age + random(2, seed.age);
+                        seed.carrying = false;
                     }
+                    seed.isMoving = false;
                     return;
                 } else {
                     seed.ageToMoveAgain = 0;
                     // Move until 2-10 more jumps
                     seed.moveUntilStep = seed.stepCount + random(2, 10) * seed.jumpInterval;
+                    seed.carrying = false;
                 }
             }
         } else {
             beforeMoveCallback.call(seed);
         }
 
-        if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
+        if (seed.moveTo === false ||
+            (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)
+        ) {
             // Make another moveTo coordinate
             seed.moveTo = world.getRandomPosition(seed, true);
         }
 
         seed.stepCount++;
 
-        // Move in 8-direction to reach moveTo coordinate, <speed> pixels per frame (tick)
+        // Move in 8-direction to reach moveTo coordinate,
+        // <speed> pixels per frame (tick)
         if (seed.x < seed.moveTo.x) {
             seed.x = Math.min(seed.x + speed, seed.moveTo.x);
         } else if (seed.x > seed.moveTo.x) {

@@ -212,3 +212,62 @@ test('seed.getChance', function() {
     seed.age = 100;
     deepEqual(seed.getChance('test'), 20, 'age: 100');
 });
+
+test('seed.getCarryingItem', function() {
+    var world = new WorldJS();
+    world.init('qunit-fixture');
+    world.items = {
+        meat: {
+            enabled: false,
+            who: 'man',
+            when: 'moving',
+            icon: {name: 'meat'}
+        },
+        fruit: {
+            enabled: true,
+            who: 'woman',
+            when: 'moving',
+            icon: {name: 'fruit'}
+        },
+        fire: {
+            enabled: false,
+            who: 'man',
+            when: 'standing',
+            icon: {name: 'fire'}
+        },
+        rock: {
+            enabled: true,
+            who: 'man',
+            when: 'standing',
+            icon: {name: 'rock'}
+        },
+        pot: {
+            enabled: true,
+            who: 'wife',
+            when: 'standing',
+            icon: {name: 'pot'}
+        },
+        basket: {
+            enabled: true,
+            who: 'wife',
+            when: 'standing',
+            icon: {name: 'basket'}
+        }
+    };
+
+    var seed = world.addSeed(world.Seed);
+
+    // Check false case
+    deepEqual(seed.getCarryingItem('husband', 'moving'), false, 'Not existed');
+    deepEqual(seed.getCarryingItem('man', 'moving'), false, 'Disabled');
+
+    // Only 1 available item
+    deepEqual(seed.getCarryingItem('woman', 'moving'), {name: 'fruit'}, '1 item');
+    deepEqual(seed.getCarryingItem('man', 'standing'), {name: 'rock'}, 'Still 1 item');
+
+    // Choose one of two available items
+    world.random = function(min, max) {
+        return max;
+    };
+    deepEqual(seed.getCarryingItem('wife', 'standing'), {name: 'basket'}, 'Choose 1 of 2 item');
+});

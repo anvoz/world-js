@@ -361,6 +361,50 @@
                         ]
                     }
                 });
+            },
+            addItems: function() {
+                world.items = {
+                    meat: {
+                        enabled: false,
+                        who: 'man',
+                        when: 'moving',
+                        icon: {
+                            x: 37, y: 0,
+                            dx: 5, dy: 8,
+                            width: 11, height: 10
+                        }
+                    },
+                    fruit: {
+                        enabled: false,
+                        who: 'woman',
+                        when: 'moving',
+                        icon: {
+                            x: 37, y: 10,
+                            dx: 5, dy: 8,
+                            width: 11, height: 10
+                        }
+                    },
+                    fire: {
+                        enabled: false,
+                        who: 'man',
+                        when: 'standing',
+                        icon: {
+                            x: 48, y: 0,
+                            dx: 12, dy: 12,
+                            width: 11, height: 10
+                        }
+                    },
+                    pot: {
+                        enabled: false,
+                        who: 'wife',
+                        when: 'standing',
+                        icon: {
+                            x: 48, y: 10,
+                            dx: -2, dy: 12,
+                            width: 11, height: 10
+                        }
+                    }
+                };
             }
         }
     };
@@ -408,4 +452,5 @@
      * then die at the intended age.
      */
     worldStory.world.addFirstMen();
+    worldStory.world.addItems();
 })(window);

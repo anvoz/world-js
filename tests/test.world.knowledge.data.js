@@ -7,6 +7,7 @@ test('burningForests', function() {
         worldRules = world.rules = new WorldJS.Rules(world),
         worldKnowledge = world.knowledge = new WorldJS.Knowledge(world);
 
+    world.items = {fire: {enabled: false}};
     worldStatistic.year = 10;
     worldRules.food.resourceIncr = 0;
     worldKnowledge.list = WorldJS.KnowledgeData;

@@ -67,15 +67,15 @@
      * speed: speed of the world
      */
     Female.prototype.tick = function(speed) {
-        var female = this;
+        var female = this,
+            world = female.world;
 
         female.tickCount++;
 
         var actionInterval = female.actionInterval / speed;
         if (female.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
-            var world = female.world,
-                age = female.age;
+            var age = female.age;
 
             var deathChance = female.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
@@ -115,5 +115,19 @@
         }
 
         female.move(speed, false);
+
+        if (female.carrying === false &&
+            typeof world.items !== 'undefined'
+        ) {
+            if (Math.random() < 0.2) {
+                if (female.age > female.maxChildAge) {
+                    var who = (female.relationSeed === false) ? 'woman' : 'wife',
+                        when = (female.isMoving) ? 'moving' : 'standing';
+                    female.carrying = female.getCarryingItem(who, when);
+                }
+            } else {
+                female.carrying = 'none';
+            }
+        }
     };
 })(window);

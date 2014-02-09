@@ -39,6 +39,9 @@
                     worldStatistic.foodResource += worldStatistic.food;
                     worldStatistic.food = 0;
                 }
+
+                world.items.meat.enabled = true;
+                world.items.fruit.enabled = true;
             }
         },
         fire: {
@@ -80,6 +83,8 @@
                         world.rules.food.resourceIncr -= 0.05;
                     }
                 });
+
+                world.items.fire.enabled = true;
             }
         },
         hula: {
@@ -204,6 +209,8 @@
                 worldRules.baseIQ += 1;
                 worldRules.chanceIncr.death -= 0.1;
                 worldRules.foodSpoilage.foodDecr -= 0.1;
+
+                world.items.pot.enabled = true;
             }
         },
         goss: {
