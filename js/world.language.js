@@ -15,41 +15,41 @@
             introPhysicsAuthor:
 "A Short History of Nearly Everything by Bill Bryson",
             introPhysics01:
-'About 13 billion years ago, matter comes into existence in what is known as the Big Bang.',
+"About 13 billion years ago, matter comes into existence in what is known as the Big Bang.",
             introPhysics02:
-'In this first story of our universe - which is called Physics - space, time, matter, energy are formed and start interacting with one another.',
+"In this first story of our universe - which is called Physics - space, time, matter, energy are formed and start interacting with one another.",
 
             introChemistryQuote:
 "It really is the most poetic thing I know about physics: You are all stardust.",
             introChemistryAuthor:
 "Lawrence M. Krauss",
             introChemistry01:
-'About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.',
+"About 300,000 years after the Big Bang, matter comes into complex structures to form atoms. Then, atoms come together to form molecules.",
             introChemistry02:
-'The story of atoms, molecules, and their interactions is called Chemistry.',
+"The story of atoms, molecules, and their interactions is called Chemistry.",
 
             introBiologyQuote:
 "One of the deepest functions of living organisms is to look ahead, to produce future.",
             introBiologyAuthor:
 "Francois Jacob",
             introBiology01:
-'About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.',
+"About 4 billion years ago, molecules combine to form even larger and more complex structures which are called organisms, or living creatures.",
             introBiology02:
-'The story of organisms, their functions and interactions is called Biology.',
+"The story of organisms, their functions and interactions is called Biology.",
 
             introHistoryQuote:
 "History is simply the next stage in the process of ongoing complexity in the universe.",
             introHistoryAuthor:
 "A Brief History of Humankind by Yuval Noah Harari",
             introHistory01:
-'About 70,000 years ago, organisms belonging to our species, Homo sapiens come together, combine and form even more elaborate structures, which are called cultures.',
+"About 70,000 years ago, organisms belonging to our species, Homo sapiens come together, combine and form even more elaborate structures, which are called cultures.",
             introHistory02:
-'The story of the formation, development  and interaction of human cultures is called History.',
+"The story of the formation, development and interaction of human cultures is called History.",
 
             introGame01:
-'World JS is an attempt to show you a brief history of humankind via a game in 4 parts:<br>the cognitive revolution, the agricultural revolution, the scientific revolution and the future. ',
+"World JS is an attempt to show you a brief history of humankind via a simulation game.",
             introGame02:
-'The game is currently focusing on the content of the cognitive revolution. So it is not complete and the playable part is simple: you can change knowledge priority if needed.<br> Or, just let the game process by itself as a <a target="_blank" href="http://en.wikipedia.org/wiki/Zero-player_game">zero-player game</a>.',
+"The game currently shows you history from about 250,000 to 10,000 years ago. It's still developing and I really need more contributors. Javascript developers, artists, writers and history lovers, please join this project.",
             introGame03:
 'For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.',
 
@@ -57,15 +57,15 @@
 "About 250,000 years ago, our ancestors begin their lives in East Africa.<br>\
 They have extraordinary large brains and the ability of walking upright.",
             storyBegin02:
-"In trade-off they are less muscular and born prematurely.<br>\
-Thus they evolve stronger social ties and start living in small bands.",
+"Therefore they are less muscular and born prematurely.<br>\
+They need to evolve stronger social ties and start living in small bands.",
 
             storyEnd01:
-"Humans simply destroy everything that stands on their paths.<br>\
+"Humans simply destroy everything that stands in their paths.<br>\
 They drive to the extinction of most large species long before the invention of writing.",
             storyEnd02:
-"When the decline in the availability of wild foods becomes critical, humans could do better than<br>\
-what you've just seen. They would gain new knowledge to live in equilibrium or to produce food.",
+"When the decline in the availability of wild foods becomes critical, humans can do better than<br>\
+what you've just seen to survive by living in equilibrium with nature or self-producing food.",
 
             knowledgeHUGAName:
 "Hunting and gathering",
@@ -85,7 +85,7 @@ They gain new source of light, warmth and power to start changing their behavior
             knowledgeFIREDescription02:
 "Expand human activity into the dark and colder hours of the night.",
             knowledgeFIREDescription03:
-"Be able to burn down forests for food that can also start changing the environment.",
+"Be able to burn down forests for food, which can also start changing the environment.",
 
             knowledgeHULAName:
 "Hunting large animals",
