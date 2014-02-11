@@ -1,8 +1,10 @@
 /*!
  * world.language.js
+ * Define language of a world.
  *
- * World JS
  * https://github.com/anvoz/world-js
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under Creative Commons (http://creativecommons.org/licenses/by-nc/4.0/deed.en_US)
  */
 
 (function(window, undefined) {

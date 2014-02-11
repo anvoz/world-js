@@ -1,12 +1,11 @@
 /*!
  * world.interface.js (require jQuery & TW Bootstrap UI)
  * Bind a world and its properties to UI.
- * Define UI interactions.
+ * Define some basic UI interactions.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {

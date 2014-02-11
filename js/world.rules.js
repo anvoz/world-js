@@ -1,12 +1,10 @@
 /*!
  * world.rules.js (require Statistic module)
- * Manage rules of a world.
- * Apply new rules to the world every year.
+ * Define rules that will affect a world and all of its living seeds.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {

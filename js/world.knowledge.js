@@ -1,12 +1,10 @@
 /*!
  * world.knowledge.js (require Statistic and Rules module)
- * Manage knowledge of a world.
- * Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
+ * Add IQ to humans so they can learn knowledge to survive.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
