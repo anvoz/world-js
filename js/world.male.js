@@ -1,11 +1,10 @@
 /*!
  * world.male.js
- * Male class extends Seed.
+ * Male extends Seed class.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -17,12 +16,12 @@
 
     /**
      * Male constructor
-     * data (optional): seed data, IQ, age, chances
+     * data (optional): seed data, age, chances
      */
     Male = WorldJS.prototype.Male = function(data) {
         var male = this;
 
-        data.appearance = {
+        data.icon = {
             x: 0,
             y: 0,
             width: 13,
@@ -37,10 +36,7 @@
 
         Seed.call(male, data);
 
-        male.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
-
         male.maxChildAge = 15;
-        male.married = false;
 
         male.chances = data.chances || {
             death: [
@@ -64,24 +60,25 @@
      * speed: speed of the world
      */
     Male.prototype.tick = function(speed) {
-        var male = this;
+        var male = this,
+            world = male.world;
 
         male.tickCount++;
 
         var actionInterval = male.actionInterval / speed;
         if (male.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
-            var world = male.world;
-
-            var deathChance = male.getChance(male, 'death');
+            var deathChance = male.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(male);
+                world.removeSeed(male);
                 return;
             }
 
-            if (!male.married && male.age >= male.chances.marriage[0].range[0]) {
+            if (male.relationSeed === false &&
+                male.age >= male.chances.marriage[0].range[0]
+            ) {
                 // Seeking for female
-                var marriageChance = male.getChance(male, 'marriage');
+                var marriageChance = male.getChance('marriage');
                 if (marriageChance > 0) {
                     var failureChance = Math.random();
                     if (failureChance < marriageChance) {
@@ -90,18 +87,16 @@
                                 world = male.world;
                             return (
                                 candidate instanceof world.Female &&
-                                !candidate.married &&
+                                candidate.relationSeed === false &&
                                 // Enough age to give birth
                                 candidate.age >= candidate.chances.childbirth[0].range[0] &&
-                                // Failure chance increase (every 10 age difference) if male is younger than female
+                                // Failure chance increase (every 10 age difference)
+                                // if male is younger than female
                                 (candidate.age <= male.age ||
-                                        (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
+                                    (failureChance * (Math.ceil((candidate.age - male.age) / 10))) < marriageChance)
                             );
                         });
                         if (female !== false) {
-                            male.married = true;
-                            female.married = true;
-
                             male.relationSeed = female;
                             female.relationSeed = male;
 
@@ -112,15 +107,19 @@
 
                             // Prevent having children right after married
                             female.ageLastBear = female.age + 1;
+
+                            male.carrying = false;
+                            female.carrying = false;
                         }
                     }
                 }
             }
         }
 
-        if (male.married) {
+        if (male.relationSeed !== false) {
             if (male.x === Math.max(0, male.relationSeed.x - 10) &&
-                    male.y === male.relationSeed.y) {
+                male.y === male.relationSeed.y
+            ) {
                 return;
             }
             male.move(speed, function() {
@@ -128,11 +127,25 @@
                 var male = this,
                     female = male.relationSeed;
 
-                male.moveTo.x = Math.max(0, female.x - 10);
+                male.moveTo.x = Math.max(male.world.padding, female.x - 10);
                 male.moveTo.y = female.y;
             });
         } else {
             male.move(speed, false);
+        }
+
+        if (male.carrying === false &&
+            typeof world.items !== 'undefined'
+        ) {
+            if (Math.random() < 0.2) {
+                if (male.age > male.maxChildAge) {
+                    var who = (male.relationSeed === false) ? 'man' : 'husband',
+                        when = (male.isMoving) ? 'moving' : 'standing';
+                    male.carrying = male.getCarryingItem(who, when);
+                }
+            } else {
+                male.carrying = 'none';
+            }
         }
     };
 })(window);

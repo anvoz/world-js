@@ -1,11 +1,10 @@
 /*!
  * world.female.js
- * Female class extends Seed.
+ * Female extends Seed class.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -17,12 +16,12 @@
 
     /**
      * Female constructor
-     * data (optional): seed data, IQ, age, chances
+     * data (optional): seed data, age, chances
      */
     Female = WorldJS.prototype.Female = function(data) {
         var female = this;
 
-        data.appearance = {
+        data.icon = {
             x: 13,
             y: 0,
             width: 13,
@@ -37,11 +36,8 @@
 
         Seed.call(female, data);
 
-        female.IQ = (data.IQ || 0) + Math.floor(Math.random() * 4); // Random [0, 3]
-
         female.maxChildAge = 15;
 
-        female.married = false;
         // Total children that she gave birth
         // Need to be set from undefined to 0 right after her first marriage
         female.totalChildren = undefined;
@@ -70,26 +66,29 @@
      * speed: speed of the world
      */
     Female.prototype.tick = function(speed) {
-        var female = this;
+        var female = this,
+            world = female.world;
 
         female.tickCount++;
 
         var actionInterval = female.actionInterval / speed;
         if (female.tickCount % actionInterval === actionInterval - 1) {
             // Trigger every <actionInterval> ticks
-            var world = female.world,
-                age = female.age;
+            var age = female.age;
 
-            var deathChance = female.getChance(female, 'death');
+            var deathChance = female.getChance('death');
             if (deathChance > 0 && Math.random() < deathChance) {
-                world.remove(female);
+                world.removeSeed(female);
                 return;
             }
 
-            if (female.married &&                                       // Is married
-                    age >= female.chances.childbirth[0].range[0] &&     // Enough age to give birth
-                    age > female.ageLastBear) {                         // Not give birth in the same year
-                var childBirthChance = female.getChance(female, 'childbirth');
+            if (female.relationSeed !== false && // Is married
+                // Enough age to give birth
+                age >= female.chances.childbirth[0].range[0] &&
+                // Not give birth in the same year
+                age > female.ageLastBear
+            ) {
+                var childBirthChance = female.getChance('childbirth');
                 if (childBirthChance > 0 && Math.random() < childBirthChance) {
                     // +1 because she has more than 1 chance to give birth every year
                     // depended on actionInterval
@@ -100,20 +99,34 @@
                             x: female.x,
                             y: Math.min(
                                 world.height - 1 - world.padding,
-                                female.y + Math.floor(female.appearance.height / 2)
+                                female.y + Math.floor(female.icon.height / 2)
                             ),
-                            IQ: Math.round((female.relationSeed.IQ + female.IQ) / 2) // inherit IQ from parent
+                            mother: female
                         };
 
                     if (Math.random() < 0.5) {
-                        world.add(world.Male, data);
+                        world.addSeed(world.Male, data);
                     } else {
-                        world.add(world.Female, data);
+                        world.addSeed(world.Female, data);
                     }
                 }
             }
         }
 
         female.move(speed, false);
+
+        if (female.carrying === false &&
+            typeof world.items !== 'undefined'
+        ) {
+            if (Math.random() < 0.2) {
+                if (female.age > female.maxChildAge) {
+                    var who = (female.relationSeed === false) ? 'woman' : 'wife',
+                        when = (female.isMoving) ? 'moving' : 'standing';
+                    female.carrying = female.getCarryingItem(who, when);
+                }
+            } else {
+                female.carrying = 'none';
+            }
+        }
     };
 })(window);

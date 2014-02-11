@@ -1,7 +1,9 @@
 World JS: History Simulation
 ========
 
-`World JS` is an attempt to show you a brief history of humankind via a game in 4 parts: the cognitive revolution, the agricultural revolution, the scientific revolution and the future.
+`World JS` is an attempt to show you a brief history of humankind via a simulation game.
+
+This project was inspired from what I have learned from [A Brief History of Humankind](https://www.coursera.org/course/humankind) by Dr. Yuval Noah Harari.
 
 ![Screenshot of version 2.4 on medium screen size](https://f.cloud.github.com/assets/4688035/1744790/b787836c-6423-11e3-8762-4b4f6f482324.PNG "Screenshot of version 2.4 on medium screen size")
 
@@ -15,20 +17,25 @@ Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki)
 * [Benchmark](https://github.com/anvoz/world-js/wiki/Benchmark)
 
 ### Modules
-* WorldJS Core: Define a world and manage its main loop.
- * Seed (base class); Male and Female (extend Seed): Define an object that will be added to a world to live and interact with other objects.
- * Tile: Manage position of seeds. Each tile holds references to all seeds that currently stay in it.
- * Knowledge: Manage knowledge of a world. Distribute IQ of the world over trending knowledge and apply completed knowledge effects to the world.
- * Rules: Manage rules of a world. Apply new rules to the world every year.
- * Statistic: Track statistic of a world via function callback.
+* World JS: Create a world where people live and reproduce.
+ * Core: Define a world and manage its main loop.
+ * Tile: Divide a world into tiles. Each tile holds references to all seeds (objects) that currently stay in it.
  * Event: Register behaviors to take effect when an event occurs.
- * Guide: Display guide messages on the main screen in queued order.
-* Interface: Bind a world and its properties to UI. Define UI interactions.
-* Story: Initialize a world and define its main plot.
+ * Seed (base class), Male and Female (extend Seed): Define an object that will be added to a world to live and interact with other objects.
+* World History: Create culture of a world.
+ * Statistic: Track statistic data of a world.
+ * Rules: Define rules that will affect a world and all of its living creatures.
+ * Knowledge: Add IQ to humans so they can learn knowledge to survive.
+ * Language: Define language of a world.
+ * Knowledge.data: Define all knowledge data of a world.
+* Presentation
+ * Guide: Queue up messages that will be displayed on the main screen.
+ * Interface: Bind a world and its properties to UI. Define some basic UI interactions.
+ * Story: Initialize a world and define the `History Simulation` story.
 
 ### Sample code
 
-_Require `WorldJS Core`_
+_Require `World JS`_
 ```
 // Create a new world
 var world = new WorldJS();
@@ -37,11 +44,13 @@ var world = new WorldJS();
 world.init('world-wrapper-id');
 
 // Add 50 random people to the world
-world.addRandomPeople(50);
+world.addSeeds(50, {
+    types: [world.Male, world.Female]
+});
 
 // Start the world
 world.start();
 
 // Add another woman to the world
-world.add(world.Female, { age: 25 });
+world.addSeed(world.Female, {age: 25});
 ```

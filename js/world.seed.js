@@ -1,11 +1,11 @@
 /*!
  * world.seed.js
- * Define an object that will be added to a world to live and interact with other objects.
+ * Define an object that will be added to a world
+ * to live and interact with other objects.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -16,7 +16,7 @@
 
     /**
      * Seed constructor
-     * data (optional): x, y, appearance, relationSeed, tickCount, actionInterval, moveTo
+     * data (optional): x, y, icon, relationSeed, tickCount, actionInterval, moveTo
      */
     Seed = WorldJS.prototype.Seed = function(data) {
         // The value of this refers to a newly created seed
@@ -36,7 +36,11 @@
         seed.y = (typeof data.y === 'undefined') ? false : data.y;
 
         // Define how to draw the seed
-        seed.appearance = data.appearance || false;
+        seed.icon = data.icon || {
+            width: 1, height: 1
+        };
+        seed.carrying = data.carrying || false;
+
         // Relationship of the seed
         seed.relationSeed = data.relationSeed || false;
 
@@ -59,9 +63,9 @@
          */
         seed.stepCount = seed.tickCount;
         seed.jumpInterval = 20;
-        seed.moveUntilStep = data.moveUntilStep ||
-                seed.tickCount + Math.floor(Math.random() * 21 + 10) * seed.jumpInterval;
+        seed.moveUntilStep = data.moveUntilStep || 0;
         seed.ageToMoveAgain = 0;
+        seed.isMoving = false;
 
         // Destination coordinate for seed to move to
         seed.moveTo = data.moveTo || false;
@@ -73,13 +77,15 @@
     Seed.prototype.draw = function(context, spriteImage) {
         var seed = this;
 
-        if (spriteImage === false || seed.appearance === false) {
-            context.fillRect(seed.x, seed.y, 1, 1);
+        if (spriteImage === false || seed.icon.width === 1) {
+            var width = (spriteImage !== false) ? seed.icon.width : 1,
+                height = (spriteImage !== false) ? seed.icon.height : 1;
+            context.fillRect(seed.x, seed.y, width, height);
         } else {
             // Handle child-state of the seed
-            var appearance = (seed.age <= seed.maxChildAge) ?
-                    seed.appearance.child :
-                    seed.appearance;
+            var icon = (seed.age <= seed.maxChildAge) ?
+                seed.icon.child :
+                seed.icon;
 
             /*
              * Jump instead of slide when seed moves
@@ -91,15 +97,54 @@
                 halfInterval = 10,
                 jumpIndex = seed.stepCount % jumpInterval,
                 jumpY = (jumpIndex < halfInterval) ?
-                        jumpIndex + 1 :
-                        halfInterval - (jumpIndex % halfInterval) - 1;
+                    jumpIndex + 1 :
+                    halfInterval - (jumpIndex % halfInterval) - 1;
 
             context.drawImage(
                 spriteImage,
-                appearance.x, appearance.y, appearance.width, appearance.height,
-                seed.x, seed.y - jumpY, appearance.width, appearance.height
+                icon.x, icon.y, icon.width, icon.height,
+                seed.x, seed.y - jumpY, icon.width, icon.height
             );
+            if (seed.carrying !== false && seed.carrying !== 'none') {
+                var carrying = seed.carrying;
+                context.drawImage(
+                    spriteImage,
+                    carrying.x, carrying.y, carrying.width, carrying.height,
+                    seed.x + carrying.dx, seed.y - jumpY + carrying.dy, carrying.width, carrying.height
+                );
+            }
         }
+    };
+
+    /**
+     * Get carrying item
+     */
+    Seed.prototype.getCarryingItem = function(who, when) {
+        var seed = this,
+            world = seed.world;
+
+        if (typeof world.items !== 'undefined') {
+            var items = world.items,
+                availableItems = [];
+            for (var type in items) {
+                var item = items[type];
+                if (item.enabled === true &&
+                    item.who === who &&
+                    item.when === when
+                ) {
+                    availableItems.push(item.icon);
+                }
+            }
+
+            var totalAvailableItems = availableItems.length;
+            if (totalAvailableItems === 1) {
+                return availableItems[0];
+            } else if (totalAvailableItems > 1) {
+                return availableItems[world.random(0, totalAvailableItems - 1)];
+            }
+        }
+
+        return false;
     };
 
     /**
@@ -109,41 +154,46 @@
      */
     Seed.prototype.move = function(speed, beforeMoveCallback) {
         var seed = this,
-            random = function(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            };
+            world = seed.world,
+            random = world.random;
 
         // By default, seed keeps moving around the world
-        if (!beforeMoveCallback) {
+        seed.isMoving = true;
+        if ( ! beforeMoveCallback) {
             // Read the comment on seed's constructor for more info
-            if (seed.stepCount == seed.moveUntilStep) {
+            if (seed.stepCount >= seed.moveUntilStep) {
                 if (seed.ageToMoveAgain == 0 ||
-                    seed.ageToMoveAgain > seed.age) {
+                    seed.ageToMoveAgain > seed.age
+                ) {
                     if (seed.ageToMoveAgain == 0) {
-                        seed.ageToMoveAgain = seed.age + random(2, 10);
+                        // Don't move much when getting old
+                        seed.ageToMoveAgain = seed.age + random(2, seed.age);
+                        seed.carrying = false;
                     }
+                    seed.isMoving = false;
                     return;
                 } else {
                     seed.ageToMoveAgain = 0;
-                    seed.moveUntilStep = seed.stepCount + random(10, 50) * seed.jumpInterval;
+                    // Move until 2-10 more jumps
+                    seed.moveUntilStep = seed.stepCount + random(2, 10) * seed.jumpInterval;
+                    seed.carrying = false;
                 }
-            }
-
-            if (seed.moveTo === false || (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)) {
-                // Make another moveTo coordinate
-                var world = seed.world;
-                seed.moveTo = {
-                    x: random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding)),
-                    y: random(world.padding, world.height - 1 - seed.appearance.height - world.padding)
-                };
             }
         } else {
             beforeMoveCallback.call(seed);
         }
 
+        if (seed.moveTo === false ||
+            (seed.moveTo.x === seed.x && seed.moveTo.y === seed.y)
+        ) {
+            // Make another moveTo coordinate
+            seed.moveTo = world.getRandomPosition(seed, true);
+        }
+
         seed.stepCount++;
 
-        // Move in 8-direction to reach moveTo coordinate, <speed> pixels per frame (tick)
+        // Move in 8-direction to reach moveTo coordinate,
+        // <speed> pixels per frame (tick)
         if (seed.x < seed.moveTo.x) {
             seed.x = Math.min(seed.x + speed, seed.moveTo.x);
         } else if (seed.x > seed.moveTo.x) {
@@ -163,22 +213,22 @@
      */
     Seed.prototype.seek = function(condition) {
         var seed = this,
-            Tile = seed.world.Tile,
+            tile = seed.world.tile,
             direction = [
                 [0, 0],                                 // current tile
                 [-1, 0], [1, 0], [0, -1], [0, 1],       // w, e, n, s tile
                 [-1, -1], [-1, 1], [1, -1], [1, 1]      // nw, sw, ne, se tile
             ];
 
-        if (!condition) {
+        if ( ! condition) {
             // No filter, return first seed of the current tile
             condition = function(candidate) {
                 return (candidate.id != seed.id);
             };
         }
 
-        var tilesPerRow = Tile.tilesPerRow,
-            tilesPerCol = Tile.tilesPerCol;
+        var tilesPerRow = tile.tilesPerRow,
+            tilesPerCol = tile.tilesPerCol;
         for (var i = 0, len = direction.length; i < len; i++) {
             var thisTileIndex;
             if (i === 0) {
@@ -194,7 +244,7 @@
                     continue;
                 }
             }
-            var seeds = Tile.list[thisTileIndex];
+            var seeds = tile.list[thisTileIndex];
             for (var j = 0, len2 = seeds.length; j < len2; j++) {
                 if (seeds[j] && seed.id != seeds[j].id) {
                     var candidateSeed = seeds[j];
@@ -210,11 +260,12 @@
 
     /**
      * Move around every frame (tick)
+     * speed: speed of the world
      */
-    Seed.prototype.tick = function() {
+    Seed.prototype.tick = function(speed) {
         var seed = this;
         seed.tickCount++;
-        seed.move();
+        seed.move(speed);
     };
 
     /**
@@ -223,8 +274,8 @@
      * Age:     1   2   3   4   5
      * Chance:  1%  2%  3%  4%  5%
      */
-    Seed.prototype.getChance = function(seed, type) {
-        var world = seed.world,
+    Seed.prototype.getChance = function(type) {
+        var seed = this,
             base = seed.chances[type],
             age = seed.age,
 
@@ -232,7 +283,7 @@
             fromAge = 0,
             fromChance = 0,
             delta = 0;
-        while (base[i] && age > base[i].range[0]) {
+        while (base[i] && age >= base[i].range[0]) {
             var thisBase = base[i];
             fromAge = thisBase.range[0];
             fromChance = thisBase.from;
@@ -240,11 +291,6 @@
             i++;
         }
 
-        var chance = fromChance + (age - fromAge) * delta;
-        if (world.Rules.Chance[type] != 0) {
-            // Modify chance based on rule of the world
-            chance += chance * world.Rules.Chance[type];
-        }
-        return chance;
+        return fromChance + (age - fromAge) * delta;
     };
 })(window);

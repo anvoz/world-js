@@ -2,10 +2,9 @@
  * world.core.js
  * Define a world and manage its main loop.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -54,7 +53,7 @@
             context: false  // HTML5 drawing context
         };
         world.sprite = {
-            src: 'images/seeds.png',
+            src: 'images/icons.png',
             image: false    // DOM image object of sprite
         };
 
@@ -66,7 +65,12 @@
          */
         world.displayMode = 'full';
 
-        // World contains seeds
+        /*
+         * World contains seeds
+         * but only hold a number of total seeds.
+         * Data of all seeds will be stored by the Tile module.
+         */
+        world.totalSeeds = 0;
         // Each seed has an unique id
         world.nextSeedId = 1;
 
@@ -75,7 +79,8 @@
 
         /*
          * tickPerYear: indicate one year passed.
-         * speed: running speed of the world, affects moving speed and actionInterval of a seed.
+         * speed: running speed of the world,
+         * affects moving speed and actionInterval of a seed.
          * actionInterval: indicate how often a seed triggers its main action.
          * By default, actionInterval is as half as tickPerYear,
          * which means a seed triggers its main action twice a year.
@@ -106,15 +111,18 @@
 
         /*
          * Seeds don't trigger their main actions every frame.
-         * Example: In 60 frames, a male only seeks for female twice (in 30th frame and 60th frame).
-         * To make it's more efficient, main actions of all seeds will be distributed over all frames.
+         * Example: In 60 frames, a male only seeks for female twice
+         * in 30th frame and 60th frame (actionInterval = 30).
+         * To make it's more efficient,
+         * main actions of all seeds will be distributed over all frames.
          * Example: male_1 will seek for female in 30th frame, 60th frame...
          *          male_2 will seek for female in 31th frame, 61th frame...
          *
          * distributedTicks has its length equals <tickPerYear - 1>, which means:
          * In every <tickPerYear> frames
          * <tickPerYear - 1> frames are used to trigger main actions of seeds.
-         * Last frame is used for other calculations such as statistic, user interface update...
+         * Last frame is used for other calculations such as statistic
+         * or user interface update.
          */
         world.distributedTicks = [];
         for (var i = 0; i < world.tickPerYear - 1; i++) {
@@ -125,12 +133,8 @@
         world.lastTickTime = 0;
         world.fps = 0;
 
-        world.Tile      = new WorldJS.Tile(world);
-        world.Knowledge = new WorldJS.Knowledge(world);
-        world.Statistic = new WorldJS.Statistic(world);
-        world.Rules     = new WorldJS.Rules(world);
-        world.Event     = new WorldJS.Event(world);
-        world.Guide     = new WorldJS.Guide(world);
+        world.tile  = new WorldJS.Tile(world);
+        world.event = new WorldJS.Event(world);
     };
 
     /**
@@ -142,10 +146,15 @@
 
         // Add a canvas that fits size of its wrapper
         var canvas = document.createElement('canvas'),
-            wrapper = world.canvas.wrapper = document.getElementById(wrapperId),
+            wrapper = document.getElementById(wrapperId),
             // Size of the wrapper is also size of the world
-            width = world.width = canvas.width = wrapper.clientWidth || world.width,
-            height = world.height = canvas.height = wrapper.clientHeight || world.height;
+            width = wrapper.clientWidth || world.width,
+            height = wrapper.clientHeight || world.height;
+
+        world.canvas.wrapper = wrapper;
+        world.width = canvas.width = width;
+        world.height = canvas.height = height;
+
         wrapper.appendChild(canvas);
 
         world.canvas.context = canvas.getContext('2d');
@@ -155,7 +164,7 @@
         sprite.src = world.sprite.src;
         world.sprite.image = sprite;
 
-        world.Tile.init(width, height);
+        world.tile.init(width, height);
 
         return world;
     };
@@ -164,45 +173,68 @@
      * Add a seed to the world
      * Seed: seed-based class
      * data: properties of seed
+     * return seed
      */
-    WorldJS.prototype.add = function(Seed, data) {
+    WorldJS.prototype.addSeed = function(Seed, data) {
         var world = this,
+            data = data || {},
             seed = new Seed(data);
 
-        // Save a reference of the world where the seed belongs
-        seed.world = world;
+        world.totalSeeds++;
 
+        // Save a reference of the world where this seed belongs
+        seed.world = world;
         // Set an unique id
         seed.id = world.nextSeedId++;
 
         seed.age = data.age || 0;
-        if (seed.age > 0) {
-            seed.tickCount = seed.age * world.tickPerYear;
-        }
+        seed.tickCount = (seed.age > 0) ?
+            seed.age * world.tickPerYear : seed.tickCount;
+
+        // Put this seed in a frame which has the lowest number of occupied seeds
+        // to avoid a single frame that needs to trigger too many main actions
+        var tickIndex = world.getTickIndex();
+        world.distributedTicks[tickIndex]++;
+        seed.tickIndex = tickIndex;
 
         seed.tickMod = world.tickMod;
+        // By modulusing actionInterval which is as half as tickPerYear by default
+        // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
+        // TODO: review the distributed ticks mechanic in different speed
+        seed.tickCount += (world.tickMod + seed.tickCount + seed.tickIndex) % seed.actionInterval;
+        // stepCount also need to base on seed.tickCount to avoid synchronized jumping
+        // among all seeds that appeared in the same time
+        seed.stepCount = seed.tickCount;
+        seed.moveUntilStep = seed.moveUntilStep ||
+            // Move until 2-10 more jumps
+            seed.tickCount + world.random(2, 10) * seed.jumpInterval;
 
-        seed.IQ += world.Rules.baseIQ;
-
-        // Randomly set coordinate of the seed
-        var random = function(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        };
-        if (seed.x === false) {
-            seed.x = random(0, world.width - 1 - Math.max(seed.appearance.width, world.padding));
-        }
-        if (seed.y === false) {
-            seed.y = random(0, world.height - 1 - seed.appearance.height - world.padding);
-        }
+        // Set random position
+        var position = world.getRandomPosition(seed);
+        seed.x = position.x;
+        seed.y = position.y;
 
         // Calculate tile index
-        seed.tileIndex = world.Tile.getIndex(seed);
-        // and cache the seed
-        world.Tile.set(seed);
+        seed.tileIndex = world.tile.getIndex(seed);
+        // and cache data of this seed
+        world.tile.set(seed);
 
-        // Put the seed in a frame which has lowest number of seeds occupied
-        // to avoid a single frame that needs to trigger too many seeds' main actions
-        var distributedTicks = world.distributedTicks,
+        world.event.trigger('seedAdded', {
+            seed: seed,
+            mother: data.mother || undefined
+        });
+
+        return seed;
+    };
+
+    /**
+     * Find the best tick index for this seed
+     * return tick index
+     */
+    WorldJS.prototype.getTickIndex = function() {
+        var world = this,
+
+            distributedTicks = world.distributedTicks,
             minIndex = 0,
             minValue = distributedTicks[minIndex];
         for (var i = 0, len = distributedTicks.length; i < len; i++) {
@@ -211,41 +243,54 @@
                 minValue = distributedTicks[i];
             }
         }
-        distributedTicks[minIndex]++;
-        seed.tickIndex = minIndex;
 
-        // By modulusing actionInterval which is as half as tickPerYear by default
-        // we have two lowest frames index: 30th (half year passed) and 60th (full year passed)
-        // TODO: review the distributed ticks mechanic with different speed
-        seed.tickCount += (world.tickMod + seed.tickCount + minIndex) % seed.actionInterval;
-        // stepCount also need to use minIndex to avoid synchronized jumping
-        // among all seeds that appeared in the same time
-        seed.stepCount = seed.tickCount;
+        return minIndex;
+    };
 
-        world.Statistic.seedAdded(seed);
+    /**
+     * Get random position in the world
+     * seed: seed-based instance
+     * forced: always get new value of x and y
+     * return {x, y}
+     */
+    WorldJS.prototype.getRandomPosition = function(seed, forced) {
+        var world = this,
+            forced = forced || false,
 
-        return world;
+            x = (seed.x === false || forced) ?
+                world.random(
+                    world.padding,
+                    world.width - seed.icon.width - world.padding
+                ) : seed.x,
+            y = (seed.y === false || forced) ?
+                world.random(
+                    world.padding,
+                    world.height - seed.icon.height - world.padding
+                ) : seed.y;
+
+        return { x: x, y: y };
     };
 
     /**
      * Remove a seed from the world
      * seed: seed-based instance
      */
-    WorldJS.prototype.remove = function(seed) {
+    WorldJS.prototype.removeSeed = function(seed) {
         var world = this;
 
-        world.Statistic.seedRemoved(seed);
+        world.totalSeeds--;
 
-        if (seed.married) {
-            seed.married = false;
-            seed.relationSeed.married = false;
+        world.event.trigger('seedRemoved', {
+            seed: seed
+        });
 
+        if (seed.relationSeed !== false) {
             // Remove the references
             seed.relationSeed.relationSeed = false;
             seed.relationSeed = false;
         }
 
-        world.Tile.rem(seed);
+        world.tile.rem(seed);
 
         world.distributedTicks[seed.tickIndex]--;
 
@@ -253,57 +298,61 @@
     };
 
     /**
-     * Add random people to the world
-     * count: number of people to add
-     * minAge, maxAge (optional)
-     * fromBorder: determine people randomly appear or come from border
-     *      0: random, 1: top, 2: bottom, 3: left, 4: right, 5: random border
+     * Add random seeds to the world
+     * count: number of seeds to add
+     * data:
+     *  minAge, maxAge
+     *  types: array of world.Seed, world.Male, world.Female...
+     *  fromBorder: determine which border seeds will appear
      */
-    WorldJS.prototype.addRandomPeople = function(count, minAge, maxAge, fromBorder) {
+    WorldJS.prototype.addSeeds = function(count, data) {
         var world = this,
-            tickPerYear = world.tickPerYear,
-            random = function(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            };
+            data = data || {},
 
-        minAge = (typeof minAge === 'undefined') ? 15 : minAge,
-        maxAge = (typeof maxAge === 'undefined') ? 20 : maxAge,
-        fromBorder = (typeof fromBorder === 'undefined') ? 0 : fromBorder;
+            types = (typeof data.types !== 'undefined') ?
+                data.types : [world.Seed],
 
-        // Add people to the world
+            minAge = (typeof data.minAge !== 'undefined') ?
+                data.minAge : 15,
+            maxAge = (typeof data.maxAge !== 'undefined') ?
+                data.maxAge : 20;
+
+        // Add seeds to the world
         for (var i = 0; i < count; i++) {
             // Random age
-            var age = random(minAge, maxAge),
-                data = {
-                    age: age,
-                    tickCount: age * tickPerYear
+            var age = world.random(minAge, maxAge),
+                seedData = {
+                    x: false, y: false,
+                    age: age
                 };
 
-            if (fromBorder > 0) {
-                var border = (fromBorder === 5) ? random(1, 4) : fromBorder,
-                    padding = 10;
+            if (typeof data.fromBorder !== 'undefined') {
+                var borders = ['top', 'bottom', 'left', 'right'],
+                    border = (data.fromBorder === 'random') ?
+                        borders[world.random(0, 3)] : data.fromBorder;
                 // Used random number to avoid people appeared in the same edge
                 switch (border) {
-                    case 1: // top
-                        data.y = random(0, padding);
+                    case 'top':
+                        seedData.y = world.random(0, world.padding);
                         break;
-                    case 2: // bottom
-                        data.y = random(world.height - padding - 1, world.height - 1);
+                    case 'bottom':
+                        seedData.y = world.random(
+                            world.height - world.padding - 1,
+                            world.height - 1
+                        );
                         break;
-                    case 3: // left
-                        data.x = random(0, padding);
+                    case 'left':
+                        seedData.x = world.random(0, world.padding);
                         break;
-                    case 4: // right
-                        data.x = random(world.width - padding - 1, world.width - 1);
+                    case 'right':
+                        seedData.x = world.random(
+                            world.width - world.padding - 1,
+                            world.width - 1
+                        );
                         break;
                 }
             }
-
-            if (i < count / 2) {
-                world.add(world.Male, data);
-            } else {
-                world.add(world.Female, data);
-            }
+            world.addSeed(types[i % types.length], seedData);
         }
 
         return world;
@@ -314,36 +363,23 @@
      */
     WorldJS.prototype.run = function(time) {
         var world = this,
-            Statistic = world.Statistic,
             context = world.canvas.context,
-            spriteImage = world.sprite.image,
-            yearPassed = false,
-            reDraw = false;
+            spriteImage = world.sprite.image;
 
         // Modulus tickMod by tickPerYear to avoid its value grows too large
         world.tickMod = (++world.tickMod) % world.tickPerYear;
-
-        yearPassed = (world.tickMod === 0);
+        var yearPassed = (world.tickMod === 0);
 
         // Only draw the world every year instead of every frame if total seeds is too large
-        reDraw = (Statistic.population <= world.maxSafeSeedsForDisplay || yearPassed);
+        var reDraw = (world.totalSeeds <= world.maxSafeSeedsForDisplay || yearPassed);
         if (reDraw) {
             // Clear canvas
             context.clearRect(0, 0, world.width, world.height);
         }
 
-        var listTile = world.Tile.list,
-            maxDisplayedSeeds = world.Tile.maxDisplayedSeeds,
-
-            // Statistic: re-calculate every frame (tick)
-            sPopulation = 0,
-            sIQ = 0,
-            sMen = 0, sWomen = 0,
-            sBoys = 0, sGirls = 0,
-            sFamilies = 0,
-
+        var listTile = world.tile.list,
+            maxDisplayedSeeds = world.tile.maxDisplayedSeeds,
             speed = world.speed;
-
         for (var i = 0, len = listTile.length; i < len; i++) {
             var seeds = listTile[i],
                 displayedSeeds = 0;
@@ -367,26 +403,6 @@
 
                     if (yearPassed) {
                         seed.age++;
-
-                        // Statistic
-                        sPopulation++;
-                        sIQ += seed.IQ;
-                        if (seed instanceof world.Male) {
-                            if (seed.age <= seed.maxChildAge) {
-                                sBoys++;
-                            } else {
-                                sMen++;
-                                if (seed.married) {
-                                    sFamilies++;
-                                }
-                            }
-                        } else {
-                            if (seed.age <= seed.maxChildAge) {
-                                sGirls++;
-                            } else {
-                                sWomen++;
-                            }
-                        }
                     }
 
                     if (reDraw) {
@@ -410,35 +426,23 @@
                     seed.tick(speed);
 
                     // Update tiles if seed moves
-                    var newTileIndex = world.Tile.getIndex(seed);
+                    var newTileIndex = world.tile.getIndex(seed);
                     if (newTileIndex !== oldTileIndex) {
                         // Remove seed reference from old tile
-                        world.Tile.rem(seed);
+                        world.tile.rem(seed);
 
                         // Add seed reference to new tile
                         seed.tileIndex = newTileIndex;
-                        world.Tile.set(seed);
+                        world.tile.set(seed);
                     }
                 }
             }
         }
 
         if (yearPassed) {
-            Statistic.yearPassed({
-                population: sPopulation,
-                IQ: sIQ,
-                men: sMen,
-                women: sWomen,
-                boys: sBoys,
-                girls: sGirls,
-                families: sFamilies
-            });
+            world.event.trigger('yearPassed');
 
-            world.Rules.change();
-            world.Knowledge.gain();
-            world.Event.trigger('yearPassed');
-
-            if (sPopulation === 0) {
+            if (world.totalSeeds === 0) {
                 // Stop the world
                 world.running = false;
                 return;
@@ -464,8 +468,12 @@
      * Start the world
      */
     WorldJS.prototype.start = function() {
-        this.running = true;
-        this.run();
+        var world = this;
+
+        world.running = true;
+        world.run();
+
+        return world;
     };
 
     /**
@@ -473,9 +481,22 @@
      * callback (optional): callback trigger after the world stopped
      */
     WorldJS.prototype.stop = function(callback) {
-        this.running = false;
+        var world = this;
+
+        world.running = false;
         if (typeof callback === 'function') {
-            this.stopCallback = callback;
+            world.stopCallback = callback;
         }
+
+        return world;
+    };
+
+    /**
+     * Generate random number X: min <= X <= max
+     * min: min number
+     * max: max number
+     */
+    WorldJS.prototype.random = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     };
 })(window);

@@ -1,12 +1,11 @@
 /*!
- * world.interface.js (require jQuery)
+ * world.interface.js (require jQuery & TW Bootstrap UI)
  * Bind a world and its properties to UI.
- * Define UI interactions.
+ * Define some basic UI interactions.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -15,22 +14,27 @@
     var $ = window.$,
         WorldJS = window.WorldJS,
         Interface = WorldJS.Interface = {},
-        Cache = {
-            Statistic: {
-                year: 0, population: 0, food: 0, foodResource: 0,
-                men: 0, women: 0, families: 0, boys: 0, girls: 0,
-                IQ: 0, maxIQ: 0, yearMaxIQ: 0,
+        cache = {
+            statistic: {
+                year: 0,
+                population: 0,
+                men: 0, women: 0, boys: 0, girls: 0,
+                families: 0,
+                food: 0, foodResource: 0,
+                iq: 0, maxIQ: 0, yearMaxIQ: 0,
                 maxAge: 0, yearMaxAge: 0,
                 avgIQ: 0, avgAge: 0, avgChildren: 0
             },
-            Rules: {
-                adultFoodChange: 0, childFoodChange: 0, foodResourceRecovery: 100, foodSpoilage: 0,
+            rules: {
+                adultFoodChange: 0, childFoodChange: 0,
+                foodResourceRecovery: 100,
+                foodSpoilage: 0,
                 deathChance: 0
             },
-            Knowledge: {
+            knowledge: {
                 knowledgeTrending: 0, knowledgeHistory: 0
             },
-            Misc: {
+            misc: {
                 labelPopulationLimit: false,
                 labelNotEnoughResource: false,
                 labelFamine: false
@@ -39,20 +43,23 @@
 
     // Init: Store container of all properties of a world
     // Extra methods must be added to Cache object after this init
-    for (var key in Cache) {
-        if (Cache.hasOwnProperty(key)) {
-            var cache = Cache[key];
-            for (var propName in cache) {
-                if (cache.hasOwnProperty(propName)) {
-                    var defaultValue = cache[propName];
-                    cache[propName] = {
+    for (var key in cache) {
+        if (cache.hasOwnProperty(key)) {
+            var cacheData = cache[key];
+            for (var propName in cacheData) {
+                if (cacheData.hasOwnProperty(propName)) {
+                    var defaultValue = cacheData[propName];
+                    cacheData[propName] = {
                         container: $('#world-' + propName),
                         value: defaultValue
                     };
 
                     // Some properties are displayed in 2 different places of the UI
-                    if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
-                        cache[propName + '-ex'] = {
+                    if ($.inArray(propName, [
+                            'men', 'women', 'families', 'boys', 'girls'
+                        ]) != -1
+                    ) {
+                        cacheData[propName + '-ex'] = {
                             container: $('#world-' + propName + '-ex'),
                             value: defaultValue
                         };
@@ -64,9 +71,9 @@
 
     /**
      * Set new value to a cached container element
-     * Only set if the value change
+     * Only set if the value changes
      */
-    Cache.set = function(element, value) {
+    cache.set = function(element, value) {
         if (value != element.value) {
             element.value = value;
             element.container.html(value);
@@ -76,7 +83,7 @@
     /**
      * Show or hide an element
      */
-    Cache.toggleLabel = function(element, state) {
+    cache.toggleLabel = function(element, state) {
         if (state != element.value) {
             element.value = state;
             if (state) {
@@ -100,7 +107,7 @@
             htmlArray = ['<span class="no-wrap">'];
         for (var i = 0; i < priorityList.length; i++) {
             var priority = priorityList[i],
-                checked = (knowledge.IQ.priority === priority.value) ?
+                checked = (knowledge.iq.priority === priority.value) ?
                     'checked ' : '',
                 radioClass = ( ! isClone) ?
                     'priority-radio' :
@@ -147,7 +154,7 @@
     Interface.trendingAdded = function(knowledge) {
         // Get css class for display based on default priority of a knowledge
         var progressBarClass;
-        switch (knowledge.IQ.priority) {
+        switch (knowledge.iq.priority) {
             case 0.1:
                 progressBarClass = 'progress-bar progress-bar-danger';
                 break;
@@ -160,8 +167,8 @@
         }
 
         // Add new knowledge to knowledge trending (learning) container
-        var knowledgeCache = Cache.Knowledge,
-            $trendingContainer = knowledgeCache.knowledgeTrending.container,
+        var cacheKnowledge = cache.knowledge,
+            $trendingContainer = cacheKnowledge.knowledgeTrending.container,
             collapsedToggle = ' collapsed',
             collapsedPanel = ' collapse';
         if ($trendingContainer.find('.knowledge-detail').filter('.in,.collapsing').length === 0) {
@@ -180,11 +187,11 @@
                         '<div class="' + progressBarClass + '"></div>',
                     '</div>',
                     '<div class="knowledge-detail panel-collapse' + collapsedPanel + '" id="' + id + '">',
-                        '<div class="knowledge-IQ">',
+                        '<div class="knowledge-iq">',
                             '&bull; Require: ',
                             '<span class="no-wrap">',
-                                '<span class="knowledge-progress-IQ">0</span> / ',
-                                knowledge.IQ.required + ' IQ',
+                                '<span class="knowledge-progress-iq">0</span> / ',
+                                knowledge.iq.required + ' IQ',
                             '</span>',
                         '</div>',
                         '<div class="knowledge-priority">',
@@ -201,11 +208,11 @@
 
         // Cache knowledge container
         var $container = $('#' + id);
-        knowledgeCache[knowledge.id] = {
+        cacheKnowledge[knowledge.id] = {
             // Main container
             container: $container,
             // Required IQ container
-            IQContainer: $container.find('.knowledge-progress-IQ'),
+            IQContainer: $container.find('.knowledge-progress-iq'),
             // Progress bar container
             barContainer: $container.siblings('.knowledge-progress').find('.progress-bar')
         };
@@ -216,20 +223,20 @@
      */
     Interface.trendingRemoved = function(knowledge) {
         // Remove completed knowledge from knowledge trending container
-        var Cached = Cache,
-            knowledgeCache = Cached.Knowledge[knowledge.id];
-        knowledgeCache.IQContainer.html(knowledge.IQ.required);
-        knowledgeCache.barContainer.width('100%');
-        knowledgeCache.container.closest('.knowledge').remove();
+        var cached = cache,
+            cacheKnowledge = cached.knowledge[knowledge.id];
+        cacheKnowledge.IQContainer.html(knowledge.iq.required);
+        cacheKnowledge.barContainer.width('100%');
+        cacheKnowledge.container.closest('.knowledge').remove();
 
         // Remove knowledge container cache
-        delete Cached.Knowledge[knowledge.id];
+        delete cached.knowledge[knowledge.id];
 
         // Add completed knowledge to knowledge history container
         var html = [
                 '<div class="knowledge">',
                     '<div class="knowledge-name">',
-                        (Cached.Statistic.year.value + 1) + ': ' + knowledge.name,
+                        (cached.statistic.year.value + 1) + ': ' + knowledge.name,
                     '</div>',
                     '<div class="knowledge-detail">',
                         '<div class="knowledge-description">',
@@ -238,70 +245,68 @@
                     '</div>',
                 '</div>'
             ].join('');
-        Cached.Knowledge.knowledgeHistory.container.prepend(html);
+        cached.knowledge.knowledgeHistory.container.prepend(html);
     };
 
     /**
-     * Update information (Statistic, Rules, Knowledge) every year
+     * Update information (statistic, rules, knowledge) every year
      */
     Interface.yearPassed = function() {
         var world = this,
-            Cached = Cache,
+            cached = cache,
 
-            Statistic = world.Statistic,
-            statisticCache = Cached.Statistic;
-        for (var propName in statisticCache) {
-            if (statisticCache.hasOwnProperty(propName)) {
+            worldStatistic = world.statistic,
+            cacheStatistic = cached.statistic;
+        for (var propName in cacheStatistic) {
+            if (cacheStatistic.hasOwnProperty(propName)) {
                 switch (propName) {
                     case 'avgIQ':
-                        var avgIQ = (Statistic.population == 0) ?
-                            0 : Math.round(Statistic.IQ / Statistic.population);
-                        Cached.set(statisticCache.avgIQ, avgIQ);
+                        var avgIQ = (worldStatistic.population == 0) ?
+                            0 : Math.round(worldStatistic.iq / worldStatistic.population);
+                        cached.set(cacheStatistic.avgIQ, avgIQ);
                         break;
                     case 'avgAge':
-                        var avgAge = (Statistic.die == 0) ?
-                            0 : Math.round(Statistic.sumAge / Statistic.die);
-                        Cached.set(statisticCache.avgAge, avgAge);
-                        break;
-                    case 'avgChildren':
-                        var avgChildren = (Statistic.dieMarriedFemale == 0) ?
-                            0 : Math.round(Statistic.sumChildren / Statistic.dieMarriedFemale);
-                        Cached.set(statisticCache.avgChildren, avgChildren);
+                        var avgAge = (worldStatistic.die == 0) ?
+                            0 : Math.round(worldStatistic.sumAge / worldStatistic.die);
+                        cached.set(cacheStatistic.avgAge, avgAge);
                         break;
                     default:
-                        Cached.set(statisticCache[propName], Statistic[propName]);
-                        if ($.inArray(propName, ['men', 'women', 'families', 'boys', 'girls']) != -1) {
-                            Cached.set(statisticCache[propName + '-ex'], Statistic[propName]);
+                        cached.set(cacheStatistic[propName], worldStatistic[propName]);
+                        if ($.inArray(propName, [
+                                'men', 'women', 'families', 'boys', 'girls'
+                            ]) != -1
+                        ) {
+                            cached.set(cacheStatistic[propName + '-ex'], worldStatistic[propName]);
                         }
                         break;
                 }
             }
         }
 
-        var Rules = world.Rules,
-            rulesCache = Cached.Rules;
-        Cached.set(rulesCache.deathChance, (Rules.Chance.death * 100).toFixed());
-        Cached.set(rulesCache.adultFoodChange, Rules.Food.adult);
-        Cached.set(rulesCache.childFoodChange, Rules.Food.child);
-        Cached.set(rulesCache.foodSpoilage, (Rules.FoodSpoilage.foodDecr * 100).toFixed());
-        Cached.set(rulesCache.foodResourceRecovery, (100 + Rules.Food.resourceIncr * 100).toFixed());
+        var worldRules = world.rules,
+            cacheRules = cached.rules;
+        cached.set(cacheRules.deathChance, (worldRules.chance.death * 100).toFixed());
+        cached.set(cacheRules.adultFoodChange, worldRules.food.adult);
+        cached.set(cacheRules.childFoodChange, worldRules.food.child);
+        cached.set(cacheRules.foodSpoilage, (worldRules.foodSpoilage.foodDecr * 100).toFixed());
+        cached.set(cacheRules.foodResourceRecovery, (100 + worldRules.food.resourceIncr * 100).toFixed());
 
-        var Knowledge = world.Knowledge;
-        for (var i = 0, len = Knowledge.trending.length; i < len; i++) {
-            var knowledge = Knowledge.list[Knowledge.trending[i]],
-                knowledgeCache = Cached.Knowledge[knowledge.id];
+        var worldKnowledge = world.knowledge;
+        for (var i = 0, len = worldKnowledge.trending.length; i < len; i++) {
+            var knowledge = worldKnowledge.list[worldKnowledge.trending[i]],
+                cacheKnowledge = cached.knowledge[knowledge.id];
 
-            knowledgeCache.IQContainer.html(knowledge.IQ.gained);
-            knowledgeCache.barContainer.width(Math.round(knowledge.IQ.gained / knowledge.IQ.required * 100) + '%');
+            cacheKnowledge.IQContainer.html(knowledge.iq.gained);
+            cacheKnowledge.barContainer.width(Math.round(knowledge.iq.gained / knowledge.iq.required * 100) + '%');
         }
 
-        var miscCache = Cached.Misc;
-        Cached.toggleLabel(miscCache.labelPopulationLimit, (Statistic.population >= Rules.Population.limit));
-        Cached.toggleLabel(miscCache.labelNotEnoughResource, (Statistic.foodResource < 75));
-        Cached.toggleLabel(miscCache.labelFamine, (Statistic.food <= Rules.Famine.unit));
+        var cacheMisc = cached.misc;
+        cached.toggleLabel(cacheMisc.labelPopulationLimit, (worldStatistic.population >= worldRules.population.limit));
+        cached.toggleLabel(cacheMisc.labelNotEnoughResource, (worldStatistic.foodResource < 75));
+        cached.toggleLabel(cacheMisc.labelFamine, (worldStatistic.food <= worldRules.famine.unit));
     };
 
-    // Basic UI: toggle statistic container
+    // Statistic container toggle
     $('.js-statistic-toggle').each(function() {
         $(this).click(function() {
             var $target = $('#world-statistic-container');
@@ -311,5 +316,92 @@
                 $target.removeClass('visible-lg');
             }
         });
+    });
+    // World history introduction carousel
+    var Language = WorldJS.Language;
+    $('#world-intro .item').each(function(index) {
+        var $this = $(this);
+        switch (index) {
+            case 0:
+                $this.find('blockquote').html(
+                    Language.introPhysicsQuote +
+                    '<small>' + Language.introPhysicsAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introPhysics01.replace(
+                    'Big Bang',
+                    '<span class="label label-danger">Big Bang</span>'
+                ));
+                $this.find('p:last').html(Language.introPhysics02.replace(
+                    'Physics',
+                    '<span class="label label-info">Physics</span>'
+                ));
+                break;
+            case 1:
+                $this.find('blockquote').html(
+                    Language.introChemistryQuote +
+                    '<small>' + Language.introChemistryAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introChemistry01);
+                $this.find('p:last').html(Language.introChemistry02.replace(
+                    'Chemistry',
+                    '<span class="label label-info">Chemistry</span>'
+                ));
+                break;
+            case 2:
+                $this.find('blockquote').html(
+                    Language.introBiologyQuote +
+                    '<small>' + Language.introBiologyAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introBiology01);
+                $this.find('p:last').html(Language.introBiology02.replace(
+                    'Biology',
+                    '<span class="label label-info">Biology</span>'
+                ));
+                break;
+            case 3:
+                $this.find('blockquote').html(
+                    Language.introHistoryQuote +
+                    '<small>' + Language.introHistoryAuthor + '</small>'
+                );
+                $this.find('p:first').html(Language.introHistory01.replace(
+                    'Homo sapiens',
+                    '<span class="label label-danger">Homo sapiens</span>'
+                ));
+                $this.find('p:last').html(Language.introHistory02.replace(
+                    'History',
+                    '<span class="label label-info">History</span>'
+                ));
+                break;
+            case 4:
+                $this.find('p:first').html(Language.introGame01.replace(
+                    'World JS',
+                    '<span class="label label-danger">World JS</span>'
+                ));
+                $this.find('p:first').next().html(Language.introGame02.replace(
+                    'the cognitive revolution',
+                    '<span class="label label-info">the cognitive revolution</span>'
+                ));
+                $this.find('p:last').html(Language.introGame03);
+                break;
+        }
+    });
+    $('#world-intro').removeClass('hide').on('slid.bs.carousel', function () {
+        var $carousel = $(this),
+            $content = $carousel.find('.content'),
+            $prev = $carousel.find('.prev'),
+            $next = $carousel.find('.next');
+
+        if ($content.find('.item:first').hasClass('active')) {
+            $prev.addClass('disabled');
+        } else {
+            $prev.removeClass('disabled');
+        }
+
+        if ($content.find('.item:last').hasClass('active')) {
+            $next.addClass('disabled');
+            $('.opacity').animate({ opacity: 1 }, 'fast');
+        } else {
+            $next.removeClass('disabled');
+        }
     });
 })(window);

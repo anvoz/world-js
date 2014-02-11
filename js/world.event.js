@@ -2,10 +2,9 @@
  * world.event.js
  * Register behaviors to take effect when an event occurs
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -30,7 +29,9 @@
             // Unused actions must be removed manually
             yearPassed: {
                 // action: handler
-            }
+            },
+            seedAdded: {},
+            seedRemoved: {}
         };
     };
 
@@ -58,14 +59,14 @@
      * world: the world that takes effects
      * event: event name
      */
-    Event.prototype.trigger = function(event) {
+    Event.prototype.trigger = function(event, data) {
         var worldEvent = this,
             world = worldEvent.world,
 
             actions = worldEvent.list[event];
         for (var actionName in actions) {
             if (actions.hasOwnProperty(actionName)) {
-                actions[actionName].call(world);
+                actions[actionName].call(world, data);
             }
         }
     };

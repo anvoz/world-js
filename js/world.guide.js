@@ -1,11 +1,10 @@
 /*!
  * world.guide.js
- * Display guide messages on the main screen in queued order
+ * Queue up messages that will be displayed on the main screen.
  *
- * World JS
  * https://github.com/anvoz/world-js
- * Copyright (c) 2013 An Vo - anvo4888@gmail.com
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * Copyright (c) 2013-2014 An Vo - anvo4888@gmail.com
+ * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function(window, undefined) {
@@ -54,15 +53,15 @@
             // Show first message in queue
             if (worldGuide.queue.length > 0) {
                 var item = worldGuide.queue[0],
-                    hiddenYear = world.Statistic.year + item.ytl;
+                    hiddenYear = world.statistic.year + item.ytl;
 
                 worldGuide.$container.html(item.message).animate({ bottom: 0 }, 400);
 
-                world.Event.add('yearPassed', 'guide', function() {
+                world.event.add('yearPassed', 'guide', function() {
                     var world = this;
-                    if (world.Statistic.year >= hiddenYear) {
-                        world.Guide.hide();
-                        world.Event.remove('yearPassed', 'guide');
+                    if (world.statistic.year >= hiddenYear) {
+                        world.guide.hide();
+                        world.event.remove('yearPassed', 'guide');
                     }
                 });
             }
