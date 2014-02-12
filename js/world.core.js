@@ -454,7 +454,9 @@
             world.fps = 1000 / (time - world.lastTickTime);
             world.lastTickTime = time;
 
-            requestAnimationFrame(world.run.bind(world));
+            // Don't know why bind() doesn't work with Grunt/PhantomJS/QUnit
+            // requestAnimationFrame(world.run.bind(world));
+            requestAnimationFrame(function() { world.run.call(world); });
         } else {
             // Trigger once
             world.stopCallback.call(world);
