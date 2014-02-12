@@ -1,0 +1,8 @@
+{
+    "name": "world-js",
+    "version": "3.0.0",
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-qunit": "~0.4.0"
+    }
+}
