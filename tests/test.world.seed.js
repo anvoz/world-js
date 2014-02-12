@@ -91,7 +91,7 @@ test('seed.move', function() {
         x: pos - speed, y: pos - speed, moveTo: {x: padding, y: padding}
     }, 'Seed moved');
     deepEqual(seed.ageToMoveAgain, 0, 'Age to move again');
-    ok(seed.moveUntilStep > 10, 'New moveUntilStep value')
+    ok(seed.moveUntilStep > 10, 'New moveUntilStep value');
 });
 
 test('seed.seek', function() {

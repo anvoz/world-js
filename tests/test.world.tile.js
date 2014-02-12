@@ -116,10 +116,10 @@ test('tile.set & tile.rem', function() {
     );
 
     // Add the third seed again
-    var tileArrayIndex = tile.availableArrayIndexes[seed3.tileIndex][0];
+    var tileArrayIndex3 = tile.availableArrayIndexes[seed3.tileIndex][0];
     tile.set(seed3);
     deepEqual(
-        tile.list[seed3.tileIndex][tileArrayIndex],
+        tile.list[seed3.tileIndex][tileArrayIndex3],
         seed3,
         'seed3 was added to tile.list again'
     );
@@ -150,7 +150,8 @@ asyncTest('tile.set & tile.rem with world.run', function() {
 
         // Check seed's moving path
         for (var i = 0; i < x2; i += world.speed * 3) {
-            var dx = dy = i,
+            var dx = i,
+                dy = i,
                 tileIndex = world.tile.getIndex({x: dx, y: dy});
             deepEqual(
                 world.tile.list[tileIndex][0],

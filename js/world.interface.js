@@ -98,8 +98,8 @@
      * HTML for knowledge priority buttons group
      */
     Interface.knowledgePriorityHTML = function(knowledge, isClone) {
-        var isClone = isClone || false,
-            priorityList = [
+        isClone = isClone || false;
+        var priorityList = [
                 { name: 'low', value: 0.1 },
                 { name: 'normal', value: 1 },
                 { name: 'high', value: 2 }
@@ -261,12 +261,12 @@
             if (cacheStatistic.hasOwnProperty(propName)) {
                 switch (propName) {
                     case 'avgIQ':
-                        var avgIQ = (worldStatistic.population == 0) ?
+                        var avgIQ = (worldStatistic.population === 0) ?
                             0 : Math.round(worldStatistic.iq / worldStatistic.population);
                         cached.set(cacheStatistic.avgIQ, avgIQ);
                         break;
                     case 'avgAge':
-                        var avgAge = (worldStatistic.die == 0) ?
+                        var avgAge = (worldStatistic.die === 0) ?
                             0 : Math.round(worldStatistic.sumAge / worldStatistic.die);
                         cached.set(cacheStatistic.avgAge, avgAge);
                         break;
@@ -381,7 +381,10 @@
                     'the cognitive revolution',
                     '<span class="label label-info">the cognitive revolution</span>'
                 ));
-                $this.find('p:last').html(Language.introGame03);
+                $this.find('p:last').html(Language.introGame03.replace(
+                    'anvo4888@gmail.com',
+                    '<a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>'
+                ));
                 break;
         }
     });

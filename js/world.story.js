@@ -229,8 +229,9 @@
                             newKnowledge = worldKnowledge.list[knowledgeId];
 
                         // Add new knowledge when the population reached its limit
-                        if (world.statistic.population >= listKnowledge[i].population
-                                && !newKnowledge.added) {
+                        if (world.statistic.population >= listKnowledge[i].population &&
+                            ! newKnowledge.added
+                        ) {
                             newKnowledge.added = true;
                             worldKnowledge.trending.push(knowledgeId);
                             Interface.trendingAdded(newKnowledge);
@@ -265,9 +266,10 @@
 
                     // Add coming soon message
                     if (worldKnowledge.completed.length == 8) {
-                        if (worldKnowledge.trending.length == 0) {
-                            worldKnowledge.trending.push('coso');
-                            Interface.trendingAdded(worldKnowledge.list['coso']);
+                        if (worldKnowledge.trending.length === 0) {
+                            var comingSoonId = 'coso';
+                            worldKnowledge.trending.push(comingSoonId);
+                            Interface.trendingAdded(worldKnowledge.list[comingSoonId]);
                         }
                     }
 
@@ -275,7 +277,7 @@
                         world.guide.show(Language.storyEnd01, 250);
                     }
 
-                    if (worldStatistic.population == 0) {
+                    if (worldStatistic.population === 0) {
                         $('#world-pause-btn').prop('disabled', 'disabled');
                         world.stop();
 

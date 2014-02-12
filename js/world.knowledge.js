@@ -130,7 +130,10 @@
             year = world.statistic.year,
             totalIQ = world.statistic.iq,
             distributedIQList = [],
-            totalDistributedUnit = 0;
+            totalDistributedUnit = 0,
+
+            knowledge = false,
+            i = 0, len = 0;
 
         /*
          * Create distributed IQ list.
@@ -139,10 +142,10 @@
          * Distributing to a fake knowledge is represented
          * as wasted IQ every year.
          */
-        for (var i = 0, len = worldKnowledge.trending.length; i <= len; i++) {
+        for (i = 0, len = worldKnowledge.trending.length; i <= len; i++) {
             distributedIQList[i] = world.random(0, 100);
             if (i < len) {
-                var knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
+                knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
                 if (knowledge.iq.priority != 1) {
                     distributedIQList[i] *= knowledge.iq.priority;
                 }
@@ -155,9 +158,9 @@
             tmpTrending = [],
             tmpFollowing = [],
             tmpCompleted = [];
-        for (var i = 0, len = worldKnowledge.trending.length; i < len; i++) {
-            var knowledge = worldKnowledge.list[worldKnowledge.trending[i]],
-                distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
+        for (i = 0, len = worldKnowledge.trending.length; i < len; i++) {
+            knowledge = worldKnowledge.list[worldKnowledge.trending[i]];
+            var distributedIQ = totalIQ * distributedIQList[i] / totalDistributedUnit,
                 gainedIQ = knowledge.iq.gained;
 
             // Prevent to gain too much IQ a year
@@ -191,13 +194,13 @@
 
         if (tmpCompleted.length > 0) {
             // Move completed trending knowledge to completed knowledge list
-            for (var i = 0; i < tmpCompleted.length; i++) {
+            for (i = 0; i < tmpCompleted.length; i++) {
                 worldKnowledge.trendingRemoved(tmpCompleted[i]);
                 worldKnowledge.completed.push(tmpCompleted[i]);
             }
 
             // Add new knowledge to trending
-            for (var i = 0; i < tmpFollowing.length; i++) {
+            for (i = 0; i < tmpFollowing.length; i++) {
                 worldKnowledge.trendingAdded(worldKnowledge.list[tmpFollowing[i]]);
                 tmpTrending.push(tmpFollowing[i]);
             }

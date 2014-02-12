@@ -162,10 +162,10 @@
         if ( ! beforeMoveCallback) {
             // Read the comment on seed's constructor for more info
             if (seed.stepCount >= seed.moveUntilStep) {
-                if (seed.ageToMoveAgain == 0 ||
+                if (seed.ageToMoveAgain === 0 ||
                     seed.ageToMoveAgain > seed.age
                 ) {
-                    if (seed.ageToMoveAgain == 0) {
+                    if (seed.ageToMoveAgain === 0) {
                         // Don't move much when getting old
                         seed.ageToMoveAgain = seed.age + random(2, seed.age);
                         seed.carrying = false;
