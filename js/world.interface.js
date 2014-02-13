@@ -325,7 +325,7 @@
             case 0:
                 $this.find('blockquote').html(
                     Language.introPhysicsQuote +
-                    '<small>' + Language.introPhysicsAuthor + '</small>'
+                    '<footer>' + Language.introPhysicsAuthor + '</footer>'
                 );
                 $this.find('p:first').html(Language.introPhysics01.replace(
                     'Big Bang',
@@ -339,7 +339,7 @@
             case 1:
                 $this.find('blockquote').html(
                     Language.introChemistryQuote +
-                    '<small>' + Language.introChemistryAuthor + '</small>'
+                    '<footer>' + Language.introChemistryAuthor + '</footer>'
                 );
                 $this.find('p:first').html(Language.introChemistry01);
                 $this.find('p:last').html(Language.introChemistry02.replace(
@@ -350,7 +350,7 @@
             case 2:
                 $this.find('blockquote').html(
                     Language.introBiologyQuote +
-                    '<small>' + Language.introBiologyAuthor + '</small>'
+                    '<footer>' + Language.introBiologyAuthor + '</footer>'
                 );
                 $this.find('p:first').html(Language.introBiology01);
                 $this.find('p:last').html(Language.introBiology02.replace(
@@ -361,7 +361,7 @@
             case 3:
                 $this.find('blockquote').html(
                     Language.introHistoryQuote +
-                    '<small>' + Language.introHistoryAuthor + '</small>'
+                    '<footer>' + Language.introHistoryAuthor + '</footer>'
                 );
                 $this.find('p:first').html(Language.introHistory01.replace(
                     'Homo sapiens',

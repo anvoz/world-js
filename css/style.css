@@ -118,6 +118,12 @@
     left: 0;
     padding: 10px 25px;
 }
+#world-intro blockquote {
+    font-size: 14px;
+}
+#world-intro blockquote footer {
+    font-size: 85%;
+}
 #world-intro .content {
     height: 160px;
 }
