@@ -1,4 +1,4 @@
-World JS: History Simulation
+World JS: History Simulation [![Build Status](https://travis-ci.org/anvoz/world-js.png)](https://travis-ci.org/anvoz/world-js)
 ========
 
 `World JS` is an attempt to show you a brief history of humankind via a simulation game.
