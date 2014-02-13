@@ -166,15 +166,8 @@ module.exports = function (grunt) {
         }
     });
 
-    // Load plugins
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-csslint');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-html-validation');
+    // These plugins provide necessary tasks
+    require('load-grunt-tasks')(grunt);
 
     // HTML validation task
     grunt.registerTask('validate-html', ['validation']);
