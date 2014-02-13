@@ -1,9 +1,29 @@
 {
     "name": "world-js",
     "version": "3.0.0",
+    "homepage": "https://github.com/anvoz/world-js",
+    "author": {
+        "name": "An Vo",
+        "email": "anvo4888@gmail.com"
+    },
+    "license": {
+        "mit": {
+            "name": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        },
+        "cc": {
+            "name": "Creative Commons",
+            "url": "http://creativecommons.org/licenses/by-nc/4.0/deed.en_US"
+        }
+    },
     "devDependencies": {
         "grunt": "~0.4.2",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-csslint": "~0.2.0",
+        "grunt-contrib-cssmin": "~0.7.0",
         "grunt-contrib-jshint": "~0.8.0",
-        "grunt-contrib-qunit": "~0.4.0"
+        "grunt-contrib-qunit": "~0.4.0",
+        "grunt-contrib-uglify": "~0.3.2"
     }
 }
