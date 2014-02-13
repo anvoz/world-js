@@ -95,7 +95,7 @@
                     chance = getChance.call(seed, type);
 
                 if (typeof worldRules.chance[type] !== 'undefined' &&
-                    worldRules.chance[type] != 0
+                    worldRules.chance[type] !== 0
                 ) {
                     // Modify chance based on rule of the world
                     chance += chance * worldRules.chance[type];

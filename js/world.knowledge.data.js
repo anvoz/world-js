@@ -71,7 +71,7 @@
                 world.event.add('yearPassed', 'burningForests', function() {
                     var world = this,
                         year = world.statistic.year,
-                        affectedYear = world.knowledge.list['fire'].affectedYear;
+                        affectedYear = world.knowledge.list.fire.affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
                         world.rules.food.resourceIncr -= 0.1;
@@ -113,7 +113,7 @@
                 world.event.add('yearPassed', 'largeAnimalsDisappearing', function() {
                     var world = this,
                         year = world.statistic.year,
-                        affectedYear = world.knowledge.list['hula'].affectedYear;
+                        affectedYear = world.knowledge.list.hula.affectedYear;
                     if (year % 100 == affectedYear % 100 &&
                             year > affectedYear) {
                         world.rules.food.resourceIncr -= 0.1;
@@ -142,7 +142,7 @@
                 world.event.add('yearPassed', 'foodResourceRecovering', function() {
                     var world = this,
                         year = world.statistic.year,
-                        affectedYear = world.knowledge.list['noma'].affectedYear;
+                        affectedYear = world.knowledge.list.noma.affectedYear;
                     if (year % 10 == affectedYear % 10 &&
                             year > affectedYear) {
                         var worldRules = world.rules,

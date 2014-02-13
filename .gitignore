@@ -1,0 +1,6 @@
+# Folders to ignore
+node_modules
+
+# grunt-html-validation
+validation-status.json
+validation-report.json

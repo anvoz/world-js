@@ -111,4 +111,4 @@ test('male.tick', function() {
     male.tickCount += world.speed;
     male.tick(world.speed);
     deepEqual(female3.relationSeed, false, '9th: He dies - His wife is single again');
-})
+});

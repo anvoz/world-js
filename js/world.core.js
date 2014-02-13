@@ -23,7 +23,7 @@
                 window.msRequestAnimationFrame     ||
                 function(callback, element) {
                     window.setTimeout(function() {
-                        callback(+new Date);
+                        callback(+new Date());
                     }, 1000 / 60);
                 }
             );
@@ -176,8 +176,8 @@
      * return seed
      */
     WorldJS.prototype.addSeed = function(Seed, data) {
+        data = data || {};
         var world = this,
-            data = data || {},
             seed = new Seed(data);
 
         world.totalSeeds++;
@@ -254,8 +254,8 @@
      * return {x, y}
      */
     WorldJS.prototype.getRandomPosition = function(seed, forced) {
+        forced = forced || false;
         var world = this,
-            forced = forced || false,
 
             x = (seed.x === false || forced) ?
                 world.random(
@@ -306,8 +306,8 @@
      *  fromBorder: determine which border seeds will appear
      */
     WorldJS.prototype.addSeeds = function(count, data) {
+        data = data || {};
         var world = this,
-            data = data || {},
 
             types = (typeof data.types !== 'undefined') ?
                 data.types : [world.Seed],
@@ -454,7 +454,9 @@
             world.fps = 1000 / (time - world.lastTickTime);
             world.lastTickTime = time;
 
-            requestAnimationFrame(world.run.bind(world));
+            // Don't know why bind() doesn't work with Grunt/PhantomJS/QUnit
+            // requestAnimationFrame(world.run.bind(world));
+            requestAnimationFrame(function() { world.run.call(world); });
         } else {
             // Trigger once
             world.stopCallback.call(world);

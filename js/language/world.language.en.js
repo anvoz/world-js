@@ -8,7 +8,7 @@
  */
 
 (function(window, undefined) {
-    'use strict';
+    "use strict";
 
     var WorldJS = window.WorldJS,
         Language = WorldJS.Language = {
@@ -53,7 +53,7 @@
             introGame02:
 "The game currently shows you history from about 250,000 to 10,000 years ago. It's still developing and I really need more contributors. Javascript developers, artists, writers and history lovers, please join this project.",
             introGame03:
-'For any feedback or ideas, please email me at <a href="mailto: anvo4888@gmail.com">anvo4888@gmail.com</a>.',
+"For any feedback or ideas, please email me at anvo4888@gmail.com.",
 
             storyBegin01:
 "About 250,000 years ago, our ancestors begin their lives in East Africa.<br>\

@@ -107,4 +107,4 @@ test('female.tick', function() {
     female.tick(world.speed);
     deepEqual(male2.relationSeed, false, '9th: She dies - Her husband is single again');
     deepEqual(world.totalSeeds, 4, 'Her husband and 3 children still live in the world');
-})
+});
