@@ -148,6 +148,21 @@ module.exports = function (grunt) {
                 src: '<%= concat.wjs_hs.dest %>',
                 dest: 'dist/js/world.history.min.js'
             }
+        },
+        validation: {
+            options: {
+                charset: 'utf-8',
+                doctype: 'HTML5',
+                failHard: true,
+                reset: true,
+                relaxerror: [
+                    'Attribute autocomplete not allowed on element button at this point.',
+                    'Bad value X-UA-Compatible for attribute http-equiv on element meta.'
+                ]
+            },
+            files: {
+                src: '*.html'
+            }
         }
     });
 
@@ -159,9 +174,13 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-html-validation');
+
+    // HTML validation task
+    grunt.registerTask('validate-html', ['validation']);
 
     // Test task
-    grunt.registerTask('test', ['jshint', 'qunit', 'csslint']);
+    grunt.registerTask('test', ['jshint', 'qunit', 'csslint', 'validate-html']);
 
     // JS distribution task
     grunt.registerTask('dist-js', ['concat', 'uglify']);
