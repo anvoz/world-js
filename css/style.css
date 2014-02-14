@@ -45,6 +45,9 @@
 .no-wrap {
     white-space: nowrap;
 }
+.panel-group {
+    margin-bottom: 0;
+}
 
 #world-pause-btn {
     width: 60px;
