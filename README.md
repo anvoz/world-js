@@ -56,8 +56,8 @@ world.start();
 world.addSeed(world.Female, {age: 25});
 ```
 
-### License
+## License
 
 Copyright An Vo [@an_voz](https://twitter.com/an_voz), 2013-2014.
 
-Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php) and [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.en_US).
+Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php) (code) and [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.en_US) (knowledge data and language files).
