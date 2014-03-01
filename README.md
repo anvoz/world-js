@@ -1,4 +1,4 @@
-World JS: History Simulation [![Build Status](https://travis-ci.org/anvoz/world-js.png)](https://travis-ci.org/anvoz/world-js)
+World JS: History Simulation [![Build Status](https://travis-ci.org/anvoz/world-js.png?branch=master)](https://travis-ci.org/anvoz/world-js)
 ========
 
 `World JS` is an attempt to show you a brief history of humankind via a simulation game.
@@ -12,6 +12,7 @@ This project was inspired from what I have learned from [A Brief History of Huma
 ### Getting Started
 Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki) before you do anything else.
 
+* [Public board on Trello](https://trello.com/b/cHyMmAaA/world-js)
 * [Code conventions](https://github.com/anvoz/world-js/wiki/Code-Conventions)
 * [Change log](https://github.com/anvoz/world-js/wiki/Change-Log)
 * [Benchmark](https://github.com/anvoz/world-js/wiki/Benchmark)
@@ -54,3 +55,9 @@ world.start();
 // Add another woman to the world
 world.addSeed(world.Female, {age: 25});
 ```
+
+### License
+
+Copyright An Vo [@an_voz](https://twitter.com/an_voz), 2013-2014.
+
+Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php) and [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.en_US).
