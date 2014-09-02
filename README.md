@@ -12,7 +12,6 @@ This project was inspired from what I have learned from [A Brief History of Huma
 ### Getting Started
 Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki) before you do anything else.
 
-* [Public board on Trello](https://trello.com/b/cHyMmAaA/world-js)
 * [Code conventions](https://github.com/anvoz/world-js/wiki/Code-Conventions)
 * [Change log](https://github.com/anvoz/world-js/wiki/Change-Log)
 * [Benchmark](https://github.com/anvoz/world-js/wiki/Benchmark)
@@ -60,4 +59,4 @@ world.addSeed(world.Female, {age: 25});
 
 Copyright An Vo [@an_voz](https://twitter.com/an_voz), 2013-2014.
 
-Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php) (code) and [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.en_US) (knowledge data and language files).
+Licensed under [MIT](http://www.opensource.org/licenses/mit-license.php).

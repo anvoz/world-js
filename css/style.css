@@ -7,267 +7,267 @@
  */
 
 .ribbon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
 }
 .opacity {
-    opacity: 0.10;
-    filter: alpha(opacity=10);
+  opacity: 0.10;
+  filter: alpha(opacity=10);
 }
 .footer {
-    color: #999;
-    border-top: 1px solid #ccc;
-    margin-top: 20px;
-    padding: 20px 0;
+  color: #999;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding: 20px 0;
 }
 
 @media (max-width:767px) {
-    .container {
-        min-width: 735px;
-    }
+  .container {
+    min-width: 735px;
+  }
 }
 .top-padding {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 .border-side {
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 .ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;  /* IE 6+, FF 7+, Op 11+, Saf 1.3+, Chr 1+ */
-    -o-text-overflow: ellipsis;  /* for Opera 9 & 10 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  /* IE 6+, FF 7+, Op 11+, Saf 1.3+, Chr 1+ */
+  -o-text-overflow: ellipsis;  /* for Opera 9 & 10 */
 }
 .no-wrap {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 .panel-group {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #world-pause-btn {
-    width: 60px;
+  width: 60px;
 }
 #world-container {
-    position: relative;
-    border: 1px solid #ccc;
-    overflow: hidden;
+  position: relative;
+  border: 1px solid #ccc;
+  overflow: hidden;
 }
 #world-container .guide {
-    position: absolute;
-    width: 640px;
-    left: 0;
-    bottom: -60px;
-    padding: 10px;
-    text-align: center;
-    background-color: #fff;
-    opacity: 0.90;
-    filter: alpha(opacity=90);
+  position: absolute;
+  width: 640px;
+  left: 0;
+  bottom: -60px;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  opacity: 0.90;
+  filter: alpha(opacity=90);
 }
 #world-container .guide hr {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 #world {
-    width: 640px;
-    height: 360px;
+  width: 640px;
+  height: 360px;
 }
 @media (min-width:992px) {
-    #world-knowledgeTrending,
-    #world-knowledgeHistory {
-        height: 400px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+  #world-knowledgeTrending,
+  #world-knowledgeHistory {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 @media (max-width:1199px) {
-    #world-statistic-container {
-        position: absolute;
-        padding-top: 10px;
-        top: 50px;
-        left: 0;
-        z-index: 900;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        background-clip: padding-box;
-        min-width: 195px;
-        height: 423px;
-        overflow-y: auto;
-    }
-    .js-statistic-toggle.hide {
-        display: block !important;
-    }
+  #world-statistic-container {
+    position: absolute;
+    padding-top: 10px;
+    top: 50px;
+    left: 0;
+    z-index: 900;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    background-clip: padding-box;
+    min-width: 195px;
+    height: 423px;
+    overflow-y: auto;
+  }
+  .js-statistic-toggle.hide {
+    display: block !important;
+  }
 }
 .statistic-container {
-    font-size: 12px;
-    line-height: 1.7;
-    padding-top: 10px;
+  font-size: 12px;
+  line-height: 1.7;
+  padding-top: 10px;
 }
 .statistic-container .statistic-group + .statistic-group {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 .statistic-group > div {
-    height: 22px;
+  height: 22px;
 }
 
 #world-intro {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    padding: 10px 25px;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 10px 25px;
 }
 #world-intro blockquote {
-    font-size: 14px;
+  font-size: 14px;
 }
 #world-intro blockquote footer {
-    font-size: 85%;
+  font-size: 85%;
 }
 #world-intro .content {
-    height: 160px;
+  height: 160px;
 }
 #world-intro .carousel-indicators {
-    bottom: 65px;
+  bottom: 65px;
 }
 #world-intro .carousel-indicators li {
-    border: 1px solid #5bc0de;
+  border: 1px solid #5bc0de;
 }
 #world-intro .carousel-indicators .active {
-    background-color: #5bc0de;
+  background-color: #5bc0de;
 }
 #world-intro .start {
-    text-align: center;
-    padding-top: 13px;
+  text-align: center;
+  padding-top: 13px;
 }
 
 #world-year-container {
-    display: inline-block;
-    width: 100px;
+  display: inline-block;
+  width: 100px;
 }
 
 .knowledge {
-    margin: 5px 0;
-    border-radius: 0;
-    border: 0;
-    box-shadow: none;
+  margin: 5px 0;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
 }
 .knowledge-name {
-    font-weight: bold;
-    color: #000;
-    display: block;
-    margin-bottom: 5px;
+  font-weight: bold;
+  color: #000;
+  display: block;
+  margin-bottom: 5px;
 }
 .knowledge-name:hover,
 .knowledge-name:focus {
-    color: #000;
-    text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
 .knowledge-name .caret {
-    display: none;
+  display: none;
 }
 .knowledge-name.collapsed .caret {
-    display: inline-block;
+  display: inline-block;
 }
 .knowledge-progress {
-    height: 5px;
-    margin-bottom: 5px;
+  height: 5px;
+  margin-bottom: 5px;
 }
 .knowledge-detail {
-    font-size: 12px;
-    line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.7;
 }
 .knowledge-description {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 .knowledge-description p {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 .knowledge-trending {
-    margin: 0 auto;
-    text-align: center;
+  margin: 0 auto;
+  text-align: center;
 }
 .knowledge-trending .knowledge-clone {
-    display: inline-block;
-    width: 300px;
+  display: inline-block;
+  width: 300px;
 }
 .knowledge-trending .knowledge-priority {
-    font-size: 12px;
-    line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 [class^="wicon-"],
 [class*=" wicon-"] {
-    display: inline-block;
-    *margin-right: .3em;
-    line-height: 14px;
-    vertical-align: middle;
-    background-image: url("../images/icons.png");
-    background-repeat: no-repeat;
-    margin-top: 1px;
+  display: inline-block;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: middle;
+  background-image: url("../images/icons.png");
+  background-repeat: no-repeat;
+  margin-top: 1px;
 }
 .wicon-men {
-    background-position: 0 0;
-    width: 13px;
-    height: 20px;
+  background-position: 0 0;
+  width: 13px;
+  height: 20px;
 }
 .wicon-women {
-    background-position: -13px 0;
-    width: 13px;
-    height: 20px;
+  background-position: -13px 0;
+  width: 13px;
+  height: 20px;
 }
 .wicon-boy {
-    background-position: -26px 0;
-    width: 11px;
-    height: 10px;
+  background-position: -26px 0;
+  width: 11px;
+  height: 10px;
 }
 .wicon-girl {
-    background-position: -26px -10px;
-    width: 11px;
-    height: 10px;
+  background-position: -26px -10px;
+  width: 11px;
+  height: 10px;
 }
 .family {
-    position: relative;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    vertical-align: middle;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .family .wicon-men {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .family .wicon-women {
-    position: absolute;
-    top: 0;
-    left: 5px;
+  position: absolute;
+  top: 0;
+  left: 5px;
 }
 .badges-vgroup .badge .icon-bar {
-    background-color: #fff;
-    border-radius: 1px 1px 1px 1px;
-    display: block;
-    margin: 3px 0;
-    height: 2px;
-    width: 20px;
+  background-color: #fff;
+  border-radius: 1px 1px 1px 1px;
+  display: block;
+  margin: 3px 0;
+  height: 2px;
+  width: 20px;
 }
 
 .badges-vgroup {
-    text-align: center;
-    width: 55px;
+  text-align: center;
+  width: 55px;
 }
 .badges-vgroup > div {
-    padding: 5px 0;
-    border-top: 1px solid #ccc;
+  padding: 5px 0;
+  border-top: 1px solid #ccc;
 }
 .badges-vgroup .badge {
-    vertical-align: top;
+  vertical-align: top;
 }
 .badge .badge-num {
-    max-width: 30px;
-    min-width: 20px;
-    padding: 3px 0;
+  max-width: 30px;
+  min-width: 20px;
+  padding: 3px 0;
 }

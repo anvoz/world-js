@@ -8,66 +8,62 @@
  */
 
 (function(window, undefined) {
-    'use strict';
+  'use strict';
 
-    var WorldJS = window.WorldJS,
-        Event;
 
-    /**
-     * Event constructor
-     * Initialize events list for a world
-     */
-    Event = WorldJS.Event = function(world) {
-        var worldEvent = this;
+  var WorldJS = window.WorldJS;
+  var Event;
 
-        // Store reference of a world
-        worldEvent.world = world;
 
-        // All of the available events must be declared here
-        worldEvent.list = {
-            // One event can have many actions that are registered by action names
-            // Unused actions must be removed manually
-            yearPassed: {
-                // action: handler
-            },
-            seedAdded: {},
-            seedRemoved: {}
-        };
+  // Event constructor
+  // Initialize events list for a world
+  Event = WorldJS.Event = function(world) {
+    var worldEvent = this;
+
+    // Store reference of a world
+    worldEvent.world = world;
+
+    // All of the available events must be declared here
+    worldEvent.list = {
+      // One event can have many actions that are registered by action names
+      // Unused actions must be removed manually
+      yearPassed:   { /* action: handler */ },
+      seedAdded:    {},
+      seedRemoved:  {}
     };
+  };
 
-    /**
-     * Add a handler function to an event
-     * event: event name
-     * action: action name
-     * handler: handler function
-     */
-    Event.prototype.add = function(event, action, handler) {
-        this.list[event][action] = handler;
-    };
 
-    /**
-     * Remove a handler function from an event
-     * event: event name
-     * action: action name
-     */
-    Event.prototype.remove = function(event, action) {
-        delete this.list[event][action];
-    };
+  // Add a handler function to an event
+  // event:   event name
+  // action:  action name
+  // handler: handler function
+  Event.prototype.add = function(event, action, handler) {
+    this.list[event][action] = handler;
+  };
 
-    /**
-     * Trigger an event
-     * world: the world that takes effects
-     * event: event name
-     */
-    Event.prototype.trigger = function(event, data) {
-        var worldEvent = this,
-            world = worldEvent.world,
 
-            actions = worldEvent.list[event];
-        for (var actionName in actions) {
-            if (actions.hasOwnProperty(actionName)) {
-                actions[actionName].call(world, data);
-            }
-        }
-    };
+  // Remove a handler function from an event
+  // event:   event name
+  // action:  action name
+  Event.prototype.remove = function(event, action) {
+    delete this.list[event][action];
+  };
+
+
+  // Trigger an event
+  // world: the world that takes effects
+  // event: event name
+  Event.prototype.trigger = function(event, data) {
+    var worldEvent  = this;
+    var world       = worldEvent.world;
+    var actions     = worldEvent.list[event];
+
+    for (var actionName in actions) {
+      if (actions.hasOwnProperty(actionName)) {
+        actions[actionName].call(world, data);
+      }
+    }
+  };
+
 })(window);

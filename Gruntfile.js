@@ -7,183 +7,196 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-module.exports = function (grunt) {
-    'use strict';
 
-    // Force use of Unix newlines
-    grunt.util.linefeed = '\n';
+module.exports = function(grunt) {
+  'use strict';
 
-    // Project configuration
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        banner: {
-            wjs: '/*!\n' +
-                ' * World JS\n' +
-                ' * Version <%= pkg.version %>\n' +
-                ' *\n' +
-                ' * <%= pkg.homepage %>\n' +
-                ' * Copyright (c) 2013-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.author.email %>\n' +
-                ' * Licensed under <%= pkg.license.mit.name %> (<%= pkg.license.mit.url %>)\n' +
-                ' */\n',
-            wjs_hs: '/*!\n' +
-                ' * World JS: History Simulation\n' +
-                ' * Version <%= pkg.version %>\n' +
-                ' *\n' +
-                ' * <%= pkg.homepage %>\n' +
-                ' * Copyright (c) 2013-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.author.email %>\n' +
-                ' * Code released under <%= pkg.license.mit.name %> (<%= pkg.license.mit.url %>)\n' +
-                ' * Knowledge data and language released under <%= pkg.license.cc.name %> (<%= pkg.license.cc.url %>)\n' +
-                ' */\n'
-        },
 
-        // Task configuration
-        clean: {
-            dist: 'dist'
-        },
-        concat: {
-            options: {
-                separator: '\n\n'
-            },
+  // Force use of Unix newlines
+  grunt.util.linefeed = '\n';
 
-            // World JS
-            wjs: {
-                src: [
-                    'js/world.core.js',
-                    'js/world.tile.js',
-                    'js/world.event.js',
-                    'js/world.seed.js',
-                    'js/world.male.js',
-                    'js/world.female.js'
-                ],
-                dest: 'dist/js/world.js'
-            },
-            // World JS: History Simulation
-            wjs_hs: {
-                src: [
-                    'dist/js/world.js',
-                    'js/world.statistic.js',
-                    'js/world.rules.js',
-                    'js/world.knowledge.js',
-                    'js/language/world.language.en.js',
-                    'js/world.knowledge.data.js',
-                    'js/world.guide.js',
-                    'js/world.interface.js',
-                    'js/world.story.js'
-                ],
-                dest: 'dist/js/world.history.js'
-            }
-        },
-        csslint: {
-            options: {
-                'adjoining-classes': false,
-                'box-model': false,
-                ids: false,
-                important: false,
-                'regex-selectors': false,
-                'star-property-hack': false,
-                'unqualified-attributes': false
-            },
-            src: 'css/style.css'
-        },
-        cssmin: {
-            compress: {
-                options: {
-                    banner: '<%= banner.wjs_hs %>',
-                    keepSpecialComments: 0,
-                    report: 'min'
-                },
-                src: 'css/style.css',
-                dest: 'dist/css/style.min.css'
-            }
-        },
-        jshint: {
-            options: {
-                expr: true,
-                loopfunc: true,
-                quotmark: 'single'
-            },
 
-            // Files
-            grunt: {
-                src: 'Gruntfile.js'
-            },
-            language: {
-                options: {
-                    // Suppress warning about bad escaping of EOL
-                    '-W043': true,
-                    quotmark: 'double'
-                },
-                files: {
-                    src: 'js/language/*.js'
-                }
-            },
-            src: {
-                src: 'js/*.js'
-            },
-            test: {
-                src: 'tests/*.js'
-            },
-        },
-        qunit: {
-            files: 'tests.html'
-        },
-        uglify: {
-            options: {
-                report: 'min'
-            },
+  // Project configuration
+  // ======================
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    banner: {
+      wjs: '/*!\n' +
+        ' * World JS\n' +
+        ' * Version <%= pkg.version %>\n' +
+        ' *\n' +
+        ' * <%= pkg.homepage %>\n' +
+        ' * Copyright (c) 2013-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.author.email %>\n' +
+        ' * Licensed under <%= pkg.license.mit.name %> (<%= pkg.license.mit.url %>)\n' +
+        ' */\n',
+      wjs_hs: '/*!\n' +
+        ' * World JS: History Simulation\n' +
+        ' * Version <%= pkg.version %>\n' +
+        ' *\n' +
+        ' * <%= pkg.homepage %>\n' +
+        ' * Copyright (c) 2013-<%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.author.email %>\n' +
+        ' * Licensed under <%= pkg.license.mit.name %> (<%= pkg.license.mit.url %>)\n' +
+        ' */\n'
+    },
 
-            // World JS
-            wjs: {
-                options: {
-                    banner: '<%= banner.wjs %>'
-                },
-                src: '<%= concat.wjs.dest %>',
-                dest: 'dist/js/world.min.js'
-            },
-            // World JS: History Simulation
-            wjs_hs: {
-                options: {
-                    banner: '<%= banner.wjs_hs %>'
-                },
-                src: '<%= concat.wjs_hs.dest %>',
-                dest: 'dist/js/world.history.min.js'
-            }
+
+    // Task configuration
+    // ======================
+
+    clean: {
+      dist: 'dist'
+    },
+
+    concat: {
+      options: {
+        separator: '\n\n'
+      },
+
+      // World JS
+      wjs: {
+        src: [
+          'js/world.core.js',
+          'js/world.tile.js',
+          'js/world.event.js',
+          'js/world.seed.js',
+          'js/world.male.js',
+          'js/world.female.js'
+        ],
+        dest: 'dist/js/world.js'
+      },
+      // World JS: History Simulation
+      wjs_hs: {
+        src: [
+          'dist/js/world.js',
+          'js/world.statistic.js',
+          'js/world.rules.js',
+          'js/world.knowledge.js',
+          'js/language/world.language.en.js',
+          'js/world.knowledge.data.js',
+          'js/world.guide.js',
+          'js/world.interface.js',
+          'js/world.story.js'
+        ],
+        dest: 'dist/js/world.history.js'
+      }
+    },
+
+    csslint: {
+      options: {
+        'adjoining-classes':      false,
+        'box-model':              false,
+        ids:                      false,
+        important:                false,
+        'regex-selectors':        false,
+        'star-property-hack':     false,
+        'unqualified-attributes': false
+      },
+      src: 'css/style.css'
+    },
+
+    cssmin: {
+      compress: {
+        options: {
+          banner:               '<%= banner.wjs_hs %>',
+          keepSpecialComments:  0,
+          report:               'min'
         },
-        validation: {
-            options: {
-                charset: 'utf-8',
-                doctype: 'HTML5',
-                failHard: true,
-                reset: true,
-                relaxerror: [
-                    'Attribute autocomplete not allowed on element button at this point.',
-                    'Bad value X-UA-Compatible for attribute http-equiv on element meta.'
-                ]
-            },
-            files: {
-                src: '*.html'
-            }
+        src:  'css/style.css',
+        dest: 'dist/css/style.min.css'
+      }
+    },
+
+    jshint: {
+      options: {
+        expr:     true,
+        loopfunc: true,
+        quotmark: 'single'
+      },
+
+      // Files
+      grunt: {
+        src: 'Gruntfile.js'
+      },
+      language: {
+        options: {
+          // Suppress warning about bad escaping of EOL
+          '-W043':  true,
+          quotmark: 'double'
+        },
+        files: {
+          src: 'js/language/*.js'
         }
-    });
+      },
+      src: {
+        src: 'js/*.js'
+      },
+      test: {
+        src: 'tests/*.js'
+      },
+    },
 
-    // These plugins provide necessary tasks
-    require('load-grunt-tasks')(grunt);
+    qunit: {
+      files: 'tests.html'
+    },
 
-    // HTML validation task
-    grunt.registerTask('validate-html', ['validation']);
+    uglify: {
+      options: {
+        report: 'min'
+      },
 
-    // Test task
-    grunt.registerTask('test', ['jshint', 'qunit', 'csslint', 'validate-html']);
+      // World JS
+      wjs: {
+        options: {
+          banner: '<%= banner.wjs %>'
+        },
+        src:  '<%= concat.wjs.dest %>',
+        dest: 'dist/js/world.min.js'
+      },
+      // World JS: History Simulation
+      wjs_hs: {
+        options: {
+          banner: '<%= banner.wjs_hs %>'
+        },
+        src:  '<%= concat.wjs_hs.dest %>',
+        dest: 'dist/js/world.history.min.js'
+      }
+    },
 
-    // JS distribution task
-    grunt.registerTask('dist-js', ['concat', 'uglify']);
+    validation: {
+      options: {
+        charset:  'utf-8',
+        doctype:  'HTML5',
+        failHard: true,
+        reset:    true,
+        relaxerror: [
+          'Attribute autocomplete not allowed on element button at this point.',
+          'Bad value X-UA-Compatible for attribute http-equiv on element meta.'
+        ]
+      },
+      files: {
+        src: '*.html'
+      }
+    }
+  });
 
-    // CSS distribution task
-    grunt.registerTask('dist-css', ['cssmin']);
+  // These plugins provide necessary tasks
+  require('load-grunt-tasks')(grunt);
 
-    // Full distribution task
-    grunt.registerTask('dist', ['clean', 'dist-js', 'dist-css']);
+  // HTML validation task
+  grunt.registerTask('validate-html', ['validation']);
 
-    // Default task
-    grunt.registerTask('default', ['test', 'dist']);
+  // Test task
+  grunt.registerTask('test', ['jshint', 'qunit', 'csslint', 'validate-html']);
+
+  // JS distribution task
+  grunt.registerTask('dist-js', ['concat', 'uglify']);
+
+  // CSS distribution task
+  grunt.registerTask('dist-css', ['cssmin']);
+
+  // Full distribution task
+  grunt.registerTask('dist', ['clean', 'dist-js', 'dist-css']);
+
+  // Default task
+  grunt.registerTask('default', ['test', 'dist']);
 };

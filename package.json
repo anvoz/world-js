@@ -10,10 +10,6 @@
     "mit": {
       "name": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
-    },
-    "cc": {
-      "name": "Creative Commons",
-      "url": "http://creativecommons.org/licenses/by-nc/4.0/deed.en_US"
     }
   },
   "devDependencies": {
