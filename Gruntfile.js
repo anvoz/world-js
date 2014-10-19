@@ -55,29 +55,29 @@ module.exports = function(grunt) {
       // World JS
       wjs: {
         src: [
-          'js/world.core.js',
-          'js/world.tile.js',
-          'js/world.event.js',
-          'js/world.seed.js',
-          'js/world.male.js',
-          'js/world.female.js'
+          'scripts/world.core.js',
+          'scripts/world.tile.js',
+          'scripts/world.event.js',
+          'scripts/world.seed.js',
+          'scripts/world.male.js',
+          'scripts/world.female.js'
         ],
-        dest: 'dist/js/world.js'
+        dest: 'dist/scripts/world.js'
       },
       // World JS: History Simulation
       wjs_hs: {
         src: [
-          'dist/js/world.js',
-          'js/world.statistic.js',
-          'js/world.rules.js',
-          'js/world.knowledge.js',
-          'js/language/world.language.en.js',
-          'js/world.knowledge.data.js',
-          'js/world.guide.js',
-          'js/world.interface.js',
-          'js/world.story.js'
+          'dist/scripts/world.js',
+          'scripts/world.statistic.js',
+          'scripts/world.rules.js',
+          'scripts/world.knowledge.js',
+          'scripts/language/world.language.en.js',
+          'scripts/world.knowledge.data.js',
+          'scripts/world.guide.js',
+          'scripts/world.interface.js',
+          'scripts/world.story.js'
         ],
-        dest: 'dist/js/world.history.js'
+        dest: 'dist/scripts/world.history.js'
       }
     },
 
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
         'star-property-hack':     false,
         'unqualified-attributes': false
       },
-      src: 'css/style.css'
+      src: 'stylesheets/style.css'
     },
 
     cssmin: {
@@ -101,8 +101,8 @@ module.exports = function(grunt) {
           keepSpecialComments:  0,
           report:               'min'
         },
-        src:  'css/style.css',
-        dest: 'dist/css/style.min.css'
+        src:  'stylesheets/style.css',
+        dest: 'dist/stylesheets/style.min.css'
       }
     },
 
@@ -124,11 +124,11 @@ module.exports = function(grunt) {
           quotmark: 'double'
         },
         files: {
-          src: 'js/language/*.js'
+          src: 'scripts/language/*.js'
         }
       },
       src: {
-        src: 'js/*.js'
+        src: 'scripts/*.js'
       },
       test: {
         src: 'tests/*.js'
@@ -150,7 +150,7 @@ module.exports = function(grunt) {
           banner: '<%= banner.wjs %>'
         },
         src:  '<%= concat.wjs.dest %>',
-        dest: 'dist/js/world.min.js'
+        dest: 'dist/scripts/world.min.js'
       },
       // World JS: History Simulation
       wjs_hs: {
@@ -158,7 +158,7 @@ module.exports = function(grunt) {
           banner: '<%= banner.wjs_hs %>'
         },
         src:  '<%= concat.wjs_hs.dest %>',
-        dest: 'dist/js/world.history.min.js'
+        dest: 'dist/scripts/world.history.min.js'
       }
     },
 
