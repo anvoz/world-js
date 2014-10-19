@@ -8,17 +8,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function() {
+
   'use strict';
-
-
-  var WorldJS = window.WorldJS;
-  var Seed;
 
 
   // Seed constructor
   // data (optional): x, y, icon, relationSeed, tickCount, actionInterval, moveTo
-  Seed = WorldJS.prototype.Seed = function(data) {
+  var Seed = function(data) {
     // The value of this refers to a newly created seed
     var seed = this;
 
@@ -272,4 +269,7 @@
     return fromChance + (age - fromAge) * delta;
   };
 
-})(window);
+
+  return Seed;
+
+});

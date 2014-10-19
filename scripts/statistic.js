@@ -7,16 +7,13 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function() {
+
   'use strict';
 
 
-  var WorldJS = window.WorldJS;
-  var Statistic;
-
-
   // Statistic constructor
-  Statistic = WorldJS.Statistic = function(world) {
+  var Statistic = function(world) {
     var worldStatistic = this;
 
     // Store reference of a world
@@ -127,4 +124,7 @@
     worldStatistic.avgChildren = Math.floor(children / women) || 0;
   };
 
-})(window);
+
+  return Statistic;
+
+});

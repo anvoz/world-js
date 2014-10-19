@@ -7,15 +7,12 @@
  * Licensed under Creative Commons (http://creativecommons.org/licenses/by-nc/4.0/deed.en_US)
  */
 
-(function(window, undefined) {
+define([ './language/en' ], function(Language) {
+
   'use strict';
 
 
-  var WorldJS   = window.WorldJS;
-  var Language  = WorldJS.Language;
-
-
-  WorldJS.KnowledgeData = {
+  var KnowledgeData = {
 
     huga: {
       id:           'huga',
@@ -311,4 +308,7 @@
     }
   };
 
-})(window);
+
+  return KnowledgeData;
+
+});

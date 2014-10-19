@@ -8,17 +8,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function( undefined) {
+
   'use strict';
-
-
-  var WorldJS = window.WorldJS;
-  var Tile;
 
 
   // Tile constructor
   // world: instance of WorldJS
-  Tile = WorldJS.Tile = function(world) {
+  var Tile = function(world) {
     var worldTile = this;
 
     // Store reference of a world
@@ -153,4 +150,7 @@
     worldTile.availableArrayIndexes[tileIndex].push(tileArrayIndex);
   };
 
-})(window);
+
+  return Tile;
+
+});

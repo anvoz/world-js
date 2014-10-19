@@ -7,11 +7,12 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function() {
+
   "use strict";
 
-  var WorldJS   = window.WorldJS;
-  var Language  = WorldJS.Language = {
+
+  var Language = {
     introPhysicsQuote:
 "From nothing, our universe begins.",
     introPhysicsAuthor:
@@ -162,4 +163,8 @@ They soon make the biggest ecological disasters that ever befall the animal king
     knowledgeCOSODescription03:
 "The next part of the game which is simulated <b>the agricultural revolution</b> will be released soon."
   };
-})(window);
+
+
+  return Language;
+
+});

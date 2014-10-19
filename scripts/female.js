@@ -7,18 +7,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define([ './seed' ], function(Seed) {
+
   'use strict';
-
-
-  var WorldJS = window.WorldJS;
-  var Seed    = WorldJS.prototype.Seed;
-  var Female;
 
 
   // Female constructor
   // data (optional): seed data, age, chances
-  Female = WorldJS.prototype.Female = function(data) {
+  var Female = function(data) {
     var female = this;
 
     data.icon = {
@@ -123,4 +119,7 @@
     }
   };
 
-})(window);
+
+  return Female;
+
+});

@@ -7,17 +7,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function() {
+
   'use strict';
-
-
-  var WorldJS = window.WorldJS;
-  var Event;
 
 
   // Event constructor
   // Initialize events list for a world
-  Event = WorldJS.Event = function(world) {
+  var Event = function(world) {
     var worldEvent = this;
 
     // Store reference of a world
@@ -66,4 +63,7 @@
     }
   };
 
-})(window);
+
+  return Event;
+
+});

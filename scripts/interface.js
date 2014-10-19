@@ -8,13 +8,12 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define([ './language/en' ], function(Language) {
+
   'use strict';
 
 
-  var $         = window.$;
-  var WorldJS   = window.WorldJS;
-  var Interface = WorldJS.Interface = {};
+  var Interface = {};
   var cache     = {
     statistic: {
       year: 0,
@@ -305,7 +304,6 @@
 
 
   // World history introduction carousel
-  var Language = WorldJS.Language;
   $('#world-intro .item').each(function(index) {
     var $this = $(this);
     switch (index) {
@@ -397,4 +395,7 @@
     }
   });
 
-})(window);
+
+  return Interface;
+
+});

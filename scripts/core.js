@@ -7,12 +7,21 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define([
+  './event',
+  './female',
+  './male',
+  './tile'
+], function(
+  Event,
+  Female,
+  Male,
+  Tile
+) {
+
   'use strict';
 
 
-  // Localise globals
-  var document = window.document;
   var requestAnimationFrame = (function() {
     // Use requestAnimationFrame for better animation
     return (
@@ -32,7 +41,7 @@
 
   // WorldJS constructor
   // Define default properties of a world
-  var WorldJS = window.WorldJS = function() {
+  var WorldJS = function() {
     // The value of this refers to a newly created world
     var world = this;
 
@@ -122,8 +131,10 @@
     world.lastTickTime = 0;
     world.fps = 0;
 
-    world.tile  = new WorldJS.Tile(world);
-    world.event = new WorldJS.Event(world);
+    world.event   = new Event(world);
+    world.Female  = Female;
+    world.Male    = Male;
+    world.tile    = new Tile(world);
   };
 
 
@@ -462,4 +473,7 @@
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-})(window);
+
+  return WorldJS;
+
+});

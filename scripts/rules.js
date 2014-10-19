@@ -7,17 +7,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define([ './seed' ], function(Seed) {
+
   'use strict';
-
-
-  var WorldJS = window.WorldJS;
-  var Rules;
 
 
   // Rules constructor
   // Define default rules of the world
-  Rules = WorldJS.Rules = function(world) {
+  var Rules = function(world) {
     var worldRules = this;
 
     // Store reference of a world
@@ -84,11 +81,11 @@
     });
 
     // Something's wrong with the Seed.prototype when using QUnit
-    if (typeof world.Seed.prototype.getChanceInjected === 'undefined') {
-      world.Seed.prototype.getChanceInjected = function() {};
+    if (typeof Seed.prototype.getChanceInjected === 'undefined') {
+      Seed.prototype.getChanceInjected = function() {};
 
-      var getChance = world.Seed.prototype.getChance;
-      world.Seed.prototype.getChance = function(type) {
+      var getChance = Seed.prototype.getChance;
+      Seed.prototype.getChance = function(type) {
         var seed        = this;
         var world       = seed.world;
         var worldRules  = world.rules;
@@ -159,4 +156,7 @@
       worldRules.chance.death     = deathChance + worldRules.chanceIncr.death;
   };
 
-})(window);
+
+  return Rules;
+
+});

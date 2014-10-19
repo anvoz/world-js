@@ -7,16 +7,13 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+define(function() {
+
   'use strict';
 
 
-  var WorldJS = window.WorldJS;
-  var Guide;
-
-
   // Guide constructor
-  Guide = WorldJS.Guide = function(world) {
+  var Guide = function(world) {
     var worldGuide = this;
 
     // Store reference of a world
@@ -81,4 +78,7 @@
     });
   };
 
-})(window);
+
+  return Guide;
+
+});

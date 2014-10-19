@@ -7,26 +7,37 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function(window, undefined) {
+require([
+  './core',
+  './interface',
+  './language/en',
+  './statistic',
+  './rules',
+  './knowledge',
+  './knowledge.data',
+  './guide',
+], function(
+  WorldJS,
+  Interface,
+  Language,
+  Statistic,
+  Rules,
+  Knowledge,
+  KnowledgeData,
+  Guide
+) {
+
   'use strict';
 
-
-  var document  = window.document;
-  var $         = window.$;
-
-  var WorldJS   = window.WorldJS;
-  var Interface = WorldJS.Interface;
-  var Language  = WorldJS.Language;
-
   // Create a new world
-  var world     = new WorldJS();
+  var world           = new WorldJS();
 
   // World's components
   var worldEvent      = world.event;
-  var worldStatistic  = world.statistic = new WorldJS.Statistic(world);
-  var worldRules      = world.rules     = new WorldJS.Rules(world);
-  var worldKnowledge  = world.knowledge = new WorldJS.Knowledge(world);
-  var worldGuide      = world.guide     = new WorldJS.Guide(world);
+  var worldStatistic  = world.statistic = new Statistic(world);
+  var worldRules      = world.rules     = new Rules(world);
+  var worldKnowledge  = world.knowledge = new Knowledge(world);
+  var worldGuide      = world.guide     = new Guide(world);
 
   // Define all functions that are needed to be used to setup the world
   var worldStory = world.story = {
@@ -442,7 +453,7 @@
   // Knowledge setup
   // ======================
   // Load all knowledge list
-  worldStory.knowledge.addList(WorldJS.KnowledgeData);
+  worldStory.knowledge.addList(KnowledgeData);
   // Start with 1 knowledge (hunting and gathering)
   worldStory.knowledge.addTrending(worldKnowledge.list.huga);
   // UI binding
@@ -469,4 +480,4 @@
   worldStory.world.addFirstMen();
   worldStory.world.addItems();
 
-})(window);
+});
