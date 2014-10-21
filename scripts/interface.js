@@ -8,9 +8,11 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-define([ './language/en' ], function(Language) {
+define(function(require) {
 
   'use strict';
+
+  var Language = require('./language/en');
 
 
   var Interface = {};

@@ -8,7 +8,7 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-define(function( undefined) {
+define(function() {
 
   'use strict';
 

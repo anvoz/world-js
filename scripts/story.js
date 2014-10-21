@@ -7,27 +7,19 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-require([
-  './core',
-  './interface',
-  './language/en',
-  './statistic',
-  './rules',
-  './knowledge',
-  './knowledge.data',
-  './guide',
-], function(
-  WorldJS,
-  Interface,
-  Language,
-  Statistic,
-  Rules,
-  Knowledge,
-  KnowledgeData,
-  Guide
-) {
+define(function(require) {
 
   'use strict';
+
+  var Guide         = require('./guide');
+  var Interface     = require('./interface');
+  var Knowledge     = require('./knowledge');
+  var KnowledgeData = require('./knowledge.data');
+  var Language      = require('./language/en');
+  var Rules         = require('./rules');
+  var Statistic     = require('./statistic');
+  var WorldJS       = require('./core');
+
 
   // Create a new world
   var world           = new WorldJS();

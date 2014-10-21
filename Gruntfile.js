@@ -132,7 +132,7 @@ module.exports = function(grunt) {
       },
       test: {
         src: 'tests/*.js'
-      },
+      }
     },
 
     qunit: {

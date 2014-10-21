@@ -7,9 +7,11 @@
  * Licensed under Creative Commons (http://creativecommons.org/licenses/by-nc/4.0/deed.en_US)
  */
 
-define([ './language/en' ], function(Language) {
+define(function(require) {
 
   'use strict';
+
+  var Language = require('./language/en');
 
 
   var KnowledgeData = {

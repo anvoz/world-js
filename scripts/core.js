@@ -7,19 +7,14 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-define([
-  './event',
-  './female',
-  './male',
-  './tile'
-], function(
-  Event,
-  Female,
-  Male,
-  Tile
-) {
+define(function(require) {
 
   'use strict';
+
+  var Event   = require('./event');
+  var Female  = require('./female');
+  var Male    = require('./male');
+  var Tile    = require('./tile');
 
 
   var requestAnimationFrame = (function() {

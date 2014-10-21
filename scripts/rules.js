@@ -7,9 +7,11 @@
  * Licensed under MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-define([ './seed' ], function(Seed) {
+define(function(require) {
 
   'use strict';
+
+  var Seed = require('./seed');
 
 
   // Rules constructor
