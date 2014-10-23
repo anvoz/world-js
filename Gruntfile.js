@@ -55,12 +55,12 @@ module.exports = function(grunt) {
       // World JS
       wjs: {
         src: [
-          'scripts/world.core.js',
-          'scripts/world.tile.js',
-          'scripts/world.event.js',
-          'scripts/world.seed.js',
-          'scripts/world.male.js',
-          'scripts/world.female.js'
+          'scripts/core.js',
+          'scripts/tile.js',
+          'scripts/event.js',
+          'scripts/seed.js',
+          'scripts/male.js',
+          'scripts/female.js'
         ],
         dest: 'dist/scripts/world.js'
       },
@@ -68,14 +68,14 @@ module.exports = function(grunt) {
       wjs_hs: {
         src: [
           'dist/scripts/world.js',
-          'scripts/world.statistic.js',
-          'scripts/world.rules.js',
-          'scripts/world.knowledge.js',
-          'scripts/language/world.language.en.js',
-          'scripts/world.knowledge.data.js',
-          'scripts/world.guide.js',
-          'scripts/world.interface.js',
-          'scripts/world.story.js'
+          'scripts/statistic.js',
+          'scripts/rules.js',
+          'scripts/knowledge.js',
+          'scripts/language/language.en.js',
+          'scripts/knowledge.data.js',
+          'scripts/guide.js',
+          'scripts/interface.js',
+          'scripts/story.js'
         ],
         dest: 'dist/scripts/world.history.js'
       }

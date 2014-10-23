@@ -1,7 +1,7 @@
 (function() {
 
   require.config({
-    baseUrl: "../scripts",
+    baseUrl: '../scripts',
   });
 
   var testModules = [
