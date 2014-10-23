@@ -83,7 +83,7 @@ define(function(require) {
     });
 
     // Something's wrong with the Seed.prototype when using QUnit
-    if (false && typeof Seed.prototype.getChanceInjected === 'undefined') {
+    /*if (typeof Seed.prototype.getChanceInjected === 'undefined') {
       Seed.prototype.getChanceInjected = function() {};
 
       var getChance = Seed.prototype.getChance;
@@ -99,7 +99,7 @@ define(function(require) {
         }
         return chance;
       };
-    }
+    }*/
   };
 
 

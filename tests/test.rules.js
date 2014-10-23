@@ -212,7 +212,7 @@ define(function(require) {
   });
 
 
-  test('rule/seed.getChance', function() {
+  /*test('rule/seed.getChance', function() {
     var world = new WorldJS();
     world.init('qunit-fixture');
 
@@ -240,6 +240,6 @@ define(function(require) {
 
     deepEqual(female.getChance('death'),      0.2,  'Female death chance');
     deepEqual(female.getChance('childbirth'), 0.05, 'Female childbirth chance');
-  });
+  });*/
 
 });
