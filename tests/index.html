@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>World JS Test Runner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="vendor/qunit.min.css">
+
+  </head>
+  <body>
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <script src="vendor/qunit.min.js"></script>
+    <script>
+      // Prevent tests from auto starting
+      QUnit.config.autostart = false;
+    </script>
+
+    <script src="../scripts/vendor/require.min.js" data-main="index.js"></script>
+
+  </body>
+</html>
