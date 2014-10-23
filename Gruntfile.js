@@ -136,7 +136,7 @@ module.exports = function(grunt) {
     },
 
     qunit: {
-      files: 'tests.html'
+      files: 'tests/index.html'
     },
 
     uglify: {

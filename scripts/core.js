@@ -14,6 +14,7 @@ define(function(require) {
   var Event   = require('./event');
   var Female  = require('./female');
   var Male    = require('./male');
+  var Seed    = require('./seed');
   var Tile    = require('./tile');
 
 
@@ -288,7 +289,7 @@ define(function(require) {
   WorldJS.prototype.addSeeds = function(count, data) {
     data = data || {};
     var world   = this;
-    var types   = (typeof data.types !== 'undefined')  ? data.types  : [world.Seed];
+    var types   = (typeof data.types !== 'undefined')  ? data.types  : [Seed];
     var minAge  = (typeof data.minAge !== 'undefined') ? data.minAge : 15;
     var maxAge  = (typeof data.maxAge !== 'undefined') ? data.maxAge : 20;
 
