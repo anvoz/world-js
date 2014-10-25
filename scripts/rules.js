@@ -82,24 +82,19 @@ define(function(require) {
       world.rules.change();
     });
 
-    // Something's wrong with the Seed.prototype when using QUnit
-    /*if (typeof Seed.prototype.getChanceInjected === 'undefined') {
-      Seed.prototype.getChanceInjected = function() {};
+    var getChance = Seed.prototype.getChance;
+    Seed.prototype.getChance = function(type) {
+      var seed        = this;
+      var world       = seed.world;
+      var worldRules  = world.rules;
+      var chance      = getChance.call(seed, type);
 
-      var getChance = Seed.prototype.getChance;
-      Seed.prototype.getChance = function(type) {
-        var seed        = this;
-        var world       = seed.world;
-        var worldRules  = world.rules;
-        var chance      = getChance.call(seed, type);
-
-        if (typeof worldRules.chance[type] !== 'undefined' && worldRules.chance[type] !== 0) {
-          // Modify chance based on rule of the world
-          chance += chance * worldRules.chance[type];
-        }
-        return chance;
-      };
-    }*/
+      if (typeof worldRules.chance[type] !== 'undefined' && worldRules.chance[type] !== 0) {
+        // Modify chance based on rule of the world
+        chance += chance * worldRules.chance[type];
+      }
+      return chance;
+    };
   };
 
 
