@@ -9,7 +9,9 @@ define(function(require) {
     // Temporarily disabled because Seed.prototype.getChance can not be modified
     // when testing with requirejs.
     ok(true);
-    return;
+    if (true) {
+      return;
+    }
 
     var world = new WorldJS();
     world.init('qunit-fixture');
