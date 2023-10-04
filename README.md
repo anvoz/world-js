@@ -10,11 +10,11 @@ This project was inspired from what I have learned from [A Brief History of Huma
 ## Developer Guidelines
 
 ### Getting Started
-Read this [wiki page about how it works](https://github.com/anvoz/world-scripts/wiki) before you do anything else.
+Read this [wiki page about how it works](https://github.com/anvoz/world-js/wiki) before you do anything else.
 
-* [Code conventions](https://github.com/anvoz/world-scripts/wiki/Code-Conventions)
-* [Change log](https://github.com/anvoz/world-scripts/wiki/Change-Log)
-* [Benchmark](https://github.com/anvoz/world-scripts/wiki/Benchmark)
+* [Code conventions](https://github.com/anvoz/world-js/wiki/Code-Conventions)
+* [Change log](https://github.com/anvoz/world-js/wiki/Change-Log)
+* [Benchmark](https://github.com/anvoz/world-js/wiki/Benchmark)
 
 ### Modules
 * World JS: Create a world where people live and reproduce.
